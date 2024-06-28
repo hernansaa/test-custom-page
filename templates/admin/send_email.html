@@ -1,0 +1,18 @@
+<!-- templates/admin/send_email.html -->
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block content %}
+<h1>Send Email to Selected Inquiries</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  {% for inquiry in inquiries %}
+    <input type="hidden" name="ids" value="{{ inquiry.id }}">
+  {% endfor %}
+  <button type="submit" name="apply">Send</button>
+</form>
+
+<a href="{% url 'admin:enquiries_inquiry_changelist' %}">Back to Inquiries</a>
+{% endblock %}

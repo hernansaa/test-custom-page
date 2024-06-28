@@ -1,0 +1,6 @@
+<!-- This partial replaces the innerHtml of element #select-course-type with HTMX -->
+    
+    <option value="">Cualquier tipo de curso</option>
+    {% for course_type in course_types %}
+    <option value="{{ course_type.id }}">{{ course_type.description }}</option>
+    {% endfor %}

@@ -1,0 +1,86 @@
+{% load static %}
+
+<!-- Move styles to proper directory -->
+
+<!-- Hero -->
+<section class="hero d-flex justify-content-center align-items-center text-center rounded-4 mt-1">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 mx-auto">
+        <h1 class="display-4">Encontrá la experiencia adecuada para ti</h1>
+        <p class="lead">Haz realidad tu sueño con GS Experiences.</p>
+        
+        <!-- Form with dropdown selects -->
+        <form id="filterForm" class="d-flex justify-content-start mb-3"
+            hx-get="{% url 'results-filtered' %}"
+            hx-target="#search-results"
+            hx-swap="innerHTML"
+            hx-trigger="change delay:250ms"> <!-- If no trigger it will submit button -->
+          
+          <select class="form-select rounded-4 me-2" name="country_filter"
+            hx-get="{% url 'filter-options-by-country' %}" 
+            hx-target="#select-course-type"
+            hx-on::before-request="this.closest('form').querySelector('#select-course-type').innerHTML = ''"
+            hx-swap="innerHTML"
+            hx-trigger="change delay:250ms">
+            <option value="">¿En qué país?</option>
+            {% for country in countries %}
+              <option value="{{ country.id }}">{{ country.name }}</option>
+            {% endfor %}
+          </select>
+          
+          <!-- This #select-course-type element will be replaced with partial with HTMX -->
+          <select class="form-select rounded-4 me-2" id="select-course-type" name="course_type_filter">
+            <option value="">¿Qué tipo de estudios?</option>
+            {% for course_type in course_types %}
+              <option value="{{ course_type.id }}">{{ course_type.description }}</option>
+            {% endfor %}
+          </select>
+          
+          <!--
+          <button class="btn btn-primary rounded-4" type="submit">Buscar</button>
+          -->  
+
+        </form>
+        <!-- End form -->
+      
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Hero -->
+
+
+
+<!-- Cities select filter (consider using it)
+<select class="form-select rounded-4 me-2" id="city" name="city_filter">
+  <option selected>¿En qué ciudad?</option>
+  {% for city in cities  %}
+    <option value="{{ city.id }}">{{ city.name }}</option>
+  {% endfor %}
+</select>
+-->
+
+
+
+<!-- Hero original
+<section class="hero d-flex justify-content-center align-items-center text-center rounded-4 mt-1">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 mx-auto">
+        <h1 class="display-4">Welcome to Our Website</h1>
+        <p class="lead">Discover amazing experiences tailored for you.</p>
+        
+        <form class="d-flex justify-content-start mb-3">
+          <input type="text" class="form-control me-2" placeholder="Input 1">
+          <input type="text" class="form-control me-2" placeholder="Input 2">
+          <input type="text" class="form-control me-2" placeholder="Input 3">
+          <button class="btn btn-primary">Search</button>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</section>
+-->
+

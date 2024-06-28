@@ -1,0 +1,74 @@
+body {
+    font-family: roboto Slab !important;
+    font-size: 16px !important;
+}
+
+a {
+    text-decoration: none;
+    /* Eliminar subrayado */
+    color: inherit;
+    /* Heredar el color del texto circundante */
+}
+
+.sticky-top {
+    top: 0.25em;
+}
+
+.carousel-item {
+    height: 650px;
+}
+
+.carousel-caption {
+    max-width: 100%;
+    width: 100%;
+    margin-left: 80px;
+    margin-right: 80px;
+    margin-bottom: 20px;
+}
+
+.carousel-indicators {
+    width: 100%;
+    display: none;
+}
+
+.bg-primary {
+    background-color: #0c3a66 !important;
+    color: white !important;
+}
+
+.bg-primary a {
+    color: white !important;
+}
+
+.text-primary {
+    color: #0c3a66 !important;
+
+}
+
+.btn-primary {
+    background-color: #0c3a66 !important;
+    color: white !important;
+    border: white !important;
+    padding: 15px;
+}
+
+i {
+    color: white;
+}
+
+/* RESPONSIVE CARDS */
+@media (min-width: 1000px) {
+    .rounded-start-lg-4 {
+        border-top-left-radius: 1rem !important;
+        border-bottom-left-radius: 1rem !important;
+        border-top-right-radius: 0rem !important;
+        border-bottom-right-radius: 0rem !important;
+    }
+
+    .rounded-end-lg-4 {
+        border-top-left-radius: 0rem !important;
+        border-bottom-left-radius: 0rem !important;
+        border-top-right-radius: 1rem !important;
+        border-bottom-right-radius: 1rem !important;
+    }
+}
