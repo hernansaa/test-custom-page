@@ -1,6 +1,7 @@
 from django.contrib import admin
+from django.conf import settings
 
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 
 from .models import SentEmail, Message, MessageAttachment
 
@@ -19,10 +20,50 @@ class SentEmailAdmin(admin.ModelAdmin):
 
 # Extended from django-mailbox through Proxy Models
 
+class MessageAttachmentInline(admin.TabularInline):
+    model = MessageAttachment
+    extra = 0
 
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ('subject', 'from_header', 'to_header', 'outgoing', 'processed', 'read')
-    list_filter = ('outgoing', 'processed', 'read')
+    
+    inlines = [
+        MessageAttachmentInline,
+    ]
+
+    list_display = (
+        'subject',
+        'processed',
+        'read',
+        'mailbox',
+        'outgoing',
+        #'attachment_count',
+    )
+
+    ordering = ['-processed']
+    list_filter = (
+        'mailbox',
+        'outgoing',
+        'processed',
+        'read',
+    )
+    exclude = (
+        'body',
+        'in_reply_to',
+    )
+    raw_id_fields = (
+        'in_reply_to',
+    )
+    readonly_fields = (
+        'message_id',
+        'from_header',
+        'to_header',
+        'subject',
+        'processed',
+        'read',
+        'mailbox',
+        'outgoing',
+        'text',
+    )
     search_fields = ('subject', 'from_header', 'to_header', 'body')
 
     actions = ['send_email_action']
@@ -47,15 +88,29 @@ class MessageAdmin(admin.ModelAdmin):
             if form.is_valid():
                 subject = form.cleaned_data['subject']
                 message_template = form.cleaned_data['message']
-                from_email = 'hernan@globalstudies.es'
+                from_email = settings.EMAIL_HOST_USER
 
                 messages_ids = request.POST.getlist('ids')
                 inquiries = Message.objects.filter(id__in=messages_ids)
 
                 for inquiry in inquiries:
                     personalized_message = message_template.format(inquiry.from_header)
+                    original_message_id = inquiry.id  # Assuming your Message model has a message_id field
+
                     try:
-                        send_mail(subject, personalized_message, from_email, [inquiry.from_header])
+                        email = EmailMessage(
+                            subject=subject,
+                            body=personalized_message,
+                            from_email=from_email,
+                            to=[inquiry.from_header],
+                        )
+
+                        email.extra_headers = {
+                            'In-Reply-To': original_message_id,
+                            'References': original_message_id,
+                        }
+
+                        email.send()
 
                         # Save the sent email details to the database
                         SentEmail.objects.create(
@@ -63,23 +118,29 @@ class MessageAdmin(admin.ModelAdmin):
                             message=personalized_message,
                             recipient=inquiry.from_header
                         )
-                    
+
                     except Exception as e:
-                        self.message_user(request, f"Failed to send email to {inquiry.email}. Error: {str(e)}", level='error')
+                        self.message_user(request, f"Failed to send email to {inquiry.from_header}. Error: {str(e)}", level='error')
                         return redirect('..')
 
                 self.message_user(request, "Emails successfully sent to selected inquiries.")
                 return redirect('..')
         else:
-            form = EmailReplyForm()
             messages_ids = request.GET.get('ids', '').split(',')
             inquiries = Message.objects.filter(id__in=messages_ids)
+            # Get the first inquiry to set initial subject (assuming all inquiries have the same subject)
+            initial_subject = inquiries.first().subject if inquiries.exists() else ''
+            if initial_subject and not initial_subject.startswith("Re:"):
+                initial_subject = "Re: " + initial_subject
+
+            form = EmailReplyForm(initial={'subject': initial_subject})
 
         return render(
             request,
             'admin/send_email.html',
             context={'form': form, 'inquiries': inquiries, 'ids': ','.join(messages_ids)}
         )
+
 
 
 
