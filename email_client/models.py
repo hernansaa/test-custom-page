@@ -7,6 +7,10 @@ from django_mailbox.models import Mailbox
 # Create your models here.
 
 class SentEmail(models.Model):
+    class Meta:
+        verbose_name = 'Sent'
+        verbose_name_plural = 'Sent'
+
     subject = models.CharField(max_length=255)
     message = models.TextField()
     recipient = models.EmailField()
@@ -20,26 +24,23 @@ class Mailbox(Mailbox):
     class Meta:
         proxy = True
 
-    # Add custom methods or fields as needed
-
 
 class Message(BaseMessage):
     class Meta:
         proxy = True
-        verbose_name = 'Message'
-        verbose_name_plural = 'Messages'
+        verbose_name = 'Inbox'
+        verbose_name_plural = 'Inbox'
     
     def custom_method(self):
         # Add any custom methods or properties here
         return "This is a custom method for Message"
 
 
-
 class MessageAttachment(BaseMessageAttachment):
     class Meta:
         proxy = True
-        verbose_name = 'Message Attachment'
-        verbose_name_plural = 'Messages Attachements'
+        verbose_name = 'Attachment'
+        verbose_name_plural = 'Attachments'
     
     def custom_method(self):
         # Add any custom methods or properties here

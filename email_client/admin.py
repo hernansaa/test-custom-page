@@ -1,14 +1,10 @@
 from django.contrib import admin
 from django.conf import settings
-
 from django.core.mail import send_mail, EmailMessage
-
-from .models import SentEmail, Message, MessageAttachment
-
 from django.shortcuts import render, redirect
 from django.urls import path
 
-
+from .models import SentEmail, Message, MessageAttachment
 from .forms import EmailReplyForm
 
 class SentEmailAdmin(admin.ModelAdmin):
@@ -17,12 +13,12 @@ class SentEmailAdmin(admin.ModelAdmin):
     list_filter = ['sent_at']
 
 
-
 # Extended from django-mailbox through Proxy Models
 
 class MessageAttachmentInline(admin.TabularInline):
     model = MessageAttachment
     extra = 0
+
 
 class MessageAdmin(admin.ModelAdmin):
     
@@ -40,6 +36,7 @@ class MessageAdmin(admin.ModelAdmin):
     )
 
     ordering = ['-processed']
+    
     list_filter = (
         'mailbox',
         'outgoing',
@@ -142,8 +139,6 @@ class MessageAdmin(admin.ModelAdmin):
         )
 
 
-
-
 # Customize admin for CustomMessage
 class MessageAttachmentAdmin(admin.ModelAdmin):
     pass
@@ -151,6 +146,7 @@ class MessageAttachmentAdmin(admin.ModelAdmin):
 
 # Register your models with their respective admin classes
 admin.site.register(SentEmail, SentEmailAdmin)
+
 
 # Register the proxy models 
 admin.site.register(Message, MessageAdmin)
