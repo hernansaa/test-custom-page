@@ -1,16 +1,33 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.conf import settings
 from django.core.mail import send_mail, EmailMessage
 from django.shortcuts import render, redirect
 from django.urls import path
 
-from .models import SentEmail, Message, MessageAttachment
+from .models import SentEmail, ComposeEmail, Message, MessageAttachment
 from .forms import EmailReplyForm
+
 
 class SentEmailAdmin(admin.ModelAdmin):
     list_display = ['subject', 'recipient', 'sent_at']
     search_fields = ['subject', 'recipient']
     list_filter = ['sent_at']
+
+    def save_model(self, request, obj, form, change):
+
+        try:
+            # Send the email before saving the model
+            subject = 'A new instance has been saved'
+            message = f'A new instance of has been saved:\n\nName: '
+            from_email = 'hernan@globalstudies.es'
+            recipient_list = ['hernansaa88@gmail.com']  # You can add more recipients here
+            send_mail(subject, message, from_email, recipient_list)
+            messages.success(request, 'Email sent successfully.')
+        except Exception as error:
+            messages.error(request, f'An error occurred: {error}')
+        
+        # It shoould be saved if the email was sent (I leave it like that now)
+        super().save_model(request, obj, form, change)
 
 
 # Extended from django-mailbox through Proxy Models
@@ -36,7 +53,7 @@ class MessageAdmin(admin.ModelAdmin):
     )
 
     ordering = ['-processed']
-    
+
     list_filter = (
         'mailbox',
         'outgoing',

@@ -9,7 +9,7 @@
   {% csrf_token %}
   {{ form.as_p }}
   {% for inquiry in inquiries %}
-    <input type="hidden" name="ids" value="{{ inquiry.id }}">
+    <input type="input" name="ids" value="{{ inquiry.id }}">
   {% endfor %}
   <button type="submit" name="apply">Send</button>
 </form>
