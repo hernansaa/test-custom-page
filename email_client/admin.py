@@ -80,7 +80,7 @@ class MessageAdmin(admin.ModelAdmin):
     )
     search_fields = ('subject', 'from_header', 'to_header', 'body')
 
-    actions = ['send_email_action']
+    actions = ['reply_email_action']
 
 
     def get_urls(self):
@@ -91,7 +91,7 @@ class MessageAdmin(admin.ModelAdmin):
         return custom_urls + urls
 
 
-    def send_email_action(self, request, queryset):
+    def reply_email_action(self, request, queryset):
         selected = request.POST.getlist('_selected_action')
         return redirect(f'send-email/?ids={",".join(selected)}')
 
