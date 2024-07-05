@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django_mailbox',
+    'providers',
     'email_client',
     'enquiries',
     'programs',
