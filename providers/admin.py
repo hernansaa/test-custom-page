@@ -12,7 +12,11 @@ from .models import (
     Activity,
     SchoolActivity,
     Accommodation,
-    SchoolAccommodation
+    SchoolAccommodation,
+    Airport,
+    SchoolAirportTransfer,
+    Extra,
+    SchoolExtra,
 )
 
 # Register your models here.
@@ -54,9 +58,34 @@ class SchoolAccommodationInline(admin.TabularInline):
     extra = 1
 
 
+class AirportAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'city')
+
+
+class SchoolAirportTransferInline(admin.TabularInline):
+    model = SchoolAirportTransfer
+    extra = 1
+
+
+class ExtraAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+
+
+class SchoolExtraline(admin.TabularInline):
+    model = SchoolExtra
+    extra = 1
+
+
 class SchoolAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description')
-    inlines = [SchoolFacilityInline, SchoolAcreditationInline, SchoolActivityInline, SchoolAccommodationInline]
+    inlines = [
+        SchoolFacilityInline,
+        SchoolAcreditationInline, 
+        SchoolActivityInline, 
+        SchoolAccommodationInline,
+        SchoolAirportTransferInline,
+        SchoolExtraline,
+        ]
 
 
 class LanguageAdmin(admin.ModelAdmin):
@@ -74,3 +103,5 @@ admin.site.register(Facility, FacilityAdmin)
 admin.site.register(Acreditation, AcreditationAdmin)
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(Accommodation, AccommodationAdmin)
+admin.site.register(Airport, AirportAdmin)
+admin.site.register(Extra, ExtraAdmin)
