@@ -17,6 +17,8 @@ from .models import (
     SchoolAirportTransfer,
     Extra,
     SchoolExtra,
+    AvgAge,
+    SchoolAvgAge,
 )
 
 # Register your models here.
@@ -76,6 +78,15 @@ class SchoolExtraline(admin.TabularInline):
     extra = 1
 
 
+class AvgAgeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'from_age', 'to_age')
+
+
+class SchoolAvgAgeline(admin.TabularInline):
+    model = SchoolAvgAge
+    extra = 1
+
+
 class SchoolAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description')
     inlines = [
@@ -85,6 +96,7 @@ class SchoolAdmin(admin.ModelAdmin):
         SchoolAccommodationInline,
         SchoolAirportTransferInline,
         SchoolExtraline,
+        SchoolAvgAgeline,
         ]
 
 
@@ -105,3 +117,4 @@ admin.site.register(Activity, ActivityAdmin)
 admin.site.register(Accommodation, AccommodationAdmin)
 admin.site.register(Airport, AirportAdmin)
 admin.site.register(Extra, ExtraAdmin)
+admin.site.register(AvgAge, AvgAgeAdmin)
