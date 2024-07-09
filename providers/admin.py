@@ -5,7 +5,7 @@ from .models import (
     Facility, 
     SchoolFacility, 
     Language, 
-    SchoolContactInformation, 
+    ContactInformation, 
     Address, 
     Acreditation, 
     SchoolAcreditation,
@@ -19,6 +19,9 @@ from .models import (
     SchoolExtra,
     AvgAge,
     SchoolAvgAge,
+    ClassroomEquipment,
+    SchoolClassroomEquipment,
+    NationalityMix,
 )
 
 # Register your models here.
@@ -87,6 +90,25 @@ class SchoolAvgAgeline(admin.TabularInline):
     extra = 1
 
 
+class ClassroomEquipmentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'icon')
+
+
+class SchoolClassroomEquipmentline(admin.TabularInline):
+    model = SchoolClassroomEquipment
+    extra = 1
+
+
+class SchoolNationalityMixline(admin.TabularInline):
+    model = NationalityMix
+    extra = 1
+
+
+class ContactInformationInline(admin.TabularInline):
+    model = ContactInformation
+    extra = 1
+
+
 class SchoolAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description')
     inlines = [
@@ -97,7 +119,11 @@ class SchoolAdmin(admin.ModelAdmin):
         SchoolAirportTransferInline,
         SchoolExtraline,
         SchoolAvgAgeline,
-        ]
+        SchoolAccommodationInline,
+        SchoolClassroomEquipmentline,
+        SchoolNationalityMixline,
+        ContactInformationInline,
+    ]
 
 
 class LanguageAdmin(admin.ModelAdmin):
@@ -118,3 +144,6 @@ admin.site.register(Accommodation, AccommodationAdmin)
 admin.site.register(Airport, AirportAdmin)
 admin.site.register(Extra, ExtraAdmin)
 admin.site.register(AvgAge, AvgAgeAdmin)
+admin.site.register(ClassroomEquipment, ClassroomEquipmentAdmin)
+admin.site.register(NationalityMix)
+admin.site.register(ContactInformation)
