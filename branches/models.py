@@ -2,6 +2,7 @@ from django.db import models
 
 from locations.models import City
 
+
 # Create your models here.
 
 class AgencyBranch(models.Model):

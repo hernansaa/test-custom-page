@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from branches.models import AgencyBranch
+
 from .models import (
     School,
     Facility, 
@@ -22,6 +24,7 @@ from .models import (
     ClassroomEquipment,
     SchoolClassroomEquipment,
     NationalityMix,
+    SchoolAgencyBranch,
 )
 
 # Register your models here.
@@ -109,6 +112,11 @@ class ContactInformationInline(admin.TabularInline):
     extra = 1
 
 
+class SchoolAgencyBranchInline(admin.TabularInline):
+    model = SchoolAgencyBranch
+    extra = 1
+
+
 class SchoolAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description')
     inlines = [
@@ -123,6 +131,7 @@ class SchoolAdmin(admin.ModelAdmin):
         SchoolClassroomEquipmentline,
         SchoolNationalityMixline,
         ContactInformationInline,
+        SchoolAgencyBranchInline,
     ]
 
 
