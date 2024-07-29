@@ -127,7 +127,6 @@ class SchoolAdmin(admin.ModelAdmin):
         SchoolAirportTransferInline,
         SchoolExtraline,
         SchoolAvgAgeline,
-        SchoolAccommodationInline,
         SchoolClassroomEquipmentline,
         SchoolNationalityMixline,
         ContactInformationInline,

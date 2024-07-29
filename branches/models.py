@@ -13,4 +13,4 @@ class AgencyBranch(models.Model):
     web_link = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.city_id
+        return self.city.name
