@@ -25,6 +25,7 @@ from .models import (
     SchoolClassroomEquipment,
     NationalityMix,
     SchoolAgencyBranch,
+    Course,
 )
 
 # Register your models here.
@@ -88,6 +89,10 @@ class AvgAgeAdmin(admin.ModelAdmin):
     list_display = ('id', 'from_age', 'to_age')
 
 
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'school')
+
+
 class SchoolAvgAgeline(admin.TabularInline):
     model = SchoolAvgAge
     extra = 1
@@ -117,6 +122,11 @@ class SchoolAgencyBranchInline(admin.TabularInline):
     extra = 1
 
 
+class CourseInline(admin.TabularInline):
+    model = Course
+    extra = 1
+
+
 class SchoolAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description')
     inlines = [
@@ -131,6 +141,7 @@ class SchoolAdmin(admin.ModelAdmin):
         SchoolNationalityMixline,
         ContactInformationInline,
         SchoolAgencyBranchInline,
+        CourseInline,
     ]
 
 
@@ -155,3 +166,4 @@ admin.site.register(AvgAge, AvgAgeAdmin)
 admin.site.register(ClassroomEquipment, ClassroomEquipmentAdmin)
 admin.site.register(NationalityMix)
 admin.site.register(ContactInformation)
+admin.site.register(Course, CourseAdmin)

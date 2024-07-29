@@ -1,0 +1,35 @@
+<!-- This partial replaces the innerHtml of element #search-results with HTMX -->
+
+<h2 class="fw-bold pb-2 border-bottom">Search programs results</h2>
+<div class="py-5 overflow-hidden">
+  <div class="row gy-3 gy-lg-4">
+    
+    {% for experience in experiences %}
+    <div class="col-12 col-lg-4 mb-4">
+      <div class="card rounded-4 h-100">
+        {% if experience.img %}
+        <img src="{{ experience.img.url }}" class="card-img-top rounded-top-4" alt="{{ experience.name }}">
+        {% endif %}
+        <div class="card-body d-flex flex-column p-4 p-md-3 p-lg-4">
+          <p class="card-text text-primary mb-2"><span><i class="bi bi-geo-fill text-primary"></i></span> {{ experience.city }}</p>
+          <h5 class="card-title fw-bold mb-4">{{ experience.name }}</h5>
+          <p class="card-text mb-1"><span><i class="bi bi-calendar-range" style="color: #0c3a66"></i></span> De {{ experience.duration_from_weeks }} a {{ experience.duration_to_weeks }} semanas</p>
+          <p class="card-text">
+            {% if experience.allows_work == "yes" %}
+            <span><i class="bi bi-check-square" style="color: #0c3a66"></i></span> Permite trabajar
+            {% else %}
+            <span><i class="bi bi-check-square" style="color: #0c3a66"></i></span> No permite trabajar
+            {% endif %}
+          </p>
+          <div class="mt-auto d-flex justify-content-end">
+            <a href="{% url 'program-details' experience.pk %}" class="btn btn-primary rounded-4 px-4">+INFO</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+</div>
+  
+  

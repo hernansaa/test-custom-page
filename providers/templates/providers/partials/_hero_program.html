@@ -1,0 +1,51 @@
+{% load static %}
+
+<!-- Move styles to proper directory -->
+
+<!-- Hero -->
+<section class="hero d-flex justify-content-center align-items-center text-center rounded-4 mt-1" style="background-image: url('{{ experience.img.url }}'); background-size: cover; background-position: center;">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 mx-auto">
+        <h1 class="display-5">{{ experience.name }}</h1>
+        <p class="lead">{{ experience.description }}.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Hero -->
+
+
+
+<!-- Cities select filter (consider using it)
+<select class="form-select rounded-4 me-2" id="city" name="city_filter">
+  <option selected>¿En qué ciudad?</option>
+  {% for city in cities  %}
+    <option value="{{ city.id }}">{{ city.name }}</option>
+  {% endfor %}
+</select>
+-->
+
+
+
+<!-- Hero original
+<section class="hero d-flex justify-content-center align-items-center text-center rounded-4 mt-1">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 mx-auto">
+        <h1 class="display-4">Welcome to Our Wsite</h1>
+        <p class="lead">Discover amazing experiences tailored for you.</p>
+        
+        <form class="d-flex justify-content-start mb-3">
+          <input type="text" class="form-control me-2" placeholder="Input 1">
+          <input type="text" class="form-control me-2" placeholder="Input 2">
+          <input type="text" class="form-control me-2" placeholder="Input 3">
+          <button class="btn btn-primary">Search</button>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</section>
+-->
+
