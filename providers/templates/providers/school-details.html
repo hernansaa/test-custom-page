@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Include the _hero partial -->
+{% include 'providers/partials/_hero_program.html' %}
+
+<!-- Include the _results partial -->
+<section class="details mt-5">
+
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-lg-6">
+                <img src="{{ school.img.url }}" class="img-fluid rounded mb-4" alt="{{ school.name }}">
+            </div>
+            <div class="col-lg-6">
+                <p class="text-primary mb-3"><i class="bi bi-geo-fill"></i> {{ address.school.city }}</p>
+               
+                <h3>Descripcion</h3>
+                <p>{{ school.description }}</p>
+
+                <h3>Facilidades</h3>
+                <ul>
+                    {% for facility in school.facilities.all %}
+                    <li>{{ facility.name }}</li>
+                    {% endfor %}
+                </ul>
+
+                <h3>Acreditaciones</h3>
+                <ul>
+                    {% for acreditacion in school.acreditations.all %}
+                    <li>{{ acreditacion.name }}</li>
+                    {% endfor %}
+                </ul>
+
+                <h3>School Activities</h3>
+                <ul>
+                    {% for activity in school.activities.all %}
+                    <li>{{ activity.name }}</li>
+                    {% endfor %}
+                </ul>
+
+                <h3>School Accommodation</h3>
+                <ul>
+                    {% for accommodation in school.school_accommodation.all %}
+                    <li>{{ accommodation.name }}</li>
+                    {% endfor %}
+                </ul>
+
+</section>
+
+
+<div class="container">
+    <h2>Realiza tu consulta</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit Inquiry</button>
+    </form>
+</div>
+
+
+{% endblock %}

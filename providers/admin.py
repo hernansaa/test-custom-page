@@ -26,6 +26,7 @@ from .models import (
     NationalityMix,
     SchoolAgencyBranch,
     Course,
+    Address,
 )
 
 # Register your models here.
@@ -93,6 +94,10 @@ class CourseAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'school')
 
 
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ('id', 'city', 'street', 'school')
+
+
 class SchoolAvgAgeline(admin.TabularInline):
     model = SchoolAvgAge
     extra = 1
@@ -127,6 +132,11 @@ class CourseInline(admin.TabularInline):
     extra = 1
 
 
+class AddressInline(admin.TabularInline):
+    model = Address
+    extra = 1
+
+
 class SchoolAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description')
     inlines = [
@@ -142,6 +152,7 @@ class SchoolAdmin(admin.ModelAdmin):
         ContactInformationInline,
         SchoolAgencyBranchInline,
         CourseInline,
+        AddressInline,
     ]
 
 
@@ -167,3 +178,4 @@ admin.site.register(ClassroomEquipment, ClassroomEquipmentAdmin)
 admin.site.register(NationalityMix)
 admin.site.register(ContactInformation)
 admin.site.register(Course, CourseAdmin)
+admin.site.register(Address, AddressAdmin)

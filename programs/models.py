@@ -66,6 +66,7 @@ class Experience(models.Model):
 
     def __str__(self):
         return self.name
+    
 
 class ExperienceIncluded(models.Model):
     experience = models.ForeignKey(Experience, on_delete=models.CASCADE)
