@@ -33,19 +33,42 @@
                     {% endfor %}
                 </ul>
 
-                <h3>School Activities</h3>
+                <h3>Actividades</h3>
                 <ul>
                     {% for activity in school.activities.all %}
                     <li>{{ activity.name }}</li>
                     {% endfor %}
                 </ul>
 
-                <h3>School Accommodation</h3>
+                <h3>Alojamientos</h3>
                 <ul>
-                    {% for accommodation in school.school_accommodation.all %}
-                    <li>{{ accommodation.name }}</li>
+                    {% for accommodation in school_accommodations %}
+                        <li>
+                            <strong>Tipo:</strong> {{ accommodation.accommodation.type }} <br>
+                            {% if accommodation.name %}
+                                <strong>Nombre:</strong> {{ accommodation.name }} <br>
+                            {% endif %}
+                            <strong>Low Season Weekly Price:</strong> {{ accommodation.ls_week_price }} <br>
+                            <strong>High Season Weekly Price:</strong> {{ accommodation.hs_week_price }} <br>
+                        </li>
                     {% endfor %}
                 </ul>
+
+                <h3>Traslados aeropuertos</h3>
+                <ul>
+                    {% for transfer in school_airport_transfer %}
+                        <li>
+                            {% if transfer.name %}
+                                <strong>Aeropuerto:</strong> {{ transfer.name }} <br>
+                            {% endif %}
+                            <strong>Precio Ida:</strong> {{ transfer.price_one_way }} <br>
+                            <strong>Precio Ida/Vuelta:</strong> {{ transfer.price_both_ways }} <br>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                
+
 
 </section>
 

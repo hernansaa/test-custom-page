@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .models import School, Address
+from .models import School, Address, SchoolAccommodation, SchoolAirportTransfer
 
 from locations.models import Country, City
 
@@ -27,6 +27,9 @@ def school_details(request, pk):
     
     # Retrieve the Experience object based on the pk from URL
     school = get_object_or_404(School, pk=pk)
+    school_accommodations = SchoolAccommodation.objects.filter(school=school)
+    school_airport_transfer = SchoolAirportTransfer.objects.filter(school=school)
+
 
     # if request.method == 'POST':
     #     form = InquiryForm(request.POST)
@@ -47,6 +50,8 @@ def school_details(request, pk):
 
     context = {
         'school': school,
+        'school_accommodations': school_accommodations,
+        'school_airport_transfer': school_airport_transfer,
         # 'form': form,
     }
     
