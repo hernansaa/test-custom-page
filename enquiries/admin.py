@@ -5,7 +5,7 @@ from django.urls import path
 
 from email_client.models import SentEmail
 
-from .models import Inquiry
+from .models import Inquiry, Enquiry
 from .forms import EmailForm
 
 class InquiryAdmin(admin.ModelAdmin):
@@ -79,5 +79,39 @@ class InquiryAdmin(admin.ModelAdmin):
             'admin/send_email.html',
             context={'form': form, 'inquiries': inquiries, 'ids': ','.join(inquiry_ids)}
         )
+    
+
+class EnquiryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'nationality', 'phone', 'program', 'created_at']
+    list_filter = ['program', 'created_at']
+    search_fields = ['name', 'email', 'nationality']
+    list_per_page = 20
+
+    fieldsets = (
+        ('Personal Information', {
+            'fields': ('name', 'nationality', 'email', 'phone')
+        }),
+        ('Program Information', {
+            'fields': ('program', 'course', 'date_start', 'course_weekly_price', 'qty_weeks', 'enrollment_fee',
+                       )
+        }),
+        ('Accommodation', {
+            'fields': ('accommodation',)
+        }),
+        ('Total', {
+            'fields': ('total',)
+        }),
+        ('Timestamps', {
+            'fields': ('created_at',)
+        }),
+    )
+
+    readonly_fields = (
+        'name', 'nationality', 'email', 'phone',
+        'program', 'course', 'date_start', 'course_weekly_price', 'qty_weeks', 'enrollment_fee',
+        'accommodation', 'total', 'created_at',
+    )
+
 
 admin.site.register(Inquiry, InquiryAdmin)
+admin.site.register(Enquiry, EnquiryAdmin)

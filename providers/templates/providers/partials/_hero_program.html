@@ -3,12 +3,12 @@
 <!-- Move styles to proper directory -->
 
 <!-- Hero -->
-<section class="hero d-flex justify-content-center align-items-center text-center rounded-4 mt-1" style="background-image: url('{{ school.img.url }}'); background-size: cover; background-position: center;">
+<section class="hero d-flex justify-content-center align-items-center text-center rounded-4 mt-1 py-5" style="background-image: url('{{ school.img.url }}'); background-size: cover; background-position: center; height: 25vh;">
   <div class="container">
     <div class="row">
       <div class="col-lg-6 mx-auto">
         <h1 class="display-5">{{ school.name }}</h1>
-        <p class="lead">{{ school.description }}.</p>
+        <p class="lead">{{ school.short_description }}.</p>
       </div>
     </div>
   </div>

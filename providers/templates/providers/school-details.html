@@ -10,77 +10,356 @@
 
     <div class="container py-4">
         <div class="row">
-            <div class="col-lg-6">
-                <img src="{{ school.img.url }}" class="img-fluid rounded mb-4" alt="{{ school.name }}">
-            </div>
-            <div class="col-lg-6">
-                <p class="text-primary mb-3"><i class="bi bi-geo-fill"></i> {{ address.school.city }}</p>
-               
-                <h3>Descripcion</h3>
-                <p>{{ school.description }}</p>
+            <div class="col-lg-8">
 
-                <h3>Facilidades</h3>
-                <ul>
-                    {% for facility in school.facilities.all %}
-                    <li>{{ facility.name }}</li>
-                    {% endfor %}
-                </ul>
 
-                <h3>Acreditaciones</h3>
-                <ul>
-                    {% for acreditacion in school.acreditations.all %}
-                    <li>{{ acreditacion.name }}</li>
-                    {% endfor %}
-                </ul>
 
-                <h3>Actividades</h3>
-                <ul>
-                    {% for activity in school.activities.all %}
-                    <li>{{ activity.name }}</li>
-                    {% endfor %}
-                </ul>
 
-                <h3>Alojamientos</h3>
-                <ul>
-                    {% for accommodation in school_accommodations %}
+                <!-- DESCRIPTION -->
+
+                <div class="container pb-4">
+                    <h3>Descripción</h3>
+                    <hr>
+                    <p>{{ school.description }}</p>
+                </div> <!-- END DESCRIPTION -->
+
+
+
+
+                <!-- FACILITIES -->
+
+                <div class="container pb-4">
+                    <h3>Instalaciones generales</h3>
+                    <hr>
+                    <ul>
+                        {% for facility in school.facilities.all %}
+                        <li>{{ facility.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div> <!-- END FACILITIES -->
+
+
+
+
+                <!-- CLASSROOM EQUIPMENT -->
+
+                <div class="container pb-4">
+                    <h3>Equipamiento del aula</h3>
+                    <hr>
+                    <ul>
+                        {% for equipment in school_classroom_equipments %}
                         <li>
-                            <strong>Tipo:</strong> {{ accommodation.accommodation.type }} <br>
-                            {% if accommodation.name %}
-                                <strong>Nombre:</strong> {{ accommodation.name }} <br>
+                            {% if equipment.classroom_equipment.name %}
+                            {{ equipment.classroom_equipment.name }}
                             {% endif %}
-                            <strong>Low Season Weekly Price:</strong> {{ accommodation.ls_week_price }} <br>
-                            <strong>High Season Weekly Price:</strong> {{ accommodation.hs_week_price }} <br>
                         </li>
-                    {% endfor %}
-                </ul>
+                        {% endfor %}
+                    </ul>
+                </div><!-- END CLASSROOM EQUIPMENT -->
 
-                <h3>Traslados aeropuertos</h3>
-                <ul>
-                    {% for transfer in school_airport_transfer %}
-                        <li>
-                            {% if transfer.name %}
-                                <strong>Aeropuerto:</strong> {{ transfer.name }} <br>
-                            {% endif %}
-                            <strong>Precio Ida:</strong> {{ transfer.price_one_way }} <br>
-                            <strong>Precio Ida/Vuelta:</strong> {{ transfer.price_both_ways }} <br>
-                        </li>
-                    {% endfor %}
-                </ul>
 
+
+
+                <!-- COURSES -->
+
+                <div class="container pb-4">
+                    <h3>Cursos</h3>
+                    <hr>
+                    <div class="accordion pb-4" id="accordionExample">
+                        {% for course in courses %}
+                        {% if course.name %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse-{{ forloop.counter }}" aria-expanded="true"
+                                    aria-controls="collapse-{{ forloop.counter }}">
+                                    <strong>{{ course.name }}</strong>
+                                    <span class="ms-2"> | {{ course.hours_per_week }} lecciones por semana</span>
+                                </button>
+                            </h2>
+                            <div id="collapse-{{ forloop.counter }}" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <p><strong>Descripcion:</strong> {{ course.description }}</p>
+                                    <strong>Lecciones por semana:</strong> {{ course.hours_per_week }}<br>
+                                    <strong>Duracion lección:</strong> {{ course.lesson_duration_minutes }} min<br>
+                                    <strong>Materiales del curso:</strong> {{ course.course_material }}<br>
+                                    <strong>Máximo estudiantes:</strong> {{ course.max_students }}<br>
+                                    <strong>Edad mínima:</strong> {{ course.student_min_age }} anos<br>
+                                    <strong>Precio semanal desde:</strong> {{ course.ls_week_price }}<br>
+                                    <strong>Matricula:</strong> {{ course.enrollment_fee }}<br>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- END COURSES -->
+
+
+
+
+                <!-- ACCOMMODATION -->
+
+                <div class="container pb-4">
+                    <h3>Alojamientos</h3>
+                    <hr>
+                    <div class="row gy-3 gy-lg-4 mb-4">
+                        {% for accommodation in school_accommodations %}
+                        <div class="col-12 col-lg-4">
+                            <div class="card rounded-4 h-100">
+                                {% if school.img %}
+                                <div class="overflow-hidden" style="height: 160px;"> <!-- Adjust the height as needed -->
+                                    <img src="{{ accommodation.accommodation.img.url }}" class="card-img-top rounded-top-4 h-100 object-fit-cover"
+                                        alt="{{ school.name }}">
+                                </div>
+                                {% endif %}
+                                <div class="card-body d-flex flex-column p-3 p-md-3 p-lg-3">
+                                    <p class="card-text text-primary mb-2">
+                                        <span><i class="bi bi-geo-fill text-primary"></i></span>
+                                        {{ accommodation.accommodation.type }}
+                                    </p>
+                                    <h5 class="card-title fw-bold mb-3">{{ accommodation.name}}</h5>
+                                    <p class="card-text mb-1">Precio semanal: <strong>{{ accommodation.ls_week_price }}</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div> <!-- END ACCOMMODATION -->
                 
+
+
+
+
+                <!-- AIRPORT TRANSFER -->
+
+                <div class="container pb-4">
+                    <div>
+                        <h3>Traslados aeropuertos</h3>
+                        <hr>
+                        <ul>
+                    </div>
+                    <div class="mb-4">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Aeropuerto</th>
+                                    <th scope="col">Ida</th>
+                                    <th scope="col">Ida/Vuelta</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for transfer in school_airport_transfers %}
+                                {% if transfer.name %}
+                                <tr>
+                                    <td>{{ transfer.name }}</td>
+                                    <td>{{ transfer.price_one_way }}</td>
+                                    <td>{{ transfer.price_both_ways }}</td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div> <!-- END AIRPORT TRANSFER -->
+
+
+
+
+                <!-- ACTIVITIES -->
+
+                <div class="container pb-4">
+                    <h3>Actividades</h3>
+                    <hr>
+                    <ul>
+                        {% for activity in school.activities.all %}
+                        <li>{{ activity.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div> <!-- END ACTIVITIES -->
+
+
+
+                <!-- EXTRAS -->
+
+                <div class="container pb-4">
+                    <h3>Extras</h3>
+                    <hr>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Extra</th>
+                                <th scope="col">T. Baja</th>
+                                <th scope="col">T. Alta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for extra in school_extras %}
+                            {% if extra.extra.name %}
+                            <tr>
+                                <td>{{ extra.extra.name }}</td>
+                                <td>{{ extra.ls_week_price }}</td>
+                                <td>{{ extra.hs_week_price }}</td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!-- END EXTRAS -->
+
+
+
+
+                <!-- NATIONALITY MIX/STUDENTS AGE -->
+
+                <div class="container pb-4">
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <h3>Mix de nacionalidades</h3>
+                            <hr>
+                        
+                            <div class="container p-5">
+                                <div>
+                                    <canvas id="chartNationalityMix" style="background-color: transparent;"></canvas>
+                                </div>
+                        
+                                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        
+                                <script>
+                                    const ctx = document.getElementById('chartNationalityMix').getContext('2d');
+
+                                    new Chart(ctx, {
+                                        type: 'doughnut',
+                                        data: {
+                                            labels: [{% for nationality_mix in nationality_mixes %} '{{ nationality_mix.country }} {{ nationality_mix.percentage_students }}%', {% endfor %}],
+                                        datasets: [{
+                                            label: '# of Votes',
+                                            data: [{% for nationality_mix in nationality_mixes %} {{ nationality_mix.percentage_students }}, {% endfor %}],
+                                        borderWidth: 1
+                                                                                                }]
+                                                                                              },
+                                        options: {
+                                        plugins: {
+                                            legend: {
+                                                display: true,
+                                                position: 'bottom'
+                                            }
+                                        },
+                                        scales: {
+                                            x: {
+                                                display: false
+                                            },
+                                            y: {
+                                                display: false
+                                            }
+                                        }
+                                    }
+                                                                                            });
+                                </script>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6">
+                            <h3>Edad de los estudiantes</h3>
+                            <hr>
+                        
+                            <div class="container p-5">
+                                <div>
+                                    <canvas id="chartAges" style="background-color: transparent;"></canvas>
+                                </div>
+                        
+                                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        
+                                <script>
+                                    const ctx2 = document.getElementById('chartAges').getContext('2d');
+
+                                    new Chart(ctx2, {
+                                        type: 'doughnut',
+                                        data: {
+                                            labels: [{% for avg_age in school_avg_ages %} '{{ avg_age.avg_age.from_age }}-{{ avg_age.avg_age.to_age }} años: {{ avg_age.avg }}%', {% endfor %}],
+                                        datasets: [{
+                                            label: '# of Votes',
+                                            data: [{% for avg_age in school_avg_ages %} {{ avg_age.avg }}, {% endfor %}],
+                                        borderWidth: 1
+                                                                                                }]
+                                                                                              },
+                                        options: {
+                                        plugins: {
+                                            legend: {
+                                                display: true,
+                                                position: 'bottom'
+                                            }
+                                        },
+                                        scales: {
+                                            x: {
+                                                display: false
+                                            },
+                                            y: {
+                                                display: false
+                                            }
+                                        }
+                                    }
+                                                                                            });
+                                </script>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div> <!-- END NATIONALITY MIX/STUDENTS AGE -->
+
+
+
+                <!-- ACREDITATIONS -->
+
+                <div class="container pb-4">
+                    <h3>Acreditaciones</h3>
+                    <hr>
+                    <div class="row">
+                        {% for acreditation in school.acreditations.all %}
+                        <div class="col-2">
+                            <div class="card rounded-4 p-2 d-flex align-items-center justify-content-center" style="height: 100%;">
+                                <img src="{{ acreditation.logo.url }}" alt="{{ acreditation.name }}" class="img-fluid">
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div> <!-- END ACREDITATIONS -->
+
+
+
+
+            </div> <!-- END COL -->
+
+
+
+
+            <div class="col-lg-4">
+                <div class="card rounded-4 p-4">
+                    <h3>Presupuesto Online</h3>
+                    <hr>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Obtener Presupuesto</button>
+                    </form>
+                </div>
+            </div>
 
 
 </section>
 
 
-<div class="container">
+<!-- <div class="container py-4">
     <h2>Realiza tu consulta</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary">Submit Inquiry</button>
     </form>
-</div>
+</div> -->
 
 
 {% endblock %}

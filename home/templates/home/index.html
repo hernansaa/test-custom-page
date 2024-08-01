@@ -1,7 +1,57 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Welcome to Home Page</h1>
-    <p>This is the home page of your website.</p>
-    <p>Esto es una prueba</p>
+
+
+<!-- START CAROUSEL -->
+
+    {% include 'home/partials/_carousel.html' %}
+  
+    <!-- /END CAROUSEL -->
+
+
+<!-- START POPULAR DESTINIES -->
+
+    {% include 'home/partials/_popular_destinies.html' %}
+  
+    <!-- /END POPULAR DESTINIES -->
+
+
+<!-- START FEATURED PROGRAMS -->
+
+    {% include 'home/partials/_featured_programs.html' %}
+  
+    <!-- /END FEATURED PROGRAMS -->
+
+
+<!-- START RECENT STORIES -->
+
+    {% include 'home/partials/_recent_stories.html' %}
+
+    <!-- /END RECENT STORIES -->
+
+
+<!-- START FEATURES -->
+
+    {% include 'home/partials/_features.html' %}
+  
+    <!-- /END FEATURES -->
+  
+
+<!-- START TESTIMONIALS-->
+
+    {% include 'home/partials/_testimonials.html' %}
+  
+    <!-- /END TESTIMONIALS -->
+
+
+<!-- START CONTACT US -->
+
+    {% include 'home/partials/_contact_us.html' %}
+
+    <!-- /END CONTACT US -->
+
+
+
+
 {% endblock %}

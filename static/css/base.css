@@ -11,9 +11,11 @@ a {
 }
 
 .sticky-top {
+    position: sticky !important;
     top: 0.25em;
+    z-index: 10;
 }
-
+  
 .carousel-item {
     height: 650px;
 }
