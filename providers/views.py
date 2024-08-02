@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 
 from .models import (School, Address, SchoolAccommodation, SchoolAirportTransfer, SchoolExtra, 
-                     SchoolAvgAge, SchoolClassroomEquipment, NationalityMix, Course)
+                     SchoolAvgAge, SchoolClassroomEquipment, NationalityMix, Course, CoursePrice)
 
 from locations.models import Country
 
@@ -28,7 +28,6 @@ def index(request):
 
 
 def school_details(request, pk):
-    
     # Retrieve the school object based on the pk from URL
     school = get_object_or_404(School, pk=pk)
     school_accommodations = SchoolAccommodation.objects.filter(school=school)
@@ -39,9 +38,13 @@ def school_details(request, pk):
     nationality_mixes = NationalityMix.objects.filter(school=school)
     courses = Course.objects.filter(school=school)
 
-
     if request.method == 'POST':
         form = EnquiryForm(request.POST, school_id=pk)
+        course_id = request.POST.get('course')
+        course = get_object_or_404(Course, id=course_id)
+        if course_id:
+            form.fields['qty_weeks'].queryset = CoursePrice.objects.filter(course_id=course_id)
+            form.fields['enrollment_fee'].initial= course.enrollment_fee
         if form.is_valid():
             # Create a new Inquiry object but don't save it yet
             enquiry = Enquiry(
@@ -62,12 +65,14 @@ def school_details(request, pk):
             enquiry.save()
             # Optionally, we can redirect to a success page or clear the form
             return redirect('school-details', pk=pk)  # Redirect to the same page or another success page
+        else:
+            form_errors = form.errors
     else:
         form = EnquiryForm(school_id=pk)
         form.fields['course'].queryset = Course.objects.filter(school=pk)
         form.fields['accommodation'].queryset = SchoolAccommodation.objects.filter(school=pk)
         form.fields['airport_transfer'].queryset = SchoolAirportTransfer.objects.filter(school=pk)
-
+        form_errors = None
 
     context = {
         'school': school,
@@ -79,17 +84,27 @@ def school_details(request, pk):
         'nationality_mixes': nationality_mixes,
         'courses': courses,
         'form': form,
+        'form_errors': form_errors,
     }
-    
+
     return render(request, 'providers/school-details.html', context)
 
 
 def update_course_price(request):
+    
     course_id = request.POST.get('course')
+    
     if course_id:
         course = get_object_or_404(Course, id=course_id)
+        #course_price = get_object_or_404(CoursePrice, id=course_id)
+        course_price = CoursePrice.objects.filter(course_id=course_id)
         form = EnquiryForm()
-        form.fields['course_weekly_price'].initial = course.ls_week_price
-        return render(request, 'providers/partials/_course_price_fragment.html', {'form': form})
-    return JsonResponse({'error': 'Invalid course ID'}, status=400)
+        #form.fields['course_weekly_price'].initial = course.ls_week_price
+        form.fields['qty_weeks'].queryset = course_price
+        form.fields['enrollment_fee'].initial= course.enrollment_fee
+
+                
+        return render(request, 'providers/partials/_course_price_fragment.html', {'form': form, 'course_price': course_price})
+    else:
+        return JsonResponse({'error': 'Invalid course ID'}, status=400)
 

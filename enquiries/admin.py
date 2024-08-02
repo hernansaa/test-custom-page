@@ -91,7 +91,7 @@ class EnquiryAdmin(admin.ModelAdmin):
         ('Personal Information', {
             'fields': ('name', 'dob', 'nationality', 'email', 'phone')
         }),
-        ('Program Information', {
+        ('Course Information', {
             'fields': ('program', 'course', 'date_start', 'course_weekly_price', 'qty_weeks', 'enrollment_fee',
                        )
         }),

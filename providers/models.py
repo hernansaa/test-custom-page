@@ -127,6 +127,18 @@ class Course(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+class CoursePrice(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='prices')
+    weeks = models.PositiveIntegerField()
+    price = models.DecimalField(decimal_places=2, max_digits=6)
+
+    # class Meta:
+    #     unique_together = ('course', 'weeks')
+
+    def __str__(self):
+        return f"{self.weeks} semanas - {self.weeks * self.price}"
 
 
 class Address(models.Model):
@@ -229,7 +241,7 @@ class SchoolAirportTransfer(models.Model):
     price_both_ways = models.DecimalField(decimal_places=2, max_digits=6) # hs = high season
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.airport} - {self.name}"
 
 
 class SchoolExtra(models.Model):

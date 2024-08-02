@@ -27,6 +27,7 @@ from .models import (
     SchoolAgencyBranch,
     Course,
     Address,
+    CoursePrice,
 )
 
 # Register your models here.
@@ -88,10 +89,6 @@ class SchoolExtraline(admin.TabularInline):
 
 class AvgAgeAdmin(admin.ModelAdmin):
     list_display = ('id', 'from_age', 'to_age')
-
-
-class CourseAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'school')
 
 
 class AddressAdmin(admin.ModelAdmin):
@@ -164,6 +161,22 @@ class SchoolContactInformationAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
 
 
+class CoursePriceAdmin(admin.ModelAdmin):
+    list_display = ('weeks', 'price')
+
+
+class CoursePriceInline(admin.TabularInline):
+    model = CoursePrice
+    extra = 1
+
+
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'school')
+    inlines = [
+        CoursePriceInline,
+    ]
+
+
 
 admin.site.register(School, SchoolAdmin)
 admin.site.register(Language, LanguageAdmin)
@@ -179,3 +192,4 @@ admin.site.register(NationalityMix)
 admin.site.register(ContactInformation)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Address, AddressAdmin)
+admin.site.register(CoursePrice, CoursePriceAdmin)

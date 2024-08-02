@@ -8,7 +8,15 @@
       {% csrf_token %}
       <div class="container py-2">
         {{ form.course.label_tag }} {{ form.course }}
-        {{ form.qty_weeks.label_tag }} {{ form.qty_weeks }}
+        <div 
+          id="course-weekly-price" 
+          hx-post="{% url 'update_course_price' %}" 
+          hx-trigger="change from:#id_course" 
+          hx-target="#course-weekly-price" 
+          hx-swap="innerHTML">
+          {{ form.qty_weeks.label_tag }} {{ form.qty_weeks }}
+          {{ form.enrollment_fee.label_tag }} {{ form.enrollment_fee }}
+        </div>
         {{ form.date_start.label_tag }} {{ form.date_start }}
         {{ form.accommodation.label_tag }} {{ form.accommodation }}
         {{ form.airport_transfer.label_tag }} {{ form.airport_transfer }}
@@ -25,15 +33,6 @@
       <div class="container py-2">
         <h4>Detalle</h4>
         <hr>
-        <div 
-          id="course-weekly-price" 
-          hx-post="{% url 'update_course_price' %}" 
-          hx-trigger="change from:#id_course" 
-          hx-target="#course-weekly-price" 
-          hx-swap="innerHTML">
-          {{ form.course_weekly_price.label_tag }} {{ form.course_weekly_price }}
-        </div>
-        {{ form.enrollment_fee.label_tag }} {{ form.enrollment_fee }}
         {{ form.total.label_tag }} {{ form.total }}
       </div>
       <div class="container pt-4">
@@ -42,3 +41,14 @@
     </form>
   </div>
 </div>
+
+{% if form_errors %}
+        <div class="form-errors">
+            <h3>Errors:</h3>
+            <ul>
+                {% for field, errors in form_errors.items %}
+                    <li>{{ field }}: {{ errors|join:", " }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+{% endif %}
