@@ -337,15 +337,9 @@
 
 
             <div class="col-lg-4">
-                <div class="card rounded-4 p-4">
-                    <h3>Presupuesto Online</h3>
-                    <hr>
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit" class="btn btn-primary">Obtener Presupuesto</button>
-                    </form>
-                </div>
+                
+                {% include 'providers/partials/_quotator.html' %}
+
             </div>
 
 

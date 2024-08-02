@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
 
 from .models import (School, Address, SchoolAccommodation, SchoolAirportTransfer, SchoolExtra, 
                      SchoolAvgAge, SchoolClassroomEquipment, NationalityMix, Course)
@@ -45,6 +46,7 @@ def school_details(request, pk):
             # Create a new Inquiry object but don't save it yet
             enquiry = Enquiry(
                 name=form.cleaned_data['name'],
+                dob=form.cleaned_data['dob'],
                 nationality=form.cleaned_data['nationality'],
                 email=form.cleaned_data['email'],
                 phone=form.cleaned_data['phone'],
@@ -52,9 +54,13 @@ def school_details(request, pk):
                 enrollment_fee=form.cleaned_data['enrollment_fee'],
                 accommodation=form.cleaned_data['accommodation'],
                 course=form.cleaned_data['course'],
+                date_start=form.cleaned_data['date_start'],
+                course_weekly_price=form.cleaned_data['course_weekly_price'],
+                qty_weeks=form.cleaned_data['qty_weeks'],
+                total=form.cleaned_data['total'],
             )
             enquiry.save()
-            # Optionally, you can redirect to a success page or clear the form
+            # Optionally, we can redirect to a success page or clear the form
             return redirect('school-details', pk=pk)  # Redirect to the same page or another success page
     else:
         form = EnquiryForm(school_id=pk)
@@ -76,3 +82,14 @@ def school_details(request, pk):
     }
     
     return render(request, 'providers/school-details.html', context)
+
+
+def update_course_price(request):
+    course_id = request.POST.get('course')
+    if course_id:
+        course = get_object_or_404(Course, id=course_id)
+        form = EnquiryForm()
+        form.fields['course_weekly_price'].initial = course.ls_week_price
+        return render(request, 'providers/partials/_course_price_fragment.html', {'form': form})
+    return JsonResponse({'error': 'Invalid course ID'}, status=400)
+

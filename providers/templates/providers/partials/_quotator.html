@@ -1,0 +1,44 @@
+<!-- HTMX SOLUTION -->
+
+<div class="card rounded-4 p-4">
+  <h3>Presupuesto Online</h3>
+  <hr>
+  <div id="form-container">
+    <form id="enquiry-form" method="post">
+      {% csrf_token %}
+      <div class="container py-2">
+        {{ form.course.label_tag }} {{ form.course }}
+        {{ form.qty_weeks.label_tag }} {{ form.qty_weeks }}
+        {{ form.date_start.label_tag }} {{ form.date_start }}
+        {{ form.accommodation.label_tag }} {{ form.accommodation }}
+        {{ form.airport_transfer.label_tag }} {{ form.airport_transfer }}
+      </div>
+      <div class="container py-2">
+        <h4>Datos Personales</h4>
+        <hr>
+        {{ form.name.label_tag }} {{ form.name }}
+        {{ form.nationality.label_tag }} {{ form.nationality }}
+        {{ form.dob.label_tag }} {{ form.dob }}
+        {{ form.email.label_tag }} {{ form.email }}
+        {{ form.phone.label_tag }} {{ form.phone }}
+      </div>
+      <div class="container py-2">
+        <h4>Detalle</h4>
+        <hr>
+        <div 
+          id="course-weekly-price" 
+          hx-post="{% url 'update_course_price' %}" 
+          hx-trigger="change from:#id_course" 
+          hx-target="#course-weekly-price" 
+          hx-swap="innerHTML">
+          {{ form.course_weekly_price.label_tag }} {{ form.course_weekly_price }}
+        </div>
+        {{ form.enrollment_fee.label_tag }} {{ form.enrollment_fee }}
+        {{ form.total.label_tag }} {{ form.total }}
+      </div>
+      <div class="container pt-4">
+        <button class="btn btn-primary" type="submit">Obtener Presupuesto</button>
+      </div>
+    </form>
+  </div>
+</div>

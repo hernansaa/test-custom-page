@@ -89,7 +89,7 @@ class EnquiryAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Personal Information', {
-            'fields': ('name', 'nationality', 'email', 'phone')
+            'fields': ('name', 'dob', 'nationality', 'email', 'phone')
         }),
         ('Program Information', {
             'fields': ('program', 'course', 'date_start', 'course_weekly_price', 'qty_weeks', 'enrollment_fee',
@@ -107,7 +107,7 @@ class EnquiryAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = (
-        'name', 'nationality', 'email', 'phone',
+        'name', 'dob', 'nationality', 'email', 'phone',
         'program', 'course', 'date_start', 'course_weekly_price', 'qty_weeks', 'enrollment_fee',
         'accommodation', 'total', 'created_at',
     )
