@@ -20,12 +20,12 @@ class EnquiryForm(forms.ModelForm):
     
     class Meta:
         model = Enquiry
-        fields = ['course', 'course_weekly_price', 'qty_weeks', 'date_start', 'enrollment_fee', 'total',
+        fields = ['course', 'course_weekly_price', 'course_qty_weeks', 'date_start', 'enrollment_fee', 'total',
                   'accommodation', 'airport_transfer', 'name', 'nationality', 'dob', 'email', 'phone']
     
     course = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=Course.objects.none(), required=False, label='Curso')
     course_weekly_price = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label='Precio (semanal)', initial=0, disabled=True)
-    qty_weeks = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=CoursePrice.objects.none(), required=False, label='Semanas')
+    course_qty_weeks = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=CoursePrice.objects.none(), required=False, label='Semanas')
     date_start = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'min': datetime.now().date()}), label='Fecha Inicio')
     enrollment_fee = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label='Matrícula', disabled=True)
     total = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control'}), initial=0, disabled=True)
@@ -41,7 +41,7 @@ class EnquiryForm(forms.ModelForm):
         """
         Initialize the form with optional school_id and course_id.
         - school_id: Used to filter course, accommodation, and airport transfer options.
-        - course_id: Used to filter qty_weeks and set the initial enrollment fee.
+        - course_id: Used to filter course_qty_weeks and set the initial enrollment fee.
         """
         school_id = kwargs.pop('school_id', None)
         course_id = kwargs.pop('course_id', None)
@@ -53,7 +53,7 @@ class EnquiryForm(forms.ModelForm):
         Populates form fields dynamically based on the given school_id and course_id.
         
         - If school_id is provided, filter the queryset of the course, accommodation, and airport_transfer fields.
-        - If course_id is provided, filter the queryset of the qty_weeks field and set the initial value for the enrollment_fee field.
+        - If course_id is provided, filter the queryset of the course_qty_weeks field and set the initial value for the enrollment_fee field.
         
         Args:
             school_id (int or None): The ID of the school to filter related fields.

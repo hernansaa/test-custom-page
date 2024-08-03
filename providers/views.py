@@ -43,7 +43,7 @@ def school_details(request, pk):
         course_id = request.POST.get('course')
         course = get_object_or_404(Course, id=course_id)
         if course_id:
-            form.fields['qty_weeks'].queryset = CoursePrice.objects.filter(course_id=course_id)
+            form.fields['course_qty_weeks'].queryset = CoursePrice.objects.filter(course_id=course_id)
             form.fields['enrollment_fee'].initial= course.enrollment_fee
         if form.is_valid():
             # Create a new Inquiry object but don't save it yet
@@ -59,7 +59,7 @@ def school_details(request, pk):
                 course=form.cleaned_data['course'],
                 date_start=form.cleaned_data['date_start'],
                 course_weekly_price=form.cleaned_data['course_weekly_price'],
-                qty_weeks=form.cleaned_data['qty_weeks'],
+                course_qty_weeks=form.cleaned_data['course_qty_weeks'],
                 total=form.cleaned_data['total'],
             )
             enquiry.save()
@@ -100,7 +100,7 @@ def update_course_price(request):
         course_price = CoursePrice.objects.filter(course_id=course_id)
         form = EnquiryForm()
         #form.fields['course_weekly_price'].initial = course.ls_week_price
-        form.fields['qty_weeks'].queryset = course_price
+        form.fields['course_qty_weeks'].queryset = course_price
         form.fields['enrollment_fee'].initial= course.enrollment_fee
 
                 

@@ -28,6 +28,8 @@ from .models import (
     Course,
     Address,
     CoursePrice,
+    AccommodationPrice,
+    AccommodationPriceList,
 )
 
 # Register your models here.
@@ -177,6 +179,18 @@ class CourseAdmin(admin.ModelAdmin):
     ]
 
 
+class AccommodationPriceInline(admin.TabularInline):
+    model = AccommodationPrice
+    extra = 1
+
+
+class AccommodationPriceListAdmin (admin.ModelAdmin):
+    list_display = ('school_accommodation', 'year')
+    inlines = [
+        AccommodationPriceInline,
+    ]
+
+
 
 admin.site.register(School, SchoolAdmin)
 admin.site.register(Language, LanguageAdmin)
@@ -193,3 +207,5 @@ admin.site.register(ContactInformation)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Address, AddressAdmin)
 admin.site.register(CoursePrice, CoursePriceAdmin)
+#admin.site.register(AccommodationPrice) Not needed so far since I have it as inline in the AccommodationPriceList Admin
+admin.site.register(AccommodationPriceList, AccommodationPriceListAdmin)
