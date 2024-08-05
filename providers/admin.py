@@ -164,7 +164,7 @@ class SchoolContactInformationAdmin(admin.ModelAdmin):
 
 
 class CoursePriceAdmin(admin.ModelAdmin):
-    list_display = ('weeks', 'price')
+    list_display = ('id', 'weeks', 'price')
 
 
 class CoursePriceInline(admin.TabularInline):

@@ -96,7 +96,7 @@ class EnquiryAdmin(admin.ModelAdmin):
                        )
         }),
         ('Accommodation', {
-            'fields': ('accommodation',)
+            'fields': ('accommodation', 'accommodation_qty_weeks')
         }),
         ('Total', {
             'fields': ('total',)
@@ -109,7 +109,7 @@ class EnquiryAdmin(admin.ModelAdmin):
     readonly_fields = (
         'name', 'dob', 'nationality', 'email', 'phone',
         'program', 'course', 'date_start', 'course_weekly_price', 'course_qty_weeks', 'enrollment_fee',
-        'accommodation', 'total', 'created_at',
+        'accommodation', 'accommodation_qty_weeks', 'total', 'created_at',
     )
 
 

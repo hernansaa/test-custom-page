@@ -29,6 +29,7 @@ class Enquiry(models.Model):
     enrollment_fee = models.DecimalField(decimal_places=2, max_digits=6, null=True, blank=True)
     course_weekly_price = models.DecimalField(decimal_places=2, max_digits=6, null=True, blank=True)
     accommodation = models.ForeignKey('providers.SchoolAccommodation', on_delete=models.CASCADE, null=True, blank=True)
+    accommodation_qty_weeks = models.ForeignKey('providers.AccommodationPrice', on_delete=models.CASCADE, null=True, blank=True)
     airport_transfer = models.ForeignKey('providers.SchoolAirportTransfer', null=True, blank=True, on_delete=models.CASCADE)
     total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

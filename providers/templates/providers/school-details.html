@@ -146,17 +146,15 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Aeropuerto</th>
-                                    <th scope="col">Ida</th>
-                                    <th scope="col">Ida/Vuelta</th>
+                                    <th scope="col">Precio</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for transfer in school_airport_transfers %}
                                 {% if transfer.name %}
                                 <tr>
-                                    <td>{{ transfer.name }}</td>
-                                    <td>{{ transfer.price_one_way }}</td>
-                                    <td>{{ transfer.price_both_ways }}</td>
+                                    <td>{{ transfer.name }} ({{ transfer.trip }})</td>
+                                    <td>{{ transfer.price }}</td>
                                 </tr>
                                 {% endif %}
                                 {% endfor %}

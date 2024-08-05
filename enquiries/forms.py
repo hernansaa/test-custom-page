@@ -1,6 +1,6 @@
 from django import forms
 from .models import Enquiry
-from providers.models import Course, School, SchoolAccommodation, SchoolAirportTransfer, CoursePrice
+from providers.models import Course, School, SchoolAccommodation, SchoolAirportTransfer, CoursePrice, AccommodationPrice, AccommodationPriceList
 from locations.models import Country
 
 from datetime import datetime
@@ -21,15 +21,17 @@ class EnquiryForm(forms.ModelForm):
     class Meta:
         model = Enquiry
         fields = ['course', 'course_weekly_price', 'course_qty_weeks', 'date_start', 'enrollment_fee', 'total',
-                  'accommodation', 'airport_transfer', 'name', 'nationality', 'dob', 'email', 'phone']
+                  'accommodation', 'accommodation_qty_weeks', 'airport_transfer', 'name', 'nationality', 'dob', 
+                  'email', 'phone']
     
     course = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=Course.objects.none(), required=False, label='Curso')
     course_weekly_price = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label='Precio (semanal)', initial=0, disabled=True)
     course_qty_weeks = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=CoursePrice.objects.none(), required=False, label='Semanas')
     date_start = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'min': datetime.now().date()}), label='Fecha Inicio')
     enrollment_fee = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label='Matrícula', disabled=True)
-    total = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control'}), initial=0, disabled=True)
+    total = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
     accommodation = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=SchoolAccommodation.objects.none(), label='Alojamiento')
+    accommodation_qty_weeks = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=AccommodationPrice.objects.none(), required=False, label='Semanas Alojamiento')
     airport_transfer = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=SchoolAirportTransfer.objects.all(), required=False, label='Traslado Aeropuerto')
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label='Nombre', max_length=100)
     nationality = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=Country.objects.all(), required=False, label='Nacionalidad')
@@ -45,10 +47,11 @@ class EnquiryForm(forms.ModelForm):
         """
         school_id = kwargs.pop('school_id', None)
         course_id = kwargs.pop('course_id', None)
+        accommodation_id = kwargs.pop('accommodation_id', None)
         super().__init__(*args, **kwargs)
-        self.populate_dynamic_fields(school_id, course_id)
+        self.populate_dynamic_fields(school_id, course_id, accommodation_id)
     
-    def populate_dynamic_fields(self, school_id, course_id):
+    def populate_dynamic_fields(self, school_id, course_id, accommodation_id):
         """
         Populates form fields dynamically based on the given school_id and course_id.
         
@@ -65,8 +68,19 @@ class EnquiryForm(forms.ModelForm):
             self.fields['airport_transfer'].queryset = SchoolAirportTransfer.objects.filter(school=school_id)
         
         if course_id is not None:
-            self.fields['qty_weeks'].queryset = CoursePrice.objects.filter(course=course_id)
+            self.fields['course_qty_weeks'].queryset = CoursePrice.objects.filter(course=course_id)
             self.fields['enrollment_fee'].initial = Course.objects.filter(course_id=course_id)
+        
+        if accommodation_id is not None:
+            # Get a specific SchoolAccommodation instance
+            school_accommodation = SchoolAccommodation.objects.get(id=accommodation_id)
+
+            # Access related AccommodationPriceList instances
+            price_lists = school_accommodation.accommodationpricelist_set.all()
+
+            # Access related AccommodationPrice instances through AccommodationPriceList
+            self.fields['accommodation_qty_weeks'].queryset = AccommodationPrice.objects.filter(accommodation_price_list__school_accommodation=school_accommodation)
+
 
 
 class EmailForm(forms.Form):

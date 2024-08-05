@@ -6,37 +6,53 @@
   <div id="form-container">
     <form id="enquiry-form" method="post">
       {% csrf_token %}
-      <div class="container py-2">
-        {{ form.course.label_tag }} {{ form.course }}
-        <div 
-          id="course-weekly-price" 
-          hx-post="{% url 'update_course_price' %}" 
-          hx-trigger="change from:#id_course" 
-          hx-target="#course-weekly-price" 
-          hx-swap="innerHTML">
-          {{ form.course_qty_weeks.label_tag }} {{ form.course_qty_weeks }}
-          {{ form.enrollment_fee.label_tag }} {{ form.enrollment_fee }}
+      <div
+        hx-post="{% url 'update_total_price' %}" 
+        hx-trigger="change" 
+        hx-target="#total" 
+        hx-swap="innerHTML">
+        <div class="container py-2">
+          {{ form.course.label_tag }} {{ form.course }}
+          <div 
+            id="course-weekly-price" 
+            hx-post="{% url 'update_course_price' %}" 
+            hx-trigger="change from:#id_course" 
+            hx-target="#course-weekly-price" 
+            hx-swap="innerHTML">
+            {{ form.course_qty_weeks.label_tag }} {{ form.course_qty_weeks }}
+            {{ form.enrollment_fee.label_tag }} {{ form.enrollment_fee }}
+          </div>
+          {{ form.date_start.label_tag }} {{ form.date_start }}
+          {{ form.accommodation.label_tag }} {{ form.accommodation }}
+          <div 
+            id="accommodation-weekly-price" 
+            hx-post="{% url 'update_accommodation_price' %}" 
+            hx-trigger="change from:#id_accommodation"
+            hx-target="#accommodation-weekly-price" 
+            hx-swap="innerHTML">
+            {{ form.accommodation_qty_weeks.label_tag }} {{ form.accommodation_qty_weeks }}
+          </div>
+          {{ form.airport_transfer.label_tag }} {{ form.airport_transfer }}
         </div>
-        {{ form.date_start.label_tag }} {{ form.date_start }}
-        {{ form.accommodation.label_tag }} {{ form.accommodation }}
-        {{ form.airport_transfer.label_tag }} {{ form.airport_transfer }}
-      </div>
-      <div class="container py-2">
-        <h4>Datos Personales</h4>
-        <hr>
-        {{ form.name.label_tag }} {{ form.name }}
-        {{ form.nationality.label_tag }} {{ form.nationality }}
-        {{ form.dob.label_tag }} {{ form.dob }}
-        {{ form.email.label_tag }} {{ form.email }}
-        {{ form.phone.label_tag }} {{ form.phone }}
-      </div>
-      <div class="container py-2">
-        <h4>Detalle</h4>
-        <hr>
-        {{ form.total.label_tag }} {{ form.total }}
-      </div>
-      <div class="container pt-4">
-        <button class="btn btn-primary" type="submit">Obtener Presupuesto</button>
+        <div class="container py-2">
+          <h4>Datos Personales</h4>
+          <hr>
+          {{ form.name.label_tag }} {{ form.name }}
+          {{ form.nationality.label_tag }} {{ form.nationality }}
+          {{ form.dob.label_tag }} {{ form.dob }}
+          {{ form.email.label_tag }} {{ form.email }}
+          {{ form.phone.label_tag }} {{ form.phone }}
+        </div>
+        <div class="container">
+          <h4>Detalle</h4>
+          <hr>
+        </div>
+        <div id="total" class="container py-2">
+          {{ form.total.label_tag }} {{ form.total }}
+        </div>
+        <div class="container pt-4">
+          <button class="btn btn-primary" type="submit">Obtener Presupuesto</button>
+        </div>
       </div>
     </form>
   </div>

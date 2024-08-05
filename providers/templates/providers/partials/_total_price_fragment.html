@@ -1,0 +1,34 @@
+<table class="table">
+  <thead>
+      <tr>
+          <th scope="col">Detalle</th>
+          <th scope="col">Precio</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>{{ course_qty_weeks }} semanas de {{ course }}</td>
+          <td>{{ course_total }}</td>
+      </tr>
+      <tr>
+        <td>Matricula del curso</td>
+        <td>{{ course_enrollment_fee }}</td>
+      </tr>
+      <tr>
+        <td>{{ accommodation_qty_weeks }} semanas de {{ school_accommodation }}</td>
+        <td>{{ accommodation_total }}</td>
+      </tr>
+      <tr>
+        <td>{{ school_airport_transfer }}</td>
+        <td>{{ school_airport_transfer_price }}</td>
+      </tr>
+      <tr>
+        <td><strong>Total</strong></td>
+        <td>{{ total }}</td>
+      </tr>
+  </tbody>
+</table>
+
+
+{{ form.total.label_tag }} {{ form.total }}
+
