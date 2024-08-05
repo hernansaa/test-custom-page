@@ -24,13 +24,13 @@ class EnquiryForm(forms.ModelForm):
                   'accommodation', 'accommodation_qty_weeks', 'airport_transfer', 'name', 'nationality', 'dob', 
                   'email', 'phone']
     
-    course = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=Course.objects.none(), required=False, label='Curso')
+    course = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=Course.objects.none(), required=False, label='Curso', blank=False, empty_label=None)
     course_weekly_price = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label='Precio (semanal)', initial=0, disabled=True)
-    course_qty_weeks = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=CoursePrice.objects.none(), required=False, label='Semanas')
+    course_qty_weeks = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=CoursePrice.objects.none(), required=False, label='Semanas', empty_label=None, to_field_name='weeks', initial=1)
     date_start = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'min': datetime.now().date()}), label='Fecha Inicio')
     enrollment_fee = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label='Matrícula', disabled=True)
     total = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    accommodation = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=SchoolAccommodation.objects.none(), label='Alojamiento')
+    accommodation = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=SchoolAccommodation.objects.none(), label='Alojamiento', empty_label='¿Necesitas alojamiento?')
     accommodation_qty_weeks = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=AccommodationPrice.objects.none(), required=False, label='Semanas Alojamiento')
     airport_transfer = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=SchoolAirportTransfer.objects.all(), required=False, label='Traslado Aeropuerto')
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label='Nombre', max_length=100)
@@ -49,7 +49,7 @@ class EnquiryForm(forms.ModelForm):
         course_id = kwargs.pop('course_id', None)
         accommodation_id = kwargs.pop('accommodation_id', None)
         super().__init__(*args, **kwargs)
-        self.populate_dynamic_fields(school_id, course_id, accommodation_id)
+        self.populate_dynamic_fields(school_id, course_id, accommodation_id)        
     
     def populate_dynamic_fields(self, school_id, course_id, accommodation_id):
         """
@@ -62,13 +62,14 @@ class EnquiryForm(forms.ModelForm):
             school_id (int or None): The ID of the school to filter related fields.
             course_id (int or None): The ID of the course to filter related fields and set initial values.
         """
+
         if school_id is not None:
             self.fields['course'].queryset = Course.objects.filter(school=school_id)
             self.fields['accommodation'].queryset = SchoolAccommodation.objects.filter(school=school_id)
             self.fields['airport_transfer'].queryset = SchoolAirportTransfer.objects.filter(school=school_id)
         
         if course_id is not None:
-            self.fields['course_qty_weeks'].queryset = CoursePrice.objects.filter(course=course_id)
+            self.fields['course_qty_weeks'].queryset = CoursePrice.objects.all()
             self.fields['enrollment_fee'].initial = Course.objects.filter(course_id=course_id)
         
         if accommodation_id is not None:

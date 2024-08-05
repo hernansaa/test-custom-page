@@ -99,14 +99,9 @@ def school_details(request, pk):
     return render(request, 'providers/school-details.html', context)
 
 
-
 def update_course_price(request):
     # Initialize the form with POST data if available
     form = EnquiryForm(request.POST or None)
-    
-    # Initialize the current_course_qty_weeks variable to ensure it's always defined
-    current_course_qty_weeks = None
-    current_course_qty_weeks_id = form['course_qty_weeks'].value()
     
     course_id = request.POST.get('course')
     
@@ -117,30 +112,16 @@ def update_course_price(request):
         # Update the queryset for the 'course_qty_weeks' field
         form.fields['course_qty_weeks'].queryset = course_price
         
-        # Set the initial value of 'course_qty_weeks' to the current value if it exists and is valid
-        if current_course_qty_weeks_id:
-            try:
-                current_course_qty_weeks = CoursePrice.objects.get(id=current_course_qty_weeks_id).weeks
-                form.fields['course_qty_weeks'].initial = current_course_qty_weeks
-            except (CoursePrice.DoesNotExist, ValueError):
-                # Handle the case where the course price does not exist or the ID is invalid
-                form.fields['course_qty_weeks'].initial = None
-        
         # Set the initial value of 'enrollment_fee'
         form.fields['enrollment_fee'].initial = course.enrollment_fee
 
         context = {
             'form': form,
-            'current_course_qty_weeks_id': current_course_qty_weeks_id,
-            'current_course_qty_weeks': current_course_qty_weeks,  # This will be None if not found
         }
                 
         return render(request, 'providers/partials/_course_price_fragment.html', context)
     else:
         return JsonResponse({'error': 'Invalid course ID'}, status=400)
-
-
-
 
 
 def update_accommodation_price(request):
@@ -186,7 +167,7 @@ def update_total_price(request):
             course_price = course_price_obj.price
             course_qty_weeks = course_price_obj.weeks
             course_total = course_price * course_qty_weeks
-        total += course_total + course_enrollment_fee
+        total = course_total + course_enrollment_fee
 
     accommodation_id = request.POST.get('accommodation')
     if accommodation_id:

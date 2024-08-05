@@ -8,7 +8,7 @@
       {% csrf_token %}
       <div
         hx-post="{% url 'update_total_price' %}" 
-        hx-trigger="change" 
+        hx-trigger="change, load" 
         hx-target="#total" 
         hx-swap="innerHTML">
         <div class="container py-2">
@@ -16,7 +16,7 @@
           <div 
             id="course-weekly-price" 
             hx-post="{% url 'update_course_price' %}" 
-            hx-trigger="change from:#id_course" 
+            hx-trigger="change from:#id_course, load" 
             hx-target="#course-weekly-price" 
             hx-swap="innerHTML">
             {{ form.course_qty_weeks.label_tag }} {{ form.course_qty_weeks }}
@@ -43,7 +43,7 @@
           {{ form.email.label_tag }} {{ form.email }}
           {{ form.phone.label_tag }} {{ form.phone }}
         </div>
-        <div class="container">
+        <div class="">
           <h4>Detalle</h4>
           <hr>
         </div>
