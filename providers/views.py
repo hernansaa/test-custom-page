@@ -118,20 +118,22 @@ def update_course_price(request):
         context = {
             'form': form,
         }
-                
+
         return render(request, 'providers/partials/_course_price_fragment.html', context)
     else:
         return JsonResponse({'error': 'Invalid course ID'}, status=400)
 
 
 def update_accommodation_price(request):
+
+    form = EnquiryForm(request.POST or None)
     
     accommodation_id = request.POST.get('accommodation')
     
     if accommodation_id:
         school_accommodation = SchoolAccommodation.objects.get(id=accommodation_id)
-        form = EnquiryForm()
-        form.fields['accommodation_qty_weeks'].queryset = AccommodationPrice.objects.filter(accommodation_price_list__school_accommodation=school_accommodation)
+        accommodation_price_list = AccommodationPrice.objects.filter(accommodation_price_list__school_accommodation=school_accommodation)
+        form.fields['accommodation_qty_weeks'].queryset = accommodation_price_list
 
         return render(request, 'providers/partials/_accommodation_price_fragment.html', {'form': form})
     else:
@@ -161,20 +163,21 @@ def update_total_price(request):
     if course_id:
         course = get_object_or_404(Course, id=course_id)
         course_enrollment_fee = course.enrollment_fee
-        course_qty_weeks_id = request.POST.get('course_qty_weeks')
-        if course_qty_weeks_id:
-            course_price_obj = get_object_or_404(CoursePrice, id=course_qty_weeks_id)
-            course_price = course_price_obj.price
-            course_qty_weeks = course_price_obj.weeks
-            course_total = course_price * course_qty_weeks
-        total = course_total + course_enrollment_fee
+    
+    course_qty_weeks_id = request.POST.get('course_qty_weeks')
+    if course_qty_weeks_id:
+        course_price_obj = get_object_or_404(CoursePrice, course=course_id, weeks=course_qty_weeks_id)
+        course_price = course_price_obj.price
+        course_qty_weeks = course_price_obj.weeks
+        course_total = course_price * course_qty_weeks
+    total += course_total + course_enrollment_fee
 
     accommodation_id = request.POST.get('accommodation')
     if accommodation_id:
         school_accommodation = get_object_or_404(SchoolAccommodation, id=accommodation_id)
         accommodation_qty_weeks_id = request.POST.get('accommodation_qty_weeks')
         if accommodation_qty_weeks_id:
-            accommodation_price_obj = get_object_or_404(AccommodationPrice, id=accommodation_qty_weeks_id)
+            accommodation_price_obj = get_object_or_404(AccommodationPrice, accommodation_price_list__school_accommodation=school_accommodation, qty_weeks=accommodation_qty_weeks_id)
             accommodation_qty_weeks = accommodation_price_obj.qty_weeks
             accommodation_week_price_ls = accommodation_price_obj.week_price_ls
             accommodation_total = accommodation_qty_weeks * accommodation_week_price_ls

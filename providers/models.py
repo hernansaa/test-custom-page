@@ -134,8 +134,8 @@ class CoursePrice(models.Model):
     weeks = models.PositiveIntegerField()
     price = models.DecimalField(decimal_places=2, max_digits=6)
 
-    # class Meta:
-    #     unique_together = ('course', 'weeks')
+    class Meta:
+       unique_together = ('course', 'weeks')
 
     def __str__(self):
         return f"{self.weeks} semanas ({self.weeks * self.price})"
@@ -249,6 +249,9 @@ class AccommodationPrice(models.Model):
     week_price_hs = models.DecimalField(decimal_places=2, max_digits=6) # hs = high season
     week_price_promotional = models.DecimalField(decimal_places=2, max_digits=6)
     accommodation_price_list = models.ForeignKey(AccommodationPriceList, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+       unique_together = ('accommodation_price_list', 'qty_weeks')
 
     def __str__(self):
         return f"{self.qty_weeks} semanas - ls: {self.week_price_ls} - hs: {self.week_price_hs} - prom: {self.week_price_promotional}"

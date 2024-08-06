@@ -8,7 +8,7 @@
       {% csrf_token %}
       <div
         hx-post="{% url 'update_total_price' %}" 
-        hx-trigger="change, load" 
+        hx-trigger="load, change" 
         hx-target="#total" 
         hx-swap="innerHTML">
         <div class="container py-2">
@@ -16,9 +16,10 @@
           <div 
             id="course-weekly-price" 
             hx-post="{% url 'update_course_price' %}" 
-            hx-trigger="change from:#id_course, load" 
+            hx-trigger="load, change from:#id_course" 
             hx-target="#course-weekly-price" 
-            hx-swap="innerHTML">
+            hx-swap="innerHTML"
+            hx-on="htmx:afterRequest: hx-trigger: change from:#id_course, change from:#id_accommodation, htmx:afterOnLoad from:#id_course">
             {{ form.course_qty_weeks.label_tag }} {{ form.course_qty_weeks }}
             {{ form.enrollment_fee.label_tag }} {{ form.enrollment_fee }}
           </div>
@@ -29,7 +30,8 @@
             hx-post="{% url 'update_accommodation_price' %}" 
             hx-trigger="change from:#id_accommodation"
             hx-target="#accommodation-weekly-price" 
-            hx-swap="innerHTML">
+            hx-swap="innerHTML"
+            hx-on="htmx:afterRequest: hx-trigger: change from:#id_course, change from:#id_accommodation, htmx:afterOnLoad from:#id_accommodation">
             {{ form.accommodation_qty_weeks.label_tag }} {{ form.accommodation_qty_weeks }}
           </div>
           {{ form.airport_transfer.label_tag }} {{ form.airport_transfer }}
@@ -47,8 +49,12 @@
           <h4>Detalle</h4>
           <hr>
         </div>
-        <div id="total" class="container py-2">
-          {{ form.total.label_tag }} {{ form.total }}
+        <div id="total" class="container py-2"
+          hx-post="{% url 'update_total_price' %}" 
+          hx-trigger="htmx:afterRequest from:#course-weekly-price, htmx:afterRequest from:#accommodation-weekly-price" 
+          hx-target="#total" 
+          hx-swap="innerHTML">
+          {{ form.total }}
         </div>
         <div class="container pt-4">
           <button class="btn btn-primary" type="submit">Obtener Presupuesto</button>
