@@ -145,7 +145,7 @@ def update_total_price(request):
 
     total = 0
     
-    course = None
+    course = 'Curso'
     course_qty_weeks = 0
     course_price = 0
     course_enrollment_fee = 0
@@ -154,9 +154,9 @@ def update_total_price(request):
     accommodation_total = 0
     accommodation_qty_weeks = 0
     accommodation_week_price_ls = 0
-    school_accommodation = None
+    school_accommodation = 'alojamiento'
 
-    school_airport_transfer = None
+    school_airport_transfer = 'Sin traslado aeropuerto'
     school_airport_transfer_price = 0
 
     course_id = request.POST.get('course')

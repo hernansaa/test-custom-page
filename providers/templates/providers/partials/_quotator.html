@@ -45,11 +45,11 @@
           {{ form.email.label_tag }} {{ form.email }}
           {{ form.phone.label_tag }} {{ form.phone }}
         </div>
-        <div class="">
+        <div class="container pt-2">
           <h4>Detalle</h4>
           <hr>
         </div>
-        <div id="total" class="container py-2"
+        <div id="total" class="container"
           hx-post="{% url 'update_total_price' %}" 
           hx-trigger="htmx:afterRequest from:#course-weekly-price, htmx:afterRequest from:#accommodation-weekly-price" 
           hx-target="#total" 
