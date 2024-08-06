@@ -26,7 +26,7 @@ class EnquiryForm(forms.ModelForm):
     
     course = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=Course.objects.none(), required=False, label='Curso', blank=False, empty_label=None)
     course_weekly_price = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label='Precio (semanal)', initial=0, disabled=True)
-    course_qty_weeks = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=CoursePrice.objects.none(), required=False, label='Semanas', to_field_name='weeks', empty_label=None)
+    course_qty_weeks = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=CoursePrice.objects.none(), required=False, label='Semanas', to_field_name='qty_weeks', empty_label=None)
     date_start = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'min': datetime.now().date()}), label='Fecha Inicio')
     enrollment_fee = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'hidden'}), label='Matrícula', disabled=True)
     total = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'hidden'}))

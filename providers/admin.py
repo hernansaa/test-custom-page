@@ -27,9 +27,11 @@ from .models import (
     SchoolAgencyBranch,
     Course,
     Address,
-    CoursePrice,
+    #CoursePrice,
     AccommodationPrice,
     AccommodationPriceList,
+    CoursePrice,
+    CoursePriceList,
 )
 
 # Register your models here.
@@ -164,7 +166,7 @@ class SchoolContactInformationAdmin(admin.ModelAdmin):
 
 
 class CoursePriceAdmin(admin.ModelAdmin):
-    list_display = ('id', 'weeks', 'price')
+    list_display = ('id', 'qty_weeks')
 
 
 class CoursePriceInline(admin.TabularInline):
@@ -174,9 +176,9 @@ class CoursePriceInline(admin.TabularInline):
 
 class CourseAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'school')
-    inlines = [
-        CoursePriceInline,
-    ]
+    # inlines = [
+    #     CoursePriceInline,
+    # ]
 
 
 class AccommodationPriceInline(admin.TabularInline):
@@ -188,6 +190,13 @@ class AccommodationPriceListAdmin (admin.ModelAdmin):
     list_display = ('school_accommodation', 'year')
     inlines = [
         AccommodationPriceInline,
+    ]
+
+
+class CoursePriceListAdmin (admin.ModelAdmin):
+    list_display = ('id', 'course', 'year')
+    inlines = [
+        CoursePriceInline,
     ]
 
 
@@ -206,6 +215,7 @@ admin.site.register(NationalityMix)
 admin.site.register(ContactInformation)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Address, AddressAdmin)
-admin.site.register(CoursePrice, CoursePriceAdmin)
+# admin.site.register(CoursePrice) Not needed so far since I have it as inline in the CoursePriceList Admin
+admin.site.register(CoursePriceList, CoursePriceListAdmin)
 #admin.site.register(AccommodationPrice) Not needed so far since I have it as inline in the AccommodationPriceList Admin
 admin.site.register(AccommodationPriceList, AccommodationPriceListAdmin)

@@ -1,6 +1,7 @@
 from django.db import models
 
 from branches.models import AgencyBranch
+from currencies.models import Currency
 
 # Create your models here.
 
@@ -39,8 +40,7 @@ class Enquiry(models.Model):
     total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     branch = models.ForeignKey(AgencyBranch, on_delete=models.CASCADE, null=True, blank=True)
-    # Create model for employes (seller) and make it here
-    
+    # Create model for employes (seller) and add it here.
 
     def __str__(self):
         return f"Enquiry from {self.name} ({self.email})"

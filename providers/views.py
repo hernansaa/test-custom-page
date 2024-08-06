@@ -45,8 +45,11 @@ def school_details(request, pk):
         accommodation_id = request.POST.get('accommodation')
         
         if course_id:
-            course = get_object_or_404(Course, id=course_id)
-            form.fields['course_qty_weeks'].queryset = CoursePrice.objects.filter(course_id=course_id)
+            # course = get_object_or_404(Course, id=course_id)
+            # form.fields['course_qty_weeks'].queryset = CoursePrice.objects.filter(course_id=course_id)
+            
+            course = Course.objects.get(id=course_id)
+            form.fields['course_qty_weeks'].queryset = CoursePrice.objects.filter(course_price_list__course=course)
             form.fields['enrollment_fee'].initial= course.enrollment_fee
     
         if accommodation_id:
@@ -106,11 +109,15 @@ def update_course_price(request):
     course_id = request.POST.get('course')
     
     if course_id:
-        course = get_object_or_404(Course, id=course_id)
-        course_price = CoursePrice.objects.filter(course_id=course_id)
+        # course = get_object_or_404(Course, id=course_id)
+        # course_price = CoursePrice.objects.filter(course_id=course_id)
         
-        # Update the queryset for the 'course_qty_weeks' field
-        form.fields['course_qty_weeks'].queryset = course_price
+        # # Update the queryset for the 'course_qty_weeks' field
+        # form.fields['course_qty_weeks'].queryset = course_price
+
+        course = Course.objects.get(id=course_id)
+        form.fields['course_qty_weeks'].queryset = CoursePrice.objects.filter(course_price_list__course=course)
+        form.fields['enrollment_fee'].initial= course.enrollment_fee
         
         # Set the initial value of 'enrollment_fee'
         form.fields['enrollment_fee'].initial = course.enrollment_fee
@@ -166,9 +173,9 @@ def update_total_price(request):
     
     course_qty_weeks_id = request.POST.get('course_qty_weeks')
     if course_qty_weeks_id:
-        course_price_obj = get_object_or_404(CoursePrice, course=course_id, weeks=course_qty_weeks_id)
-        course_price = course_price_obj.price
-        course_qty_weeks = course_price_obj.weeks
+        course_price_obj = get_object_or_404(CoursePrice, course_price_list__course=course_id, qty_weeks=course_qty_weeks_id)
+        course_price = course_price_obj.week_price_ls
+        course_qty_weeks = course_price_obj.qty_weeks
         course_total = course_price * course_qty_weeks
     total += course_total + course_enrollment_fee
 
