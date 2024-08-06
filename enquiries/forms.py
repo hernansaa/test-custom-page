@@ -28,7 +28,7 @@ class EnquiryForm(forms.ModelForm):
     course_weekly_price = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label='Precio (semanal)', initial=0, disabled=True)
     course_qty_weeks = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=CoursePrice.objects.none(), required=False, label='Semanas', to_field_name='weeks', empty_label=None)
     date_start = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'min': datetime.now().date()}), label='Fecha Inicio')
-    enrollment_fee = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label='Matrícula', disabled=True)
+    enrollment_fee = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'hidden'}), label='Matrícula', disabled=True)
     total = forms.DecimalField(widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'hidden'}))
     accommodation = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=SchoolAccommodation.objects.none(), label='Alojamiento', empty_label='¿Necesitas alojamiento?')
     accommodation_qty_weeks = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=AccommodationPrice.objects.none(), required=False, to_field_name='qty_weeks', label='Semanas Alojamiento', empty_label='¿Cuantas Semanas?')

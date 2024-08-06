@@ -1,5 +1,7 @@
 from django.db import models
 
+from branches.models import AgencyBranch
+
 # Create your models here.
 
 
@@ -17,6 +19,9 @@ class Inquiry(models.Model):
     
 
 class Enquiry(models.Model):
+    """
+    Needs to be upgrade in de DER
+    """
     name = models.CharField(max_length=100)
     nationality = models.ForeignKey('locations.Country', null=True, blank=True, on_delete=models.CASCADE)
     dob = models.DateField(null=True, blank=True)  # Added date of birth field
@@ -33,8 +38,8 @@ class Enquiry(models.Model):
     airport_transfer = models.ForeignKey('providers.SchoolAirportTransfer', null=True, blank=True, on_delete=models.CASCADE)
     total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    # Add branch assigned
-    # Add seller assigned
+    branch = models.ForeignKey(AgencyBranch, on_delete=models.CASCADE, null=True, blank=True)
+    # Create model for employes (seller) and make it here
     
 
     def __str__(self):

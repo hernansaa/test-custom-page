@@ -21,7 +21,7 @@
             hx-swap="innerHTML"
             hx-on="htmx:afterRequest: hx-trigger: change from:#id_course, change from:#id_accommodation, htmx:afterOnLoad from:#id_course">
             {{ form.course_qty_weeks.label_tag }} {{ form.course_qty_weeks }}
-            {{ form.enrollment_fee.label_tag }} {{ form.enrollment_fee }}
+            {{ form.enrollment_fee }}
           </div>
           {{ form.date_start.label_tag }} {{ form.date_start }}
           {{ form.accommodation.label_tag }} {{ form.accommodation }}

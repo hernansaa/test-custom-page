@@ -82,7 +82,7 @@ class InquiryAdmin(admin.ModelAdmin):
     
 
 class EnquiryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'email', 'nationality', 'phone', 'program', 'created_at']
+    list_display = ['name', 'email', 'nationality', 'phone', 'program','branch', 'created_at']
     list_filter = ['program', 'created_at']
     search_fields = ['name', 'email', 'nationality']
     list_per_page = 20
@@ -100,6 +100,9 @@ class EnquiryAdmin(admin.ModelAdmin):
         }),
         ('Total', {
             'fields': ('total',)
+        }),
+        ('Assigment', {
+            'fields': ('branch',)
         }),
         ('Timestamps', {
             'fields': ('created_at',)
