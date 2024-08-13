@@ -86,6 +86,7 @@ class EnquiryAdmin(admin.ModelAdmin):
     list_filter = ['program', 'created_at']
     search_fields = ['name', 'email', 'nationality']
     list_per_page = 20
+    list_editable = ['branch']
 
     fieldsets = (
         ('Personal Information', {
