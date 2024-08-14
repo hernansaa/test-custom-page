@@ -22,6 +22,7 @@ class EmployeeProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     department = models.CharField(max_length=100)
     job_title = models.CharField(max_length=100)
+    branch = models.ForeignKey(AgencyBranch, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.job_title}"
+        return f"{self.user.username} ({self.job_title})"
