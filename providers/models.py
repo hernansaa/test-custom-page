@@ -175,7 +175,7 @@ class CoursePrice(models.Model):
        unique_together = ('course_price_list', 'qty_weeks')
 
     def __str__(self):
-        return f"{self.qty_weeks} semanas - ls: {self.week_price_ls} - hs: {self.week_price_hs} - prom: {self.week_price_promotional}"
+        return f"{self.qty_weeks} semanas"
 
 
 class Address(models.Model):
@@ -261,7 +261,7 @@ class SchoolAccommodation(models.Model):
     name =  models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.accommodation.type} | {self.name} | {self.school}"
+        return f"{self.accommodation.type} | {self.name}"
 
 
 class AccommodationPriceList(models.Model):
@@ -291,7 +291,7 @@ class AccommodationPrice(models.Model):
        unique_together = ('accommodation_price_list', 'qty_weeks')
 
     def __str__(self):
-        return f"{self.qty_weeks} semanas - ls: {self.week_price_ls} - hs: {self.week_price_hs} - prom: {self.week_price_promotional}"
+        return f"{self.qty_weeks} semanas"
 
 
 class SchoolAirportTransfer(models.Model):

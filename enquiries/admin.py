@@ -82,15 +82,15 @@ class InquiryAdmin(admin.ModelAdmin):
     
 
 class EnquiryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'rating','follow_up_date', 'email', 'nationality', 'phone', 'program', 'branch', 'employee', 'created_at']
+    list_display = ['student', 'rating','follow_up_date', 'email', 'nationality', 'phone', 'program', 'branch', 'employee', 'created_at']
     list_filter = ['rating', 'program', 'branch', 'employee', 'created_at', 'follow_up_date']
-    search_fields = ['name', 'email', 'nationality']
+    search_fields = ['name', 'surname', 'email', 'nationality']
     list_per_page = 20
     list_editable = ['branch','employee', 'rating', 'follow_up_date']
 
     fieldsets = (
         ('Personal Information', {
-            'fields': ('name', 'dob', 'nationality', 'email', 'phone')
+            'fields': ('name','surname', 'student', 'dob', 'nationality', 'email', 'phone')
         }),
         ('Course Information', {
             'fields': ('program', 'course', 'date_start', 'course_weekly_price', 'course_qty_weeks', 'enrollment_fee',

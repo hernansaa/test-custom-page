@@ -9,6 +9,8 @@ from locations.models import Country
 from enquiries.forms import EnquiryForm
 from enquiries.models import Enquiry
 
+from students.models import StudentProfile
+
 # Create your views here.
 
 
@@ -57,9 +59,18 @@ def school_details(request, pk):
             form.fields['accommodation_qty_weeks'].queryset = AccommodationPrice.objects.filter(accommodation_price_list__school_accommodation=school_accommodation)
 
         if form.is_valid():
-            # Create a new Inquiry object but don't save it yet
+            # Creates a new StudenProfile object but don't save it yet
+            student = StudentProfile(
+                name=form.cleaned_data['name'],
+                surname=form.cleaned_data['surname'],
+                email=form.cleaned_data['email'],
+                dob=form.cleaned_data['dob'],
+            )
+            student.save()
+            # Creates a new Enquiry object but don't save it yet
             enquiry = Enquiry(
                 name=form.cleaned_data['name'],
+                surname=form.cleaned_data['surname'],
                 dob=form.cleaned_data['dob'],
                 nationality=form.cleaned_data['nationality'],
                 email=form.cleaned_data['email'],
@@ -73,6 +84,7 @@ def school_details(request, pk):
                 course_qty_weeks=form.cleaned_data['course_qty_weeks'],
                 accommodation_qty_weeks=form.cleaned_data['accommodation_qty_weeks'],
                 total=form.cleaned_data['total'],
+                student=student
             )
             enquiry.save()
             # Optionally, we can redirect to a success page or clear the form

@@ -1,6 +1,7 @@
 from django.db import models
 
 from branches.models import AgencyBranch, EmployeeProfile
+from students.models import StudentProfile
 from currencies.models import Currency
 
 # Create your models here.
@@ -30,6 +31,7 @@ class Enquiry(models.Model):
     ]
 
     name = models.CharField(max_length=100)
+    surname = models.CharField(max_length=100, null=True, blank=True)
     nationality = models.ForeignKey('locations.Country', null=True, blank=True, on_delete=models.CASCADE)
     dob = models.DateField(null=True, blank=True)  # Added date of birth field
     email = models.EmailField()
@@ -49,6 +51,8 @@ class Enquiry(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     branch = models.ForeignKey(AgencyBranch, on_delete=models.CASCADE, null=True, blank=True)
     employee = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE, null=True, blank=True)
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, null=True, blank=True)  # Added this line
+
 
     def __str__(self):
         return f"Enquiry from {self.name} ({self.email})"

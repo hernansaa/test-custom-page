@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'students',
     'currencies',
     'django_mailbox',
     'branches',
