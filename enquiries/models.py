@@ -23,6 +23,12 @@ class Enquiry(models.Model):
     """
     Needs to be upgrade in de DER
     """
+    ENQUIRY_RATING = [
+        ('hot', 'hot'),
+        ('cold', 'cold'),
+        ('enrolled', 'enrolled'),
+    ]
+
     name = models.CharField(max_length=100)
     nationality = models.ForeignKey('locations.Country', null=True, blank=True, on_delete=models.CASCADE)
     dob = models.DateField(null=True, blank=True)  # Added date of birth field
@@ -38,6 +44,8 @@ class Enquiry(models.Model):
     accommodation_qty_weeks = models.ForeignKey('providers.AccommodationPrice', on_delete=models.CASCADE, null=True, blank=True)
     airport_transfer = models.ForeignKey('providers.SchoolAirportTransfer', null=True, blank=True, on_delete=models.CASCADE)
     total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    rating = models.CharField(max_length=10, choices=ENQUIRY_RATING, null=True, blank=True)
+    follow_up_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     branch = models.ForeignKey(AgencyBranch, on_delete=models.CASCADE, null=True, blank=True)
     employee = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE, null=True, blank=True)

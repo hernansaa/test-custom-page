@@ -82,11 +82,11 @@ class InquiryAdmin(admin.ModelAdmin):
     
 
 class EnquiryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'email', 'nationality', 'phone', 'program', 'branch', 'employee', 'created_at']
-    list_filter = ['program', 'branch', 'employee', 'created_at']
+    list_display = ['name', 'rating', 'email', 'nationality', 'phone', 'program', 'branch', 'employee', 'created_at']
+    list_filter = ['rating', 'program', 'branch', 'employee', 'created_at']
     search_fields = ['name', 'email', 'nationality']
     list_per_page = 20
-    list_editable = ['branch','employee']
+    list_editable = ['branch','employee', 'rating']
 
     fieldsets = (
         ('Personal Information', {
