@@ -6,7 +6,7 @@
     {% include 'programs/partials/_hero_program.html' %}
 
     <!-- Include the _results partial -->
-    <section class="details mt-5">
+    <!-- <section class="details mt-5">
         <div class="container py-4">
           <div class="row">
             <div class="col-lg-6">
@@ -116,99 +116,134 @@
         </form>
     </div>
 
+ -->
 
 
+ <section class="details mt-5">
+  <div class="container py-4">
+    <div class="row">
+      <!-- Main Content Column -->
+      <div class="col-lg-8">
+        <!-- DESCRIPTION -->
+        <div class="container pb-4">
+          <h3>Descripción</h3>
+          <hr>
+          <div class="mb-4">
+            <p>{{ experience.description }}</p>
+          </div>
+        </div>
+        <!-- END DESCRIPTION -->
+
+        <!-- DESCRIPTION -->
+        <div class="container pb-4">
+          <h3>Detalles de la experiencia</h3>
+          <hr>
+          <div class="mb-4">
+            <p class="fw-bold mb-2">Experiencia:</p>
+            <p>{{ experience.name }}</p>
+          </div>
+          <div class="mb-4">
+            <p class="fw-bold mb-2">Ubicacion:</p>
+            <p>{{ experience.city }}</p>
+          </div>
+          <div class="mb-4">
+            <p class="fw-bold mb-2">Duración:</p>
+            <p>{{ experience.duration_from_weeks }} to {{ experience.duration_to_weeks }} weeks</p>
+          </div>
+          <div class="mb-4">
+            <p class="fw-bold mb-2">Permite trabajar:</p>
+            <p>
+              {% if experience.allows_work == 'yes' %}
+                <span class="text-success">Yes</span>
+              {% else %}
+                <span class="text-danger">No</span>
+              {% endif %}
+            </p>
+          </div>
+        </div>
+        <!-- END DESCRIPTION -->
 
 
+        <!-- COURSE DETAILS -->
+        <div class="container pb-4">
+          <h3>Detalles de Curso</h3>
+          <hr>
+          <div class="mb-4">
+            <p class="fw-bold mb-2">Tipo de Curso:</p>
+            <p>{{ experience.course.name }}</p>
+          </div>
+          <div class="mb-4">
+            <p class="fw-bold mb-2">Nombre del curso:</p>
+            <p>{{ experience.course.name }}</p>
+          </div>
+          <div class="mb-4">
+            <p class="fw-bold mb-2">Descripcion del curso:</p>
+            <p>{{ experience.course.description }}</p>
+          </div>
+        </div>
+        <!-- END COURSE DETAILS -->
 
+        <!-- ADDITIONAL INFORMATION -->
+        <div class="container pb-4">
+          <h3>Informacion adicional</h3>
+          <hr>
+          <div class="mb-4">
+            <p class="fw-bold mb-2">Tipo de Curso:</p>
+            <p>{{ experience.course.name }}</p>
+          </div>
+          <div class="mb-4">
+            <p class="fw-bold mb-2">Nombre del curso:</p>
+            <p>{{ experience.course.name }}</p>
+          </div>
+          <div class="mb-4">
+            <p class="fw-bold mb-2">Descripcion del curso:</p>
+            <p>{{ experience.course.description }}</p>
+          </div>
+        </div>
+        <!-- END ADDITIONAL INFORMATION -->
 
+        <!-- FAQ -->
+        <div class="container pb-4">
+          <h3>FAQ</h3>
+          <hr>
+          <div class="accordion pb-4" id="accordionExample">
+            {% for faq in faqs %}
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse-{{ forloop.counter }}" aria-expanded="true"
+                        aria-controls="collapse-{{ forloop.counter }}">
+                        <strong>{{ faq.question }}</strong>
+                        <!-- <span class="ms-2"> | {{ course.hours_per_week }} lecciones por semana</span> -->
+                    </button>
+                </h2>
+                <div id="collapse-{{ forloop.counter }}" class="accordion-collapse collapse"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <p>{{ faq.answer }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        </div>
+        <!-- FAQ -->
 
-    <section class="details mt-5">
+      </div>
 
-      <div class="container py-4">
-          <div class="row">
-              <div class="col-lg-8">
-  
-  
-  
-  
-                  <!-- DESCRIPTION -->
-  
-                  <div class="container pb-4">
-                      <h3>Descripción</h3>
-                      <hr>
-                      <p>{{ experience.description }}</p>
-                  </div> <!-- END DESCRIPTION -->
-  
-  
-  
-  
-                  <!-- FACILITIES -->
-  
-                  <div class="container pb-4">
-                      <h3>Instalaciones generales</h3>
-                      <hr>
-                      
-
-                  </div> <!-- END FACILITIES -->
-  
-  
-  
-  
-                  <!-- CLASSROOM EQUIPMENT -->
-  
-                  <div class="container pb-4">
-                      <h3>Equipamiento del aula</h3>
-                      <hr>
-                  
-
-
-                  </div><!-- END CLASSROOM EQUIPMENT -->
-  
-  
-  
-  
-                  <!-- COURSES -->
-  
-                  <div class="container pb-4">
-                      <h3>Cursos</h3>
-                      <hr>
-                     
-                  </div>
-                  <!-- END COURSES -->
-  
-  
-  
-
-  
-  
-  
-  
-  
-              <div class="col-lg-4">
-                  
-                <h3>Consulta</h3>
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary">Submit Inquiry</button>
-                </form>
-  
-              </div>
-  
-  
-  </section>
-
-
-
-
-
-
-
-
-
-
-
+      <!-- Sidebar Column -->
+      <div class="col-lg-4">
+        <h3>Consulta</h3>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary">Submit Inquiry</button>
+        </form>
+      </div>
+      <!-- End Sidebar Column -->
+    </div>
+  </div>
+</section>
 
 
 

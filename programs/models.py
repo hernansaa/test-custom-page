@@ -36,6 +36,15 @@ class Requirement(models.Model):
 
     def __str__(self):
         return self.description
+    
+
+class Faq(models.Model):
+    question = models.CharField(max_length=150, null=True, blank=True)
+    answer = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.question}"
+
 
 class Experience(models.Model):
     YES_NO_CHOICES = [
@@ -73,7 +82,9 @@ class Experience(models.Model):
         )
     
     # school_name = models.CharField(max_length=255)
-    # course_type = models.ForeignKey(CourseType, on_delete=models.CASCADE)
+    course_type = models.ForeignKey(CourseType, on_delete=models.CASCADE, null=True, blank=True)
+    faqs = models.ManyToManyField(Faq, through='ExperienceFaq', related_name='experiences', blank=True)
+
     # course_name = models.CharField(max_length=255)
     # course_description = models.TextField()
     # course_weeks_duration = models.IntegerField()
@@ -94,6 +105,7 @@ class ExperienceIncluded(models.Model):
     def __str__(self):
         return f"{self.experience.name} includes {self.include.description}"
 
+
 class ExperienceNotIncluded(models.Model):
     experience = models.ForeignKey(Experience, on_delete=models.CASCADE)
     not_include = models.ForeignKey(NotInclude, on_delete=models.CASCADE)
@@ -104,6 +116,7 @@ class ExperienceNotIncluded(models.Model):
     def __str__(self):
         return f"{self.experience.name} does not include {self.not_include.description}"
 
+
 class ExperienceRequirement(models.Model):
     experience = models.ForeignKey(Experience, on_delete=models.CASCADE)
     requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE)
@@ -113,3 +126,11 @@ class ExperienceRequirement(models.Model):
 
     def __str__(self):
         return f"{self.experience.name} requires {self.requirement.description}"
+    
+
+class ExperienceFaq(models.Model):
+    experience = models.ForeignKey(Experience, on_delete=models.CASCADE, null=True, blank=True)
+    faq = models.ForeignKey(Faq, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.experience.name}"

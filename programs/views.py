@@ -68,6 +68,7 @@ def program_details(request, pk):
     
     # Retrieve the Experience object based on the pk from URL
     experience = get_object_or_404(Experience, pk=pk)
+    faqs = experience.faqs.all()
 
     if request.method == 'POST':
         form = InquiryForm(request.POST)
@@ -89,6 +90,7 @@ def program_details(request, pk):
     context = {
         'experience': experience,
         'form': form,
+        'faqs': faqs
     }
     
     return render(request, 'programs/program-details.html', context)
