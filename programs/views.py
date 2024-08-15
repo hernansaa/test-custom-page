@@ -2,10 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Experience, CourseType
 from locations.models import Country
 
+from django.http import JsonResponse
+
+from providers.models import School, Course
+
 from enquiries.forms import InquiryForm
 from enquiries.models import Inquiry
 
-def index(request):
+def index(request): 
     
     experiences = Experience.objects.all()
     countries = Country.objects.all()
@@ -88,3 +92,10 @@ def program_details(request, pk):
     }
     
     return render(request, 'programs/program-details.html', context)
+
+
+
+def filter_courses(request):
+    school_id = request.POST.get('school_id')
+    courses = Course.objects.filter(school_id=school_id).values('id', 'name')
+    return JsonResponse(list(courses), safe=False)

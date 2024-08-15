@@ -1,4 +1,8 @@
 from django.db import models
+
+from smart_selects.db_fields import ChainedForeignKey
+
+from providers.models import School, Course
 from locations.models import City
 
 # Create your models here.
@@ -56,13 +60,25 @@ class Experience(models.Model):
     includes = models.ManyToManyField(Include, through='ExperienceIncluded', related_name='included_in_experiences')
     not_includes = models.ManyToManyField(NotInclude, through='ExperienceNotIncluded', related_name='not_included_in_experiences')
     requirements = models.ManyToManyField(Requirement, through='ExperienceRequirement', related_name='required_in_experiences')
-    school_name = models.CharField(max_length=255)
-    course_type = models.ForeignKey(CourseType, on_delete=models.CASCADE)
-    course_name = models.CharField(max_length=255)
-    course_description = models.TextField()
-    course_weeks_duration = models.IntegerField()
-    course_start_date = models.DateField(null=True, blank=True)
-    course_end_date = models.DateField(null=True, blank=True)
+    school = models.ForeignKey(School, on_delete=models.CASCADE, null=True)
+    course = ChainedForeignKey(
+        Course, 
+        chained_field="school",
+        chained_model_field="school",
+        show_all=False,
+        auto_choose=False,
+        sort=True,
+        null=True,
+        blank=True,
+        )
+    
+    # school_name = models.CharField(max_length=255)
+    # course_type = models.ForeignKey(CourseType, on_delete=models.CASCADE)
+    # course_name = models.CharField(max_length=255)
+    # course_description = models.TextField()
+    # course_weeks_duration = models.IntegerField()
+    # course_start_date = models.DateField(null=True, blank=True)
+    # course_end_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.name

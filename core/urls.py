@@ -24,7 +24,8 @@ urlpatterns = [
     path('', include('home.urls')),
     path('', include('providers.urls')),
     path('', include('programs.urls')),  # Include URLs from the 'programs' app
-] 
+    path('smart_selects/', include('smart_selects.urls')),
+]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

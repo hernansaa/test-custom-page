@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'smart_selects',
     'students',
     'currencies',
     'django_mailbox',
@@ -160,3 +161,9 @@ DEFAULT_FROM_EMAIL = 'hernan@globalstudies.es'
 
 # Security settings (ensure you keep your password secure)
 # It's recommended to use environment variables to store sensitive information
+
+
+# Include jQuery in every page that includes a field from smart_selects, or set
+ 
+USE_DJANGO_JQUERY = True
+

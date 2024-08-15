@@ -4,37 +4,42 @@ from .models import (
     Experience, ExperienceIncluded, ExperienceNotIncluded, ExperienceRequirement
 )
 
-# Register your models here.
-
 
 class CourseTypeAdmin(admin.ModelAdmin):
     list_display = ('id', 'description')
 
+
 class IncludeAdmin(admin.ModelAdmin):
     list_display = ('include_id', 'description', 'icon')
+
 
 class NotIncludeAdmin(admin.ModelAdmin):
     list_display = ('not_include_id', 'description', 'icon')
 
+
 class RequirementAdmin(admin.ModelAdmin):
     list_display = ('requirement_id', 'description')
+
 
 class ExperienceIncludedInline(admin.TabularInline):
     model = ExperienceIncluded
     extra = 1
 
+
 class ExperienceNotIncludedInline(admin.TabularInline):
     model = ExperienceNotIncluded
     extra = 1
+
 
 class ExperienceRequirementInline(admin.TabularInline):
     model = ExperienceRequirement
     extra = 1
 
+
 class ExperienceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'city', 'duration_from_weeks', 'duration_to_weeks', 'allows_work', 'price')
+    list_display = ('name', 'city', 'duration_from_weeks', 'duration_to_weeks', 'allows_work', 'price', 'school', 'course')
     list_filter = ('allows_work', 'city', 'start_date', 'end_date')
-    search_fields = ('name', 'city__name', 'country__name', 'school_name', 'school_course_name')
+    search_fields = ('name', 'city__name', 'school__name', 'course__name')
     inlines = [ExperienceIncludedInline, ExperienceNotIncludedInline, ExperienceRequirementInline]
     save_as = True
    

@@ -35,19 +35,19 @@
               <h3 class="fw-bold mb-3">Course Details</h3>
               <div class="mb-4">
                 <p class="fw-bold mb-2">School Name:</p>
-                <p>{{ experience.school_name }}</p>
+                <p>{{ experience.school.name }}</p>
               </div>
               <div class="mb-4">
                 <p class="fw-bold mb-2">Course Type:</p>
-                <p>{{ experience.course_type }}</p>
+                <p>{{ experience.course.name }}</p>
               </div>
               <div class="mb-4">
                 <p class="fw-bold mb-2">Course Name:</p>
-                <p>{{ experience.course_name }}</p>
+                <p>{{ experience.course.name }}</p>
               </div>
               <div class="mb-4">
                 <p class="fw-bold mb-2">Course Description:</p>
-                <p>{{ experience.course_description }}</p>
+                <p>{{ experience.course.description }}</p>
               </div>
             </div>
             <div class="col-lg-6">
@@ -115,6 +115,103 @@
             <button type="submit" class="btn btn-primary">Submit Inquiry</button>
         </form>
     </div>
+
+
+
+
+
+
+
+
+    <section class="details mt-5">
+
+      <div class="container py-4">
+          <div class="row">
+              <div class="col-lg-8">
+  
+  
+  
+  
+                  <!-- DESCRIPTION -->
+  
+                  <div class="container pb-4">
+                      <h3>Descripción</h3>
+                      <hr>
+                      <p>{{ experience.description }}</p>
+                  </div> <!-- END DESCRIPTION -->
+  
+  
+  
+  
+                  <!-- FACILITIES -->
+  
+                  <div class="container pb-4">
+                      <h3>Instalaciones generales</h3>
+                      <hr>
+                      
+
+                  </div> <!-- END FACILITIES -->
+  
+  
+  
+  
+                  <!-- CLASSROOM EQUIPMENT -->
+  
+                  <div class="container pb-4">
+                      <h3>Equipamiento del aula</h3>
+                      <hr>
+                  
+
+
+                  </div><!-- END CLASSROOM EQUIPMENT -->
+  
+  
+  
+  
+                  <!-- COURSES -->
+  
+                  <div class="container pb-4">
+                      <h3>Cursos</h3>
+                      <hr>
+                     
+                  </div>
+                  <!-- END COURSES -->
+  
+  
+  
+
+  
+  
+  
+  
+  
+              <div class="col-lg-4">
+                  
+                <h3>Consulta</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Submit Inquiry</button>
+                </form>
+  
+              </div>
+  
+  
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       
 {% endblock %}
