@@ -3,7 +3,7 @@
 {% block content %}
 
 <!-- Header -->
-  <header class="hero card d-flex justify-content-center align-items-center text-center rounded-4 mt-1 py-5" style="background-image: url('your-background-image.jpg'); background-size: cover; background-position: center;">
+  <header class="hero d-flex justify-content-center align-items-center text-center rounded-4 mt-1 py-5" style="background-image: url('{{ about_us_page.header_img.url }}'); background-size: cover; background-position: center;">
     <div class="container">
       <div class="row">
         <div class="col-lg-6 mx-auto py-5">
@@ -14,13 +14,20 @@
     </div>
 </header>
 
+<!-- About Us Section -->
+<section class="container pt-5 px-5">
+    <div class="container">
+        {{ about_us_page.text|safe }}
+    </div>
+</section>
+
 <!-- Team Members Section -->
 <section class="container px-5">
-    <div class="py-5 team4">
+    <div class="py-5">
       <div class="container">
         <div class="row justify-content-center mb-5">
           <div class="col-md-7 text-center">
-            <h3 class="mb-2">{{ about_us_page.content_title }}</h3>
+            <h2 class="mb-2">{{ about_us_page.content_title }}</h2>
             <p class="lead">{{ about_us_page.content_subtitle }}</p>
           </div>
         </div>

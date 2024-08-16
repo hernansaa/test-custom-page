@@ -13,4 +13,4 @@ class AboutUsAdmin(admin.ModelAdmin):
     list_display = ('header_title',)
 
 admin.site.register(AboutUs, AboutUsAdmin)
-admin.site.register(TeamMember)
+# admin.site.register(TeamMember) # I think there is no need if it is inline already.

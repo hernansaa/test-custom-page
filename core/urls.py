@@ -25,6 +25,7 @@ urlpatterns = [
     path('', include('providers.urls')),
     path('', include('programs.urls')),  # Include URLs from the 'programs' app
     path('smart_selects/', include('smart_selects.urls')),
+    path('tinymce/', include('tinymce.urls')),
 ]
 
 if settings.DEBUG:

@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django-ckeditor',
+    'tinymce',
     'smart_selects',
     'students',
     'currencies',
@@ -167,4 +167,5 @@ DEFAULT_FROM_EMAIL = 'hernan@globalstudies.es'
 # Include jQuery in every page that includes a field from smart_selects, or set
  
 USE_DJANGO_JQUERY = True
+
 
