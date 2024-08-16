@@ -2,121 +2,10 @@
 
 {% block content %}
     
-    <!-- Include the _hero partial -->
-    {% include 'programs/partials/_hero_program.html' %}
+<!-- Include the _hero partial -->
+{% include 'programs/partials/_hero_program.html' %}
 
-    <!-- Include the _results partial -->
-    <!-- <section class="details mt-5">
-        <div class="container py-4">
-          <div class="row">
-            <div class="col-lg-6">
-              <img src="{{ experience.img.url }}" class="img-fluid rounded mb-4" alt="{{ experience.name }}">
-            </div>
-            <div class="col-lg-6">
-              <h2 class="fw-bold mb-4">{{ experience.name }}</h2>
-              <p class="text-primary mb-3"><i class="bi bi-geo-fill"></i> {{ experience.city }}</p>
-              <p class="fw-bold mb-2">Duration:</p>
-              <p>{{ experience.duration_from_weeks }} to {{ experience.duration_to_weeks }} weeks</p>
-              <p class="fw-bold mb-2">Allows Work:</p>
-              <p>
-                {% if experience.allows_work == 'yes' %}
-                <span class="text-success"><i class="bi bi-check-square"></i> Yes</span>
-                {% else %}
-                <span class="text-danger"><i class="bi bi-x-square"></i> No</span>
-                {% endif %}
-              </p>
-              <p class="fw-bold mb-2">Description:</p>
-              <p>{{ experience.description }}</p>
-            </div>
-          </div>
-      
-          <div class="row mt-4">
-            <div class="col-lg-6">
-              <h3 class="fw-bold mb-3">Course Details</h3>
-              <div class="mb-4">
-                <p class="fw-bold mb-2">School Name:</p>
-                <p>{{ experience.school.name }}</p>
-              </div>
-              <div class="mb-4">
-                <p class="fw-bold mb-2">Course Type:</p>
-                <p>{{ experience.course.name }}</p>
-              </div>
-              <div class="mb-4">
-                <p class="fw-bold mb-2">Course Name:</p>
-                <p>{{ experience.course.name }}</p>
-              </div>
-              <div class="mb-4">
-                <p class="fw-bold mb-2">Course Description:</p>
-                <p>{{ experience.course.description }}</p>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <h3 class="fw-bold mb-3">Course Schedule</h3>
-              <div class="mb-4">
-                <p class="fw-bold mb-2">Weeks Duration:</p>
-                <p>{{ experience.course_weeks_duration }}</p>
-              </div>
-              <div class="mb-4">
-                <p class="fw-bold mb-2">Start Date:</p>
-                <p>{{ experience.course_start_date }}</p>
-              </div>
-              <div class="mb-4">
-                <p class="fw-bold mb-2">End Date:</p>
-                <p>{{ experience.course_end_date }}</p>
-              </div>
-            </div>
-          </div>
-      
-          <div class="row mt-4">
-            <div class="col-lg-6">
-              <h3 class="fw-bold mb-3">Additional Information</h3>
-              <div class="mb-4">
-                <p class="fw-bold mb-2">Minimum Age:</p>
-                <p>{{ experience.min_age }}</p>
-              </div>
-              <div class="mb-4">
-                <p class="fw-bold mb-2">Maximum Age:</p>
-                <p>{{ experience.max_age }}</p>
-              </div>
-              <div class="mb-4">
-                <p class="fw-bold mb-2">Price:</p>
-                <p>{{ experience.price }}</p>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <h3 class="fw-bold mb-3">Includes and Requirements</h3>
-              <div class="mb-4">
-                <p class="fw-bold mb-2">Includes:</p>
-                <ul class="list-unstyled">
-                  {% for include in experience.includes.all %}
-                  <li>{{ include }}</li>
-                  {% endfor %}
-                </ul>
-              </div>
-              <div class="mb-4">
-                <p class="fw-bold mb-2">Requirements:</p>
-                <ul class="list-unstyled">
-                  {% for requirement in experience.requirements.all %}
-                  <li>{{ requirement }}</li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-    <div class="container">
-        <h1>Your Form Title</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Submit Inquiry</button>
-        </form>
-    </div>
-
- -->
+<!-- Include the _results partial -->   
 
 
  <section class="details mt-5">
@@ -188,19 +77,40 @@
           <h3>Informacion adicional</h3>
           <hr>
           <div class="mb-4">
-            <p class="fw-bold mb-2">Tipo de Curso:</p>
-            <p>{{ experience.course.name }}</p>
+            <p class="fw-bold mb-2">Minimum Age:</p>
+            <p>{{ experience.min_age }}</p>
           </div>
           <div class="mb-4">
-            <p class="fw-bold mb-2">Nombre del curso:</p>
-            <p>{{ experience.course.name }}</p>
+            <p class="fw-bold mb-2">Maximum Age:</p>
+            <p>{{ experience.max_age }}</p>
           </div>
           <div class="mb-4">
-            <p class="fw-bold mb-2">Descripcion del curso:</p>
-            <p>{{ experience.course.description }}</p>
+            <p class="fw-bold mb-2">Price:</p>
+            <p>{{ experience.price }}</p>
           </div>
-        </div>
-        <!-- END ADDITIONAL INFORMATION -->
+        </div> <!-- END ADDITIONAL INFORMATION -->
+
+        <!-- INCLUDES AND REQUIREMENTS -->
+        <div class="container pb-4">
+          <h3>Incluidos y requerimientos</h3>
+          <hr>
+          <div class="mb-4">
+            <p class="fw-bold mb-2">Includes:</p>
+            <ul class="list-unstyled">
+              {% for include in experience.includes.all %}
+              <li>{{ include }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="mb-4">
+            <p class="fw-bold mb-2">Requirements:</p>
+            <ul class="list-unstyled">
+              {% for requirement in experience.requirements.all %}
+              <li>{{ requirement }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div> <!-- END INCLUDES AND REQUIREMENTS -->
 
         <!-- FAQ -->
         <div class="container pb-4">

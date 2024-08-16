@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Header -->
+  <header class="hero card d-flex justify-content-center align-items-center text-center rounded-4 mt-1 py-5" style="background-image: url('your-background-image.jpg'); background-size: cover; background-position: center;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 mx-auto py-5">
+          <h1 class="fw-light">{{ about_us_page.header_title }}</h1>
+          <p class="lead">{{ about_us_page.header_subtitle }}</p>
+        </div>
+      </div>
+    </div>
+</header>
+
+<!-- Team Members Section -->
+<section class="container px-5">
+    <div class="py-5 team4">
+      <div class="container">
+        <div class="row justify-content-center mb-5">
+          <div class="col-md-7 text-center">
+            <h3 class="mb-2">{{ about_us_page.content_title }}</h3>
+            <p class="lead">{{ about_us_page.content_subtitle }}</p>
+          </div>
+        </div>
+        <div class="row">
+          <!-- column  -->
+          {% for member in about_us_page.team_members.all %} 
+          <div class="col-lg-4 mb-4">
+            <!-- Row -->
+            <div class="row">
+              <div class="col-md-12 d-flex justify-content-center align-items-center">
+                <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="img-fluid rounded-circle" />
+              </div>
+              <div class="col-md-12 text-center">
+                <div class="pt-2">
+                  <h5 class="mt-4 font-weight-medium mb-0">{{ member.name }}</h5>
+                  <h6 class="subtitle mb-3">{{ member.role }}</h6>
+                  <p>{{ member.bio }}</p>
+                  <ul class="list-inline">
+                    <li class="list-inline-item"><a href="#" class="text-decoration-none d-block px-1"><i class="icon-social-facebook"></i></a></li>
+                    <li class="list-inline-item"><a href="#" class="text-decoration-none d-block px-1"><i class="icon-social-twitter"></i></a></li>
+                    <li class="list-inline-item"><a href="#" class="text-decoration-none d-block px-1"><i class="icon-social-instagram"></i></a></li>
+                    <li class="list-inline-item"><a href="#" class="text-decoration-none d-block px-1"><i class="icon-social-behance"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- Row -->
+          </div>
+          {% endfor %}
+          <!-- column  -->
+        </div>
+      </div>
+    </div>
+</section>
+  
+
+{% endblock %}

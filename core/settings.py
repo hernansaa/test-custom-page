@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django-ckeditor',
     'smart_selects',
     'students',
     'currencies',

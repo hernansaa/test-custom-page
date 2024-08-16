@@ -9,29 +9,29 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mb-2 mb-lg-0 text-center">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">Jovenes</a>
+            <a class="nav-link" aria-current="page" href="{% url 'home_index' %}">Inicio</a>
           </li>
           <li class="nav-item px-3">
             <a class="nav-link" href="{% url 'schools-index' %}">Cursos Idiomas</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="{% url 'programs-index' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Work & Study
+            <a class="nav-link dropdown-toggle" href="{% url 'programs_index' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Programas
             </a>
             <ul class="dropdown-menu bg-primary mt-3 text-center text-lg-start">
-              <li><a class="dropdown-item" href="#">Irlanda</a></li>
-              <li><a class="dropdown-item" href="#">Australia</a></li>
-              <li><a class="dropdown-item" href="#">Nueva Zelandia</a></li>
-              <li><a class="dropdown-item" href="#">Canada</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="{% url 'programs-index' %}">Work & Study</a></li>
+              <li><a class="dropdown-item" href="{% url 'programs_index' %}">Work & Study</a></li>
+              <li><a class="dropdown-item" href="#">Grupales</a></li>
+              <li><a class="dropdown-item" href="#">Teachers</a></li>
+              <!-- <li><a class="dropdown-item" href="#">Intercambios</a></li> -->
+              <!-- <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Todos</a></li> -->
             </ul>
           </li>
           <li class="nav-item px-3">
-            <a class="nav-link" aria-disabled="true" href="#">Nosotros</a>
+            <a class="nav-link" aria-disabled="true" href="{% url 'about_us' %}">Nosotros</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" aria-disabled="true" href="#">Contacto</a>
+            <a class="nav-link" aria-disabled="true" href="{% url 'contact_page' %}">Contacto</a>
           </li>
         </ul>
       </div>
