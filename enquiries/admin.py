@@ -3,6 +3,13 @@ from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.urls import path
 
+from gs_admin.sites import new_admin_site
+
+from django.contrib.admin import register
+
+from unfold.admin import ModelAdmin
+from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
+
 from email_client.models import SentEmail
 
 from .models import Inquiry, Enquiry
@@ -80,8 +87,8 @@ class InquiryAdmin(admin.ModelAdmin):
             context={'form': form, 'inquiries': inquiries, 'ids': ','.join(inquiry_ids)}
         )
     
-
-class EnquiryAdmin(admin.ModelAdmin):
+@register(Enquiry, site=new_admin_site)
+class EnquiryAdmin(ModelAdmin):
     list_display = ['student', 'rating','follow_up_date', 'email', 'nationality', 'phone', 'program', 'branch', 'employee', 'created_at']
     list_filter = ['rating', 'program', 'branch', 'employee', 'created_at', 'follow_up_date']
     search_fields = ['name', 'surname', 'email', 'nationality']

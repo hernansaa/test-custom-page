@@ -3,9 +3,14 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import reverse
 from django.utils.html import format_html
 
+from gs_admin.sites import new_admin_site
+
+from django.contrib.admin import register
+
+from unfold.admin import ModelAdmin
+
 from .models import StudentProfile
 from enquiries.models import Enquiry
-
 
 class EnquiryInline(admin.TabularInline):
     model = Enquiry
@@ -17,6 +22,7 @@ class EnquiryInline(admin.TabularInline):
                        'date_start', 'enrollment_fee', 'created_at', 'total', 'accommodation',
                        'accommodation_qty_weeks')
     ordering = ('-created_at',)
+    tab = True
 
     # class Media:
     #     css = {
@@ -28,6 +34,12 @@ class EnquiryInline(admin.TabularInline):
         return format_html('<a href="{}">View Details</a>', url)
     
     view_link.short_description = 'Details'
+
+
+@register(StudentProfile, site=new_admin_site)
+class StudentProfileAdmin(ModelAdmin):
+    list_display = ('name', 'surname', 'email', 'dob', 'branch', 'employee')  # Customize the list display as needed
+    inlines = [EnquiryInline]
 
 
 class StudentProfileAdmin(admin.ModelAdmin):

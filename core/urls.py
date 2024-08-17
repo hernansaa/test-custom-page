@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('home.urls')),
     path('', include('providers.urls')),
     path('', include('programs.urls')),  # Include URLs from the 'programs' app
+    path('', include('gs_admin.urls')),
     path('smart_selects/', include('smart_selects.urls')),
     path('tinymce/', include('tinymce.urls')),
 ]

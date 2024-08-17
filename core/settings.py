@@ -33,6 +33,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "unfold.apps.BasicAppConfig", # <- Custom app config, not overriding default admin
+    "unfold.contrib.filters",  # optional, if special filters are needed
+    "unfold.contrib.forms",  # optional, if special form elements are needed
+    "unfold.contrib.inlines",  # optional, if special inlines are needed
+    "unfold.contrib.import_export",  # optional, if django-import-export package is used
+    "unfold.contrib.guardian",  # optional, if django-guardian package is used
+    "unfold.contrib.simple_history",  # optional, if django-simple-history package is used
     'tinymce',
     'smart_selects',
     'students',
@@ -46,6 +53,7 @@ INSTALLED_APPS = [
     'locations',
     'home',
     'django.contrib.admin',
+    'gs_admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -61,6 +69,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "gs_admin.middleware.CurrentRequestMiddleware",
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -69,8 +78,13 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
+        # 'APP_DIRS': True, # <- This will not work with custom template loader
         'OPTIONS': {
+            'loaders': [
+                'gs_admin.loaders.UnfoldAdminLoader', # <- New template loader
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+            ],
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -168,4 +182,11 @@ DEFAULT_FROM_EMAIL = 'hernan@globalstudies.es'
  
 USE_DJANGO_JQUERY = True
 
-
+UNFOLD = {
+    "SITE_TITLE": 'GS Admin',
+    "SITE_HEADER": 'GS Admin',
+    "SIDEBAR": {
+        "show_search": True,  # Search in applications and models names
+        "show_all_applications": False,  # Dropdown with all applications and models
+    },
+}

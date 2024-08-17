@@ -2,6 +2,12 @@ from django.contrib import admin
 
 from branches.models import AgencyBranch
 
+from gs_admin.sites import new_admin_site
+
+from django.contrib.admin import register
+
+from unfold.admin import ModelAdmin
+
 from .models import (
     School,
     Facility, 
@@ -128,9 +134,10 @@ class SchoolAgencyBranchInline(admin.TabularInline):
     extra = 1
 
 
-class CourseInline(admin.TabularInline):
+class CourseInline(admin.StackedInline):
     model = Course
     extra = 1
+    tab = True
 
 
 class AddressInline(admin.TabularInline):
@@ -138,8 +145,33 @@ class AddressInline(admin.TabularInline):
     extra = 1
 
 
+@register(School, site=new_admin_site)
+class SchoolAdmin(ModelAdmin):
+    list_display = ('name', 'language_id')
+    search_fields = ('name', 'language_id__name')
+    list_filter = ('name', 'language_id__name')
+    inlines = [
+        SchoolFacilityInline,
+        SchoolAcreditationInline, 
+        SchoolActivityInline, 
+        SchoolAccommodationInline,
+        SchoolAirportTransferInline,
+        SchoolExtraline,
+        SchoolAvgAgeline,
+        SchoolClassroomEquipmentline,
+        SchoolNationalityMixline,
+        ContactInformationInline,
+        SchoolAgencyBranchInline,
+        CourseInline,
+        AddressInline,
+    ]
+    filter
+
+
 class SchoolAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description')
+    list_display = ('name', 'language_id')
+    search_fields = ('name', 'language_id__name')
+    list_filter = ('name', 'language_id__name')
     inlines = [
         SchoolFacilityInline,
         SchoolAcreditationInline, 
