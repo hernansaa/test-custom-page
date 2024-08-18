@@ -149,11 +149,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+if not DEBUG:
+    STATIC_ROOT = BASE_DIR / 'static'
+
+# Directory where static files will be collected
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -199,12 +206,12 @@ UNFOLD = {
         "show_search": True,  # Search in applications and models names
         "show_all_applications": False,  # Dropdown with all applications and models
     },
-    "STYLES": [
-        lambda request: static("css/styles.css"),
-    ],
-    "SCRIPTS": [
-        lambda request: static("js/script.js"),
-    ],
+    # "STYLES": [
+    #     lambda request: static("css/style.css"),
+    # ],
+    # "SCRIPTS": [
+    #     lambda request: static("js/chainedfk.js"),
+    # ],
     "DASHBOARD_CALLBACK": "gs_admin.utils.dashboard_callback",
     "SIDEBAR": {
         "show_search": True,  # Search in applications and models names
