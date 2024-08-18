@@ -1,17 +1,15 @@
 from django.db import models
 from branches.models import AgencyBranch, EmployeeProfile
 from students.models import StudentProfile
-# from quotations.models import Quotation
 
 class Enrollment(models.Model):
     """
-    Represents the enrollment of a student, created from a confirmed quotation.
+    Needs to be upgrade in de DER
     """
 
-    quotation = models.CharField(max_length=100, blank=True, null=True)
-    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, null=True, blank=True)
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, null=True, blank=True)  # Added this line
     nationality = models.ForeignKey('locations.Country', null=True, blank=True, on_delete=models.CASCADE)
-    dob = models.DateField(null=True, blank=True)
+    dob = models.DateField(null=True, blank=True)  # Added date of birth field
     email = models.EmailField()
     phone = models.CharField(max_length=20, blank=True, null=True)
     program = models.ForeignKey('providers.School', on_delete=models.CASCADE)
@@ -29,21 +27,4 @@ class Enrollment(models.Model):
     employee = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return f"Enrollment for {self.student} ({self.email}) in {self.course}"
-
-    # def save(self, *args, **kwargs):
-    #     # Ensure that student and course information from the quotation is retained in the enrollment
-    #     if self.quotation:
-    #         self.student = self.quotation.student
-    #         self.program = self.quotation.program
-    #         self.course = self.quotation.course
-    #         self.course_qty_weeks = self.quotation.course_qty_weeks
-    #         self.date_start = self.quotation.date_start
-    #         self.enrollment_fee = self.quotation.enrollment_fee
-    #         self.course_weekly_price = self.quotation.course_weekly_price
-    #         self.accommodation = self.quotation.accommodation
-    #         self.accommodation_qty_weeks = self.quotation.accommodation_qty_weeks
-    #         self.airport_transfer = self.quotation.airport_transfer
-    #         self.total = self.quotation.total
-
-    #     super().save(*args, **kwargs)
+        return f"{self.student} ({self.email}) enrolled in {self.course}"

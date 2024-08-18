@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'providers',
     'email_client',
     'enrollments',
-    'quotations',
     'enquiries',
     'programs',
     'locations',
@@ -209,9 +208,10 @@ UNFOLD = {
     # "STYLES": [
     #     lambda request: static("css/style.css"),
     # ],
-    # "SCRIPTS": [
-    #     lambda request: static("js/chainedfk.js"),
-    # ],
+    "SCRIPTS": [
+        lambda request: static("js/jquery-3.6.0.min.js"),
+        lambda request: static("js/chainedfk.js"),
+    ],
     "DASHBOARD_CALLBACK": "gs_admin.utils.dashboard_callback",
     "SIDEBAR": {
         "show_search": True,  # Search in applications and models names

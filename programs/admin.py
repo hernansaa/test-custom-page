@@ -7,10 +7,11 @@ from django.contrib.admin import register
 
 from unfold.admin import ModelAdmin
 
+
 from .models import (
     CourseType, Include, NotInclude, Requirement,
-    Experience, ExperienceIncluded, ExperienceNotIncluded, 
-    ExperienceRequirement, ExperienceFaq, Faq
+    Experience, ExperienceIncluded, ExperienceNotIncluded, ExperienceRequirement,
+    ExperienceFaq, Faq
 )
 
 
@@ -53,24 +54,11 @@ class ExperienceFaqInline(admin.TabularInline):
     model = ExperienceFaq
     extra = 1
 
-
-class ExperienceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'city', 'duration_from_weeks', 'duration_to_weeks', 'allows_work', 'price', 'school', 'course')
-    list_filter = ('allows_work', 'city', 'start_date', 'end_date',)
-    search_fields = ('name', 'city__name', 'school__name', 'course__name')
-    inlines = [
-        ExperienceIncludedInline, 
-        ExperienceNotIncludedInline, 
-        ExperienceRequirementInline,
-        ExperienceFaqInline,
-        ]
-    save_as = True
-
-
 @register(Experience, site=new_admin_site)
 class ExperienceGsAdmin(ModelAdmin):
 
-    compressed_fields = True # Unfold Admin method
+    # Display fields in changeform in compressed mode
+    compressed_fields = True
 
     list_display = ('name', 'city', 'duration_from_weeks', 'duration_to_weeks', 'allows_work', 'price', 'school', 'course')
     list_filter = ('allows_work', 'city', 'start_date', 'end_date',)
@@ -83,6 +71,20 @@ class ExperienceGsAdmin(ModelAdmin):
         ]
     save_as = True
 
+
+class ExperienceAdmin(admin.ModelAdmin):
+
+    list_display = ('name', 'city', 'duration_from_weeks', 'duration_to_weeks', 'allows_work', 'price', 'school', 'course')
+    list_filter = ('allows_work', 'city', 'start_date', 'end_date',)
+    search_fields = ('name', 'city__name', 'school__name', 'course__name')
+    inlines = [
+        ExperienceIncludedInline, 
+        ExperienceNotIncludedInline, 
+        ExperienceRequirementInline,
+        ExperienceFaqInline,
+        ]
+    save_as = True
+   
 
 admin.site.register(CourseType, CourseTypeAdmin)
 admin.site.register(Include, IncludeAdmin)

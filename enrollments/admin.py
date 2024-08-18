@@ -14,10 +14,10 @@ class EnrollmentAdmin(ModelAdmin):
     # List display options for the admin list view
     list_display = (
         'student',
-        # 'nationality',
-        # 'dob',
-        # 'email',
-        # 'phone',
+        'nationality',
+        'dob',
+        'email',
+        'phone',
         'program',
         'course',
         'course_qty_weeks',
@@ -28,9 +28,9 @@ class EnrollmentAdmin(ModelAdmin):
         'accommodation_qty_weeks',
         'airport_transfer',
         'total',
-        'branch',
-        'employee',
         'created_at',
+        'branch',
+        'employee'
     )
 
     # Fields to filter by in the admin list view
