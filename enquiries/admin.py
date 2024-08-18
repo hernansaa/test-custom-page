@@ -140,14 +140,18 @@ class ContactAdmin(admin.ModelAdmin):
     list_display = ['first_name', 'last_name', 'nationality', 'email', 'phone', 'branch', 'employee']
     readonly_fields = ['first_name', 'last_name', 'nationality', 'email', 'phone', 'message']
     list_editable = ['branch', 'employee']
+    search_fields = ['first_name', 'last_name', 'email', 'phone']
+    list_filter = ['first_name', 'last_name', 'nationality', 'email', 'phone', 'branch', 'employee']
 
 
 @register(Contact, site=new_admin_site)
-class ContactGsAdmin(admin.ModelAdmin):
+class ContactGsAdmin(ModelAdmin):
     compressed_fields = True # Unfold Admin method
     list_display = ['first_name', 'last_name', 'nationality', 'email', 'phone', 'branch', 'employee']
     readonly_fields = ['first_name', 'last_name', 'nationality', 'email', 'phone', 'message']
     list_editable = ['branch', 'employee']
+    search_fields = ['first_name', 'last_name', 'email', 'phone']
+    list_filter = ['first_name', 'last_name', 'nationality', 'email', 'phone', 'branch', 'employee']
 
 
 admin.site.register(Inquiry, InquiryAdmin)
