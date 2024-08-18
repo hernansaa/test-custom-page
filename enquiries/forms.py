@@ -93,4 +93,27 @@ class EmailForm(forms.Form):
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
-        fields = ['first_name', 'last_name', 'nationality', 'email', 'phone', 'message',]
+        fields = ['first_name', 'last_name', 'nationality', 'email', 'phone', 'message']
+
+    first_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    last_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=False
+    )
+    nationality = forms.ModelChoiceField(
+        queryset=Contact._meta.get_field('nationality').related_model.objects.all(),
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        required=False
+    )
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={'class': 'form-control'})
+    )
+    phone = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=False
+    )
+    message = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'form-control'})
+    )
