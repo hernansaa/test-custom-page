@@ -2,8 +2,6 @@ from django.db import models
 from tinymce.models import HTMLField
 
 
-# Create your models here.
-
 class AboutUs(models.Model):
     header_title = models.CharField(max_length=50)
     header_subtitle = models.CharField(max_length=150, null=True, blank=True)
@@ -25,3 +23,13 @@ class TeamMember(models.Model):
     
     def __str__(self):
         return self.name
+    
+
+class ContactPage(models.Model):
+    header_title = models.CharField(max_length=50)
+    header_subtitle = models.CharField(max_length=150, null=True, blank=True)
+    header_img = models.ImageField(upload_to='home/contact/header', null=True, blank=True)
+    form_tag = models.CharField(max_length=50, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.header_title}"

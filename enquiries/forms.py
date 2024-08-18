@@ -1,5 +1,5 @@
 from django import forms
-from .models import Enquiry
+from .models import Enquiry, Contact
 from providers.models import Course, School, SchoolAccommodation, SchoolAirportTransfer, CoursePrice, AccommodationPrice, AccommodationPriceList
 from locations.models import Country
 
@@ -88,3 +88,9 @@ class EnquiryForm(forms.ModelForm):
 class EmailForm(forms.Form):
     subject = forms.CharField(max_length=255, required=True)
     message = forms.CharField(widget=forms.Textarea, required=True)
+
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['first_name', 'last_name', 'nationality', 'email', 'phone', 'message',]

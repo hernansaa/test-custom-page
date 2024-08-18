@@ -182,9 +182,13 @@ DEFAULT_FROM_EMAIL = 'hernan@globalstudies.es'
 # It's recommended to use environment variables to store sensitive information
 
 
-# Include jQuery in every page that includes a field from smart_selects, or set
+# Smart Selects Package 
+# Includes jQuery in every page that includes a field from smart_selects.
  
 USE_DJANGO_JQUERY = True
+
+
+# Unfold Admin configuration
 
 UNFOLD = {
     "SITE_TITLE": 'GS Admin',

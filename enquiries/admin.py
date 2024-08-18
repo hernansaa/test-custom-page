@@ -9,7 +9,6 @@ from gs_admin.sites import new_admin_site
 from django.contrib.admin import register
 
 from unfold.admin import ModelAdmin
-from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
 from unfold.widgets import (UnfoldAdminSplitDateTimeWidget, UnfoldAdminSplitDateTimeVerticalWidget, 
                             UnfoldAdminDateWidget, AdminDateWidget, UnfoldAdminSingleDateWidget,
                             UnfoldAdminTextareaWidget, UnfoldAdminTextInputWidget, UnfoldAdminIntegerFieldWidget,
@@ -18,7 +17,7 @@ from unfold.contrib.forms.widgets import ArrayWidget, WysiwygWidget
 
 from email_client.models import SentEmail
 
-from .models import Inquiry, Enquiry
+from .models import Inquiry, Enquiry, Contact
 from .forms import EmailForm
 
 class InquiryAdmin(admin.ModelAdmin):
@@ -137,5 +136,20 @@ class EnquiryAdmin(ModelAdmin):
     )
 
 
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ['first_name', 'last_name', 'nationality', 'email', 'phone', 'branch', 'employee']
+    readonly_fields = ['first_name', 'last_name', 'nationality', 'email', 'phone', 'message']
+    list_editable = ['branch', 'employee']
+
+
+@register(Contact, site=new_admin_site)
+class ContactGsAdmin(admin.ModelAdmin):
+    compressed_fields = True # Unfold Admin method
+    list_display = ['first_name', 'last_name', 'nationality', 'email', 'phone', 'branch', 'employee']
+    readonly_fields = ['first_name', 'last_name', 'nationality', 'email', 'phone', 'message']
+    list_editable = ['branch', 'employee']
+
+
 admin.site.register(Inquiry, InquiryAdmin)
 admin.site.register(Enquiry, EnquiryAdmin)
+admin.site.register(Contact, ContactAdmin)

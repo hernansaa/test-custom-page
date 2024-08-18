@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import AboutUs, TeamMember
+from .models import AboutUs, ContactPage, TeamMember
 
 # Register your models here.
 
@@ -13,4 +13,4 @@ class AboutUsAdmin(admin.ModelAdmin):
     list_display = ('header_title',)
 
 admin.site.register(AboutUs, AboutUsAdmin)
-# admin.site.register(TeamMember) # I think there is no need if it is inline already.
+admin.site.register(ContactPage)    

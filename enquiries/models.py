@@ -58,5 +58,20 @@ class Enquiry(models.Model):
         return f"Enquiry from {self.name} ({self.email})"
 
 
+class Contact(models.Model):
+    """
+    Needs to be upgrade in de DER
+    """
 
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100, null=True, blank=True)
+    nationality = models.ForeignKey('locations.Country', null=True, blank=True, on_delete=models.CASCADE) 
+    email = models.EmailField()
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    message = models.TextField()
+    branch = models.ForeignKey(AgencyBranch, on_delete=models.CASCADE, null=True, blank=True)
+    employee = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
 
