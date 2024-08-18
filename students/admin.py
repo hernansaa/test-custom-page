@@ -11,6 +11,7 @@ from unfold.admin import ModelAdmin
 
 from .models import StudentProfile
 from enquiries.models import Enquiry
+from enrollments.models import Enrollment
 
 from unfold.contrib.forms.widgets import WysiwygWidget
 
@@ -34,18 +35,63 @@ class EnquiryInline(admin.StackedInline):
     view_link.short_description = 'Details'
 
 
+class EnrollmentInline(admin.StackedInline):
+    model = Enrollment
+    extra = 0  # No extra empty forms by default
+    fields = (
+        'student',
+        'nationality',
+        'dob',
+        'email',
+        'phone',
+        'program',
+        'course',
+        'course_qty_weeks',
+        'date_start',
+        'enrollment_fee',
+        'course_weekly_price',
+        'accommodation',
+        'accommodation_qty_weeks',
+        'airport_transfer',
+        'total',
+        'branch',
+        'employee'
+        )
+    readonly_fields = (
+        'student',
+        'nationality',
+        'dob',
+        'email',
+        'phone',
+        'program',
+        'course',
+        'course_qty_weeks',
+        'date_start',
+        'enrollment_fee',
+        'course_weekly_price',
+        'accommodation',
+        'accommodation_qty_weeks',
+        'airport_transfer',
+        'total',
+        'branch',
+        'employee'
+        )
+    ordering = ('-created_at',)
+    tab = True
+
+
 @register(StudentProfile, site=new_admin_site)
 class StudentProfileAdmin(ModelAdmin):
     # Display fields in changeform in compressed mode
     compressed_fields = True  
     
     list_display = ('name', 'surname', 'email', 'dob', 'branch', 'employee') 
-    inlines = [EnquiryInline]
+    inlines = [EnquiryInline, EnrollmentInline]
 
 
 class StudentProfileAdmin(admin.ModelAdmin):
     list_display = ('name', 'surname', 'email', 'dob', 'branch', 'employee')  
-    inlines = [EnquiryInline]
+    inlines = [EnquiryInline, EnrollmentInline]
 
 
 admin.site.register(StudentProfile, StudentProfileAdmin)

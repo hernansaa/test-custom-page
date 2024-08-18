@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'branches',
     'providers',
     'email_client',
+    'enrollments',
     'enquiries',
     'programs',
     'locations',
