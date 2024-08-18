@@ -55,10 +55,10 @@ class ExperienceFaqInline(admin.TabularInline):
     extra = 1
 
 @register(Experience, site=new_admin_site)
-class ExperienceAdmin(admin.ModelAdmin):
+class ExperienceAdmin(ModelAdmin):
 
-    # Warn before leaving unsaved changes in changeform
-    warn_unsaved_form = True  # Default: False
+    # Display fields in changeform in compressed mode
+    compressed_fields = True
 
     list_display = ('name', 'city', 'duration_from_weeks', 'duration_to_weeks', 'allows_work', 'price', 'school', 'course')
     list_filter = ('allows_work', 'city', 'start_date', 'end_date',)

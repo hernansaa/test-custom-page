@@ -1,4 +1,7 @@
 from django.contrib import admin
+from django.db import models
+
+from django.utils.translation import gettext_lazy as _
 
 from branches.models import AgencyBranch
 
@@ -7,6 +10,12 @@ from gs_admin.sites import new_admin_site
 from django.contrib.admin import register
 
 from unfold.admin import ModelAdmin
+from unfold.widgets import (UnfoldAdminSplitDateTimeWidget, UnfoldAdminSplitDateTimeVerticalWidget, 
+                            UnfoldAdminDateWidget, AdminDateWidget, UnfoldAdminSingleDateWidget,
+                            UnfoldAdminTextareaWidget, UnfoldAdminSelectWidget, UnfoldAdminIntegerFieldWidget,
+                            UnfoldAdminTextInputWidget)
+from unfold.contrib.forms.widgets import ArrayWidget, WysiwygWidget
+
 
 from .models import (
     School,
@@ -61,6 +70,7 @@ class SchoolAcreditationInline(admin.TabularInline):
     extra = 1
 
 
+
 class ActivityAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description', 'img')
 
@@ -77,6 +87,7 @@ class AccommodationAdmin(admin.ModelAdmin):
 class SchoolAccommodationInline(admin.TabularInline):
     model = SchoolAccommodation
     extra = 1
+    tab = True
 
 
 class AirportAdmin(admin.ModelAdmin):
@@ -138,6 +149,25 @@ class CourseInline(admin.StackedInline):
     model = Course
     extra = 1
     tab = True
+    hide_title = True
+
+    formfield_overrides = {
+        models.TextField: {
+            "widget": UnfoldAdminTextareaWidget,
+        },
+        models.CharField: {
+            "widget": UnfoldAdminTextInputWidget,
+        },
+        models.TextChoices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+        models.IntegerField: {
+            "widget": UnfoldAdminIntegerFieldWidget,
+        },
+        models.Choices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+    }
 
 
 class AddressInline(admin.TabularInline):
@@ -147,6 +177,9 @@ class AddressInline(admin.TabularInline):
 
 @register(School, site=new_admin_site)
 class SchoolAdmin(ModelAdmin):
+    # Unfold Admin method
+    compressed_fields = True
+    
     list_display = ('name', 'language_id')
     search_fields = ('name', 'language_id__name')
     list_filter = ('name', 'language_id__name')
@@ -165,7 +198,6 @@ class SchoolAdmin(ModelAdmin):
         CourseInline,
         AddressInline,
     ]
-    filter
 
 
 class SchoolAdmin(admin.ModelAdmin):

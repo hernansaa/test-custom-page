@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.urls import path
+from django.db import models
 
 from gs_admin.sites import new_admin_site
 
@@ -9,6 +10,11 @@ from django.contrib.admin import register
 
 from unfold.admin import ModelAdmin
 from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
+from unfold.widgets import (UnfoldAdminSplitDateTimeWidget, UnfoldAdminSplitDateTimeVerticalWidget, 
+                            UnfoldAdminDateWidget, AdminDateWidget, UnfoldAdminSingleDateWidget,
+                            UnfoldAdminTextareaWidget, UnfoldAdminTextInputWidget, UnfoldAdminIntegerFieldWidget,
+                            UnfoldAdminSelectWidget)
+from unfold.contrib.forms.widgets import ArrayWidget, WysiwygWidget
 
 from email_client.models import SentEmail
 
@@ -89,11 +95,15 @@ class InquiryAdmin(admin.ModelAdmin):
     
 @register(Enquiry, site=new_admin_site)
 class EnquiryAdmin(ModelAdmin):
+    # Unfold admin method
+    compressed_fields = True
+
     list_display = ['student', 'rating','follow_up_date', 'email', 'nationality', 'phone', 'program', 'branch', 'employee', 'created_at']
     list_filter = ['rating', 'program', 'branch', 'employee', 'created_at', 'follow_up_date']
     search_fields = ['name', 'surname', 'email', 'nationality']
     list_per_page = 20
     list_editable = ['branch','employee', 'rating', 'follow_up_date']
+
 
     fieldsets = (
         ('Personal Information', {

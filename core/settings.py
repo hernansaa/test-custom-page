@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
+from django.templatetags.static import static
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
+
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -189,4 +193,37 @@ UNFOLD = {
         "show_search": True,  # Search in applications and models names
         "show_all_applications": False,  # Dropdown with all applications and models
     },
+    "STYLES": [
+        lambda request: static("css/styles.css"),
+    ],
+    "SCRIPTS": [
+        lambda request: static("js/script.js"),
+    ],
+    "DASHBOARD_CALLBACK": "gs_admin.utils.dashboard_callback",
+    "SIDEBAR": {
+        "show_search": True,  # Search in applications and models names
+        "show_all_applications": True,  # Dropdown with all applications and models
+        # "navigation": [
+        #     {
+        #         "title": _("Navigation"),
+        #         "separator": True,  # Top border
+        #         "collapsible": True,  # Collapsible group of links
+        #         "items": [
+        #             {
+        #                 "title": _("Dashboard"),
+        #                 "icon": "dashboard",  # Supported icon set: https://fonts.google.com/icons
+        #                 "link": reverse_lazy("admin:index"),
+        #                 "badge": "sample_app.badge_callback",
+        #                 "permission": lambda request: request.user.is_superuser,
+        #             },
+        #             {
+        #                 "title": _("Users"),
+        #                 "icon": "people",
+        #                 "link": reverse_lazy("admin:users_user_changelist"),
+        #             },
+        #         ],
+        #     },
+        # ],
+    },
+    "SHOW_VIEW_ON_SITE": True, # show/hide "View on site" button, default: True
 }

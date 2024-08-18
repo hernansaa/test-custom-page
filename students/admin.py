@@ -12,7 +12,10 @@ from unfold.admin import ModelAdmin
 from .models import StudentProfile
 from enquiries.models import Enquiry
 
-class EnquiryInline(admin.TabularInline):
+from unfold.contrib.forms.widgets import WysiwygWidget
+
+
+class EnquiryInline(admin.StackedInline):
     model = Enquiry
     extra = 0  # No extra empty forms by default
     fields = ('view_link', 'rating', 'follow_up_date', 'program', 'course', 'course_qty_weeks', 'date_start', 
@@ -24,11 +27,6 @@ class EnquiryInline(admin.TabularInline):
     ordering = ('-created_at',)
     tab = True
 
-    # class Media:
-    #     css = {
-    #          'all': (staticfiles_storage.url('css/admin_custom.css'),)
-    #         }
-
     def view_link(self, obj):
         url = reverse('admin:enquiries_enquiry_change', args=[obj.pk])
         return format_html('<a href="{}">View Details</a>', url)
@@ -38,12 +36,15 @@ class EnquiryInline(admin.TabularInline):
 
 @register(StudentProfile, site=new_admin_site)
 class StudentProfileAdmin(ModelAdmin):
-    list_display = ('name', 'surname', 'email', 'dob', 'branch', 'employee')  # Customize the list display as needed
+    # Display fields in changeform in compressed mode
+    compressed_fields = True  
+    
+    list_display = ('name', 'surname', 'email', 'dob', 'branch', 'employee') 
     inlines = [EnquiryInline]
 
 
 class StudentProfileAdmin(admin.ModelAdmin):
-    list_display = ('name', 'surname', 'email', 'dob', 'branch', 'employee')  # Customize the list display as needed
+    list_display = ('name', 'surname', 'email', 'dob', 'branch', 'employee')  
     inlines = [EnquiryInline]
 
 
