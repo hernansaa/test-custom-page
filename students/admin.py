@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import reverse
 from django.utils.html import format_html
+from django.db import models
 
 from gs_admin.sites import new_admin_site
 
@@ -12,6 +13,14 @@ from unfold.admin import ModelAdmin
 from .models import StudentProfile
 from enquiries.models import Enquiry
 from enrollments.models import Enrollment
+from quotations.models import Quotation
+
+from unfold.widgets import (
+    UnfoldAdminSplitDateTimeWidget, UnfoldAdminSplitDateTimeVerticalWidget, 
+    UnfoldAdminDateWidget, AdminDateWidget, UnfoldAdminSingleDateWidget,
+    UnfoldAdminTextareaWidget, UnfoldAdminSelectWidget, UnfoldAdminIntegerFieldWidget,
+    UnfoldAdminTextInputWidget
+    )
 
 from unfold.contrib.forms.widgets import WysiwygWidget
 
@@ -37,9 +46,10 @@ class EnquiryInline(admin.StackedInline):
 
 class EnrollmentInline(admin.StackedInline):
     model = Enrollment
-    extra = 0  # No extra empty forms by default
+    extra = 1  # No extra empty forms by default
     fields = (
         'student',
+        'quotation',
         'nationality',
         'dob',
         'email',
@@ -80,18 +90,77 @@ class EnrollmentInline(admin.StackedInline):
     tab = True
 
 
+class QuotationInline(admin.StackedInline):
+    model = Quotation
+    extra = 1  # No extra empty forms by default
+    fields = (
+        'student',
+        'enquiry',
+        'program',
+        'course',
+        'course_qty_weeks',
+        'date_start',
+        'enrollment_fee',
+        'course_weekly_price',
+        'accommodation',
+        'accommodation_qty_weeks',
+        'airport_transfer',
+        'total',
+        'is_enrolled',
+        'branch',
+        'employee'
+        )
+    # readonly_fields = (
+    #     'student',
+    #     'program',
+    #     'course',
+    #     'course_qty_weeks',
+    #     'date_start',
+    #     'enrollment_fee',
+    #     'course_weekly_price',
+    #     'accommodation',
+    #     'accommodation_qty_weeks',
+    #     'airport_transfer',
+    #     'total',
+    #     'branch',
+    #     'employee'
+    #     )
+    ordering = ('-created_at',)
+    tab = True
+
+    formfield_overrides = {
+        models.TextField: {
+            "widget": UnfoldAdminTextareaWidget,
+        },
+        models.CharField: {
+            "widget": UnfoldAdminTextInputWidget,
+        },
+        models.TextChoices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+        models.IntegerField: {
+            "widget": UnfoldAdminIntegerFieldWidget,
+        },
+        models.Choices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+    }
+
+    
+
+
 @register(StudentProfile, site=new_admin_site)
 class StudentProfileAdmin(ModelAdmin):
     # Display fields in changeform in compressed mode
     compressed_fields = True  
     
     list_display = ('name', 'surname', 'email', 'dob', 'branch', 'employee') 
-    inlines = [EnquiryInline, EnrollmentInline]
+    inlines = [EnquiryInline, QuotationInline, EnrollmentInline]
 
 
 class StudentProfileAdmin(admin.ModelAdmin):
     list_display = ('name', 'surname', 'email', 'dob', 'branch', 'employee')  
-    inlines = [EnquiryInline, EnrollmentInline]
+    inlines = [EnquiryInline, QuotationInline, EnrollmentInline]
 
 
 admin.site.register(StudentProfile, StudentProfileAdmin)

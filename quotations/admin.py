@@ -2,22 +2,18 @@ from django.contrib import admin
 
 from gs_admin.sites import new_admin_site
 
-from .models import Enrollment
+from .models import Quotation
 
 from django.contrib.admin import register
 
 from unfold.admin import ModelAdmin
 
 
-@register(Enrollment, site=new_admin_site)
-class EnrollmentAdmin(ModelAdmin):
+@register(Quotation, site=new_admin_site)
+class QuotationAdmin(ModelAdmin):
     # List display options for the admin list view
     list_display = (
         'student',
-        # 'nationality',
-        # 'dob',
-        # 'email',
-        # 'phone',
         'program',
         'course',
         'course_qty_weeks',
@@ -28,14 +24,13 @@ class EnrollmentAdmin(ModelAdmin):
         'accommodation_qty_weeks',
         'airport_transfer',
         'total',
-        'branch',
-        'employee',
         'created_at',
+        'branch',
+        'employee'
     )
 
     # Fields to filter by in the admin list view
     list_filter = (
-        'nationality',
         'program',
         'course',
         'date_start',
@@ -47,8 +42,6 @@ class EnrollmentAdmin(ModelAdmin):
 
     # Search fields for the admin search bar
     search_fields = (
-        'email',
-        'phone',
         'program__name',
         'course__name',
         'accommodation__name',
@@ -57,4 +50,4 @@ class EnrollmentAdmin(ModelAdmin):
     
 
 
-admin.site.register(Enrollment)
+admin.site.register(Quotation)
