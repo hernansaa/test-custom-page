@@ -2,67 +2,30 @@
   <h2 class="fw-bold pb-2 border-bottom">Testimonios</h2>
   <div class="py-5 overflow-hidden">
     <div class="row gy-3 gy-lg-4">
+      {% for review in student_review_section %}
       <div class="col-12 col-lg-6">
         <div class="card rounded-4">
           <div class="card-body p-4 p-xxl-4">
             <div class="bsb-ratings text-warning mb-3" data-bsb-star="5" data-bsb-star-off="0"></div>
-            <blockquote class="bsb-blockquote-icon mb-3">“Experiencia increíble y gracias a Germán fue todo mucho más fácil ya que hizo que fuese segura de todo y con muchísimas ganas de empezar. Muchas gracias por todo de corazón y repetiré sin dudarlo!”</blockquote>
+            <blockquote class="bsb-blockquote-icon mb-3">“{{ review.review }}”</blockquote>
             <figure class="d-flex align-items-center m-0 p-0">
-              <img class="img-fluid rounded rounded-circle m-0 border border-5" loading="lazy" src="" alt="Luna John">
+              {% if review.profile_img %}
+              <img 
+                  class="img-fluid rounded-circle m-0 border border-5" 
+                  loading="lazy" 
+                  src="{{ review.profile_img.url }}" 
+                  alt="{{ review.first_name }} {{ review.last_name }}" 
+                  style="width: 100px; height: 100px; object-fit: cover;">
+              {% endif %}
               <figcaption class="ms-3">
-                <h4 class="mb-1 h5">Miriam Nerin</h4>
-                <h5 class="fs-6 text-secondary mb-0">16 años</h5>
+                <h4 class="mb-1 h5">{{ review.first_name }} {{ review.last_name }}</h4>
+                <h5 class="fs-6 text-secondary mb-0">{{ review.age }} años</h5>
               </figcaption>
             </figure>
           </div>
         </div>
       </div>
-      <div class="col-12 col-lg-6">
-        <div class="card rounded-4">
-          <div class="card-body p-4 p-xxl-4">
-            <div class="bsb-ratings text-warning mb-3" data-bsb-star="4" data-bsb-star-off="1"></div>
-            <blockquote class="bsb-blockquote-icon mb-3">“Experiencia increíble y gracias a Germán fue todo mucho más fácil ya que hizo que fuese segura de todo y con muchísimas ganas de empezar. Muchas gracias por todo de corazón y repetiré sin dudarlo!”</blockquote>
-
-            <figure class="d-flex align-items-center m-0 p-0">
-              <img class="img-fluid rounded rounded-circle m-0 border border-5" loading="lazy" src="" alt="Mark Smith">
-              <figcaption class="ms-3">
-                <h4 class="mb-1 h5">Axel Obregon</h4>
-                <h5 class="fs-6 text-secondary mb-0">17 años</h5>
-              </figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-lg-6">
-        <div class="card rounded-4">
-          <div class="card-body p-4 p-xxl-4">
-            <div class="bsb-ratings text-warning mb-3" data-bsb-star="3" data-bsb-star-off="2"></div>
-            <blockquote class="bsb-blockquote-icon mb-3">“Experiencia increíble y gracias a Germán fue todo mucho más fácil ya que hizo que fuese segura de todo y con muchísimas ganas de empezar. Muchas gracias por todo de corazón y repetiré sin dudarlo!”</blockquote>
-            <figure class="d-flex align-items-center m-0 p-0">
-              <img class="img-fluid rounded rounded-circle m-0 border border-5" loading="lazy" src="" alt="Michael Wilson">
-              <figcaption class="ms-3">
-                <h4 class="mb-1 h5">Marta Calvo</h4>
-                <h5 class="fs-6 text-secondary mb-0">25 años</h5>
-              </figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-lg-6">
-        <div class="card rounded-4">
-          <div class="card-body p-4 p-xxl-4">
-            <div class="bsb-ratings text-warning mb-3" data-bsb-star="5" data-bsb-star-off="0"></div>
-            <blockquote class="bsb-blockquote-icon mb-3">“Experiencia increíble y gracias a Germán fue todo mucho más fácil ya que hizo que fuese segura de todo y con muchísimas ganas de empezar. Muchas gracias por todo de corazón y repetiré sin dudarlo!”</blockquote>
-            <figure class="d-flex align-items-center m-0 p-0">
-              <img class="img-fluid rounded rounded-circle m-0 border border-5" loading="lazy" src="" alt="Student">
-              <figcaption class="ms-3">
-                <h4 class="mb-1 h5">Marta Calvo</h4>
-                <h5 class="fs-6 text-secondary mb-0">25 años</h5>
-              </figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
+      {% endfor %}
     </div>
   </div>
 </section>

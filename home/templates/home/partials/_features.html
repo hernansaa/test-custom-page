@@ -1,36 +1,17 @@
-<div class="container px-4 py-5">
-  <h2 class="fw-bold pb-2 border-bottom">Porque elegir Glogal Studies</h2>
+<div class="container px-4 pb-5">
+  <h2 class="fw-bold pb-2 border-bottom">Por qué elegir Glogal Studies</h2>
 </div>
 
 <div class="container px-4 text-center">
     <div class="row g-2">
+        {% for item in why_us_section %}
         <div class="col-lg-3 col-md-6">
-            <div class="border p-4 rounded-start-4">
-              <i class="bi bi-fire bg-primary"></i>
-              <h3 class="fs-3">Más de 30 años de experiencia</h3>
-              <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+            <div class="p-4 rounded">
+              <i class="{{ item.icon_img }}" style="font-size: 4rem; color: rgb(0, 41, 118);"></i>
+              <h3 class="fs-3">{{ item.title }}</h3>
+              <p>{{ item.text }}</p>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="border p-4">
-              <i class="bi bi-fire bg-primary"></i>
-              <h3 class="fs-3">Más de 30 años de experiencia</h3>
-              <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="border p-4">
-              <i class="bi bi-fire bg-primary"></i>
-              <h3 class="fs-3">Más de 30 años de experiencia</h3>
-              <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="border p-4 rounded-end-4">
-              <i class="bi bi-fire bg-primary"></i>
-              <h3 class="fs-3">Más de 30 años de experiencia</h3>
-              <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 </div>

@@ -1,8 +1,36 @@
 from django.contrib import admin
 
-from .models import AboutUs, ContactPage, TeamMember
+from .models import (HomePage, AboutUs, ContactPage, TeamMember, StudentReviewsSection,
+    WhyUsSection, ContactSection)
 
 # Register your models here.
+
+
+class ContactSectionInline(admin.StackedInline):
+    model = ContactSection
+    extra = 0
+
+
+class StudentReviwesSectionInline(admin.StackedInline):
+    model = StudentReviewsSection
+    extra = 1
+
+
+class WhyUsSectionInline(admin.StackedInline):
+    model = WhyUsSection
+    extra = 1
+
+
+class HomePageAdmin(admin.ModelAdmin):
+    inlines = [
+        StudentReviwesSectionInline,
+        WhyUsSectionInline,
+        ContactSectionInline,
+    ]
+
+
+admin.site.register(HomePage, HomePageAdmin)
+
 
 class TeamMemberInline(admin.TabularInline):
     model = TeamMember

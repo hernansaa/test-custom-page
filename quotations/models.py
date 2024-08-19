@@ -5,11 +5,11 @@ from students.models import StudentProfile
 from branches.models import AgencyBranch, EmployeeProfile
 from enrollments.models import Enrollment
 
-# Create your models here.
 
 class Quotation(models.Model):
     """
-    Quotation model representing a student's quote for a course, which can be converted into an Enrollment.
+    Quotation model representing a student's quote for a course, which can be 
+    converted into an Enrollment if method is_enrolled is True.
     """
 
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, null=True, blank=True)
@@ -27,7 +27,7 @@ class Quotation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     branch = models.ForeignKey(AgencyBranch, on_delete=models.CASCADE, null=True, blank=True)
     employee = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE, null=True, blank=True)
-    is_enrolled = models.BooleanField(default=False)  # Checkbox in forms
+    is_enrolled = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.student} enrolled in {self.course}"

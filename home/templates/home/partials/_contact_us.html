@@ -2,14 +2,14 @@
   <div class="container px-4 py-5">
     <div class="row flex-lg-row-reverse align-items-center gy-3 gy-lg-4">
       <div class="col-12 col-sm-12 col-lg-6">
-        <img src="https://craftware.com/wp-content/uploads/2019/12/shutterstock_455108011-min.jpg" class="d-block mx-lg-auto img-fluid rounded-4" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+        <img src="{{ contact_section.img.url }}" class="d-block mx-lg-auto img-fluid rounded-4" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
       </div>
       <div class="col-12 col-sm-12 col-lg-6 px-4 text-center">
-        <h2 class="display-6 text-body-emphasis lh-1 mb-3">¿Qué estas esperando? ¡Agenda tu reunión!</h2>
-        <p class="lead">Agenda de tu reunion con uno de nuestros asesores de manera presencial o por llamada.</p>
+        <h2 class="display-6 text-body-emphasis lh-1 mb-3">{{ contact_section.title }}</h2>
+        <p class="lead">{{ contact_section.sub_title }}</p>
         <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-          <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Te llamamos ahora</button>
-          <button type="button" class="btn btn-outline-secondary btn-lg px-4">Agendar para más tarde</button>
+          <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">{{ contact_section.button_first_text }}</button>
+          <button type="button" class="btn btn-outline-secondary btn-lg px-4">{{ contact_section.button_second_text }}</button>
         </div>
       </div>
     </div>

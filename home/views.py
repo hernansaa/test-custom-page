@@ -2,14 +2,24 @@ from django.shortcuts import render, redirect
 
 from .models import AboutUs, ContactPage
 
+from .models import StudentReviewsSection, WhyUsSection, ContactSection
 from branches.models import AgencyBranch
-
 from enquiries.forms import ContactForm
 
 # Create your views here.
 
 def index(request):
-    return render(request, 'home/index.html')
+    student_review_section = StudentReviewsSection.objects.all()
+    why_us_section = WhyUsSection.objects.all()
+    contact_section = ContactSection.objects.first()
+    
+    context = {
+        'student_review_section': student_review_section,
+        'why_us_section': why_us_section,
+        'contact_section': contact_section
+    }
+
+    return render(request, 'home/index.html', context)
 
 
 def contact(request):
