@@ -37,13 +37,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "unfold.apps.BasicAppConfig", # <- Custom app config, not overriding default admin
-    "unfold.contrib.filters",  # optional, if special filters are needed
-    "unfold.contrib.forms",  # optional, if special form elements are needed
-    "unfold.contrib.inlines",  # optional, if special inlines are needed
-    "unfold.contrib.import_export",  # optional, if django-import-export package is used
-    "unfold.contrib.guardian",  # optional, if django-guardian package is used
-    "unfold.contrib.simple_history",  # optional, if django-simple-history package is used
+    # "unfold.apps.BasicAppConfig", # <- Custom app config, not overriding default admin
+    # "unfold.contrib.filters",  # optional, if special filters are needed
+    # "unfold.contrib.forms",  # optional, if special form elements are needed
+    # "unfold.contrib.inlines",  # optional, if special inlines are needed
+    # "unfold.contrib.import_export",  # optional, if django-import-export package is used
+    # "unfold.contrib.guardian",  # optional, if django-guardian package is used
+    # "unfold.contrib.simple_history",  # optional, if django-simple-history package is used
+    'unfold',
     'tinymce',
     'smart_selects',
     'students',
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
     'providers',
     'email_client',
     'enrollments',
+    'quotations',
     'enquiries',
     'programs',
     'locations',
@@ -74,7 +76,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "gs_admin.middleware.CurrentRequestMiddleware",
+    'gs_admin.middleware.CurrentRequestMiddleware'
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -83,7 +85,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        # 'APP_DIRS': True, # <- This will not work with custom template loader
+        #'APP_DIRS': True, # <- This will not work with custom template loader
         'OPTIONS': {
             'loaders': [
                 'gs_admin.loaders.UnfoldAdminLoader', # <- New template loader
@@ -208,10 +210,10 @@ UNFOLD = {
     # "STYLES": [
     #     lambda request: static("css/style.css"),
     # ],
-    "SCRIPTS": [
-        lambda request: static("js/jquery-3.6.0.min.js"),
-        lambda request: static("js/chainedfk.js"),
-    ],
+    # "SCRIPTS": [
+    #     lambda request: static("js/jquery-3.6.0.min.js"),
+    #     lambda request: static("js/chainedfk.js"),
+    # ],
     "DASHBOARD_CALLBACK": "gs_admin.utils.dashboard_callback",
     "SIDEBAR": {
         "show_search": True,  # Search in applications and models names
