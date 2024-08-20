@@ -115,7 +115,9 @@ class StudentProfileAdmin(ModelAdmin):
     # Display fields in changeform in compressed mode
     compressed_fields = True  
     
-    list_display = ('name', 'surname', 'email', 'dob', 'branch', 'employee') 
+    list_display = ('name', 'surname', 'email', 'dob', 'branch', 'employee')
+    list_filter = ('name', 'surname', 'email', 'dob', 'branch', 'employee')
+    search_fields = ('name', 'surname', 'email', 'dob')
     inlines = [EnquiryInline, QuotationInline, EnrollmentInline,]
 
 

@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 
 from .models import AboutUs, ContactPage
 
-from .models import StudentReviewsSection, WhyUsSection, ContactSection
+from .models import (StudentReviewsSection, WhyUsSection, ContactSection, FeaturedProgramsSection,
+    PopularDestiniesSection, HeaderHeroSection)
 from branches.models import AgencyBranch
 from enquiries.forms import ContactForm
 
@@ -12,11 +13,17 @@ def index(request):
     student_review_section = StudentReviewsSection.objects.all()
     why_us_section = WhyUsSection.objects.all()
     contact_section = ContactSection.objects.first()
+    featured_programs_section = FeaturedProgramsSection.objects.all()[:4]
+    popular_destinies_section = PopularDestiniesSection.objects.all()[:4]
+    header_hero_section = HeaderHeroSection.objects.all()[:3]
     
     context = {
         'student_review_section': student_review_section,
         'why_us_section': why_us_section,
-        'contact_section': contact_section
+        'contact_section': contact_section,
+        'featured_programs_section': featured_programs_section,
+        'popular_destinies_section': popular_destinies_section,
+        'header_hero_section': header_hero_section,
     }
 
     return render(request, 'home/index.html', context)

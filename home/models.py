@@ -1,5 +1,8 @@
 from django.db import models
+
 from tinymce.models import HTMLField
+
+from branches.models import AgencyBranch
 
 
 class HomePage(models.Model):
@@ -9,6 +12,8 @@ class HomePage(models.Model):
     header_img_first = models.ImageField(upload_to='home/home/header', null=True, blank=True)
     header_img_second = models.ImageField(upload_to='home/home/header', null=True, blank=True)
     header_img_third = models.ImageField(upload_to='home/home/header', null=True, blank=True)
+    branch = models.ForeignKey(AgencyBranch, on_delete=models.CASCADE, null=True, blank=True)
+
 
     def __str__(self):
         return f"Home Page Global Studies - {self.header_title}"
@@ -46,6 +51,27 @@ class ContactSection(models.Model):
 
     def __str__(self):
         return f"{self.title}"
+    
+
+class FeaturedProgramsSection(models.Model):
+    title = models.CharField(max_length=100, null=True, blank=True)
+    sub_title = models.CharField(max_length=150, null=True, blank=True)
+    img = models.ImageField(upload_to='home/home/featured_programs', null=True, blank=True)
+    home_page = models.ForeignKey(HomePage, on_delete=models.CASCADE, null=True, blank=True)
+
+
+class PopularDestiniesSection(models.Model):
+    title = models.CharField(max_length=100, null=True, blank=True)
+    sub_title = models.CharField(max_length=150, null=True, blank=True)
+    img = models.ImageField(upload_to='home/home/popular_destinies', null=True, blank=True)
+    home_page = models.ForeignKey(HomePage, on_delete=models.CASCADE, null=True, blank=True)
+
+
+class HeaderHeroSection(models.Model):
+    title = models.CharField(max_length=100, null=True, blank=True)
+    sub_title = models.CharField(max_length=150, null=True, blank=True)
+    img = models.ImageField(upload_to='home/home/header_hero', null=True, blank=True)
+    home_page = models.ForeignKey(HomePage, on_delete=models.CASCADE, null=True, blank=True)
 
 
 class AboutUs(models.Model):
@@ -79,3 +105,27 @@ class ContactPage(models.Model):
 
     def __str__(self):
         return f"{self.header_title}"
+    
+
+class NavbarItem(models.Model):
+    name = models.CharField(max_length=100) # logo, navbar item, socials, etc.
+    text = models.CharField(max_length=100)
+    icon = models.CharField(max_length=50, null=True, blank=True)
+    img = models.ImageField(upload_to='home/home/navbar', null=True, blank=True)
+    url = models.URLField(max_length=200, null=True, blank=True)
+    order = models.PositiveIntegerField(default=0, null=True, blank=True)
+    visible = models.BooleanField(default=True)
+    home_page = models.ForeignKey(HomePage, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.name
+
+
+# class FooterContent(models.Model):
+#     content = models.TextField()
+
+#     def __str__(self):
+#         return "Footer Content" 

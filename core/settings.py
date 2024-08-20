@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     # "unfold.contrib.import_export",  # optional, if django-import-export package is used
     # "unfold.contrib.guardian",  # optional, if django-guardian package is used
     # "unfold.contrib.simple_history",  # optional, if django-simple-history package is used
-    'unfold',
     'tinymce',
     'smart_selects',
     'students',
@@ -59,8 +58,9 @@ INSTALLED_APPS = [
     'programs',
     'locations',
     'home',
-    'django.contrib.admin',
     'gs_admin',
+    'unfold',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -93,6 +93,7 @@ TEMPLATES = [
                 'django.template.loaders.app_directories.Loader',
             ],
             'context_processors': [
+                'home.context_processors.site_context', # To process the base.html
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',

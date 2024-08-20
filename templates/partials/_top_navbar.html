@@ -1,28 +1,57 @@
 <!-- START TOP NAVBAR -->
 <nav id="top-navbar" class="navbar navbar-expand-lg bg-primary rounded-4">
     <div class="container-fluid px-4 py-1">
-        <a class="navbar-brand fw-bold" href="{% url 'home_index' %}">GLOBAL STUDIES</a>
-        <div class="collapse navbar-collapse" id="">
-        <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
-            <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#" style="color:white; font-size:14px;"><i class="bi bi-telephone-fill"></i> 598 2623-0556</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#" style="color:white; font-size:14px;"><span class=""><i class="bi bi-envelope" style="color:white; font-size:16px;"></i></span> info@globalstudies.es</a>
-            </li>
-        </ul>
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true"><i class="bi bi-facebook"></i></a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true"><i class="bi bi-instagram"></i></a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true"><i class="bi bi-whatsapp"></i></a>
-            </li>
-        </ul>
+        {% for item in navbar_items %}
+            {% if item.name == "logo" %}
+                <a class="navbar-brand fw-bold" href="{% url 'home_index' %}">{{ item.text }}</a>
+            {% endif %}
+        {% endfor %}
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+                {% for item in navbar_items %}
+                    {% if item.name == "phone" %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#" style="color:white; font-size:14px;">
+                                <i class="{{ item.icon }}"></i> {{ item.text }}
+                            </a>
+                        </li>
+                    {% elif item.name == "email" %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="mailto:{{ item.text }}" style="color:white; font-size:14px;">
+                                <i class="{{ item.icon }}" style="color:white; font-size:16px;"></i> {{ item.text }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                {% for item in navbar_items %}
+                    {% if item.name == "facebook" %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ item.url }}" style="color:white;">
+                                <i class="{{ item.icon }}"></i>
+                            </a>
+                        </li>
+                    {% elif item.name == "instagram" %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ item.url }}" style="color:white;">
+                                <i class="{{ item.icon }}"></i>
+                            </a>
+                        </li>
+                    {% elif item.name == "whatsapp" %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ item.url }}" style="color:white;">
+                                <i class="{{ item.icon }}"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </nav>
 <!-- /END TOP NAVBAR -->
+

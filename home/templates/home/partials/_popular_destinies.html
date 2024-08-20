@@ -1,45 +1,29 @@
-<div class="container px-4 py-5" id="custom-cards">
-  <h2 class="fw-bold pb-3 border-bottom">Destinos populares</h2>
+<div class="container px-4 mb-5" id="custom-cards">
+  <h2 class="fw-bold pb-3 border-bottom">Destinos Populares</h2>
   <section class="py-5">
     <div class="">
       <div class="row">
         <div class="col-12 col-lg-12">
           <div class="row g-2">
-            <div class="col-12 col-lg-4">
-              <a href="#" class="text-decoration-none">
-                <div class="d-flex flex-column justify-content-end bg-dark text-white p-4 rounded-4 rounded-start-lg-4 bg-opacity-50" style="height: 360px; background: url('https://phantom-elmundo.unidadeditorial.es/71581b3996f2a6811cb3a3f14c4cc1c9/resize/414/f/jpg/assets/multimedia/imagenes/2020/05/07/15888506718900.jpg') center/cover no-repeat;">
-                  <h2 class="fw-bold">Sidney</h2>
-                  <p>Beautiful harbor city in Australia</p>
-                </div>
-              </a>
-            </div>
-            <div class="col-12 col-lg-8">
-              <a href="#" class="text-decoration-none">
-                <div class="d-flex flex-column justify-content-end bg-dark text-white p-4 rounded-4 rounded-end-lg-4 bg-opacity-50"
-                style="height: 360px; background: url('https://a.cdn-hotels.com/gdcs/production29/d1870/6a5ec560-bb25-11e8-970b-0242ac110006.jpg') center/cover no-repeat;">
-                  <h2 class="fw-bold">Londres</h2>
-                  <p>Historic capital of England</p>
-                </div>
-              </a>
-            </div>
-            <div class="col-12 col-lg-8">
+            {% for destiny in popular_destinies_section %}
+              {% if forloop.first %}
+                <div class="col-12 col-lg-8">
+              {% elif forloop.counter == 2 %}
+                <div class="col-12 col-lg-4">
+              {% elif forloop.counter == 3 %}
+                <div class="col-12 col-lg-4">
+              {% else %}
+                <div class="col-12 col-lg-8">
+              {% endif %}
                 <a href="#" class="text-decoration-none">
-                    <div class="d-flex flex-column justify-content-end bg-dark text-white p-4 rounded-4 rounded-start-lg-4 bg-opacity-50"
-                          style="height: 360px; background: url('https://image.cnbcfm.com/api/v1/image/106268734-1574876711571gettyimages-1059614218.jpeg?v=1576856860') center/cover no-repeat;">
-                        <h2 class="fw-bold">Nueva York</h2>
-                        <p>The city that never sleeps</p>
-                    </div>
+                  <div class="d-flex flex-column justify-content-end bg-dark text-white p-4 rounded-4 {% if forloop.first or forloop.counter == 3 %}rounded-start-lg-4{% else %}rounded-end-lg-4{% endif %} bg-opacity-50"
+                  style="height: 360px; background: url('{{ destiny.img.url }}') center/cover no-repeat;">
+                    <h2 class="fw-bold">{{ destiny.title }}</h2>
+                    <p>{{ destiny.sub_title }}</p>
+                  </div>
                 </a>
-            </div>
-            <div class="col-12 col-lg-4">
-              <a href="#" class="text-decoration-none">
-                <div class="d-flex flex-column justify-content-end bg-dark text-white p-4 rounded-4 rounded-end-lg-4 bg-opacity-50"
-                style="height: 360px; background: url('https://img.freepik.com/fotos-premium/vista-horizontal-puente-golden-gate-san-francisco-california-ee_268835-2969.jpg') center/cover no-repeat;">
-                  <h2 class="fw-bold">San Francisco</h2>
-                  <p>Iconic city by the bay</p>
-                </div>
-              </a>
-            </div>
+              </div>
+            {% endfor %}
           </div>
         </div>
       </div>
