@@ -27,7 +27,7 @@ class EnquiryInline(admin.StackedInline):
                        'date_start', 'enrollment_fee', 'created_at', 'total', 'accommodation',
                        'accommodation_qty_weeks')
     ordering = ('-created_at',)
-    tab = True
+    # tab = True
 
     def view_link(self, obj):
         url = reverse('admin:enquiries_enquiry_change', args=[obj.pk])
@@ -70,7 +70,7 @@ class EnrollmentInline(admin.StackedInline):
         'employee'
         )
     ordering = ('-created_at',)
-    tab = True
+    # tab = True
 
 
 class QuotationInline(admin.StackedInline):
@@ -107,7 +107,7 @@ class QuotationInline(admin.StackedInline):
         'employee'
         )
     ordering = ('-created_at',)
-    tab = True
+    # tab = True
 
 
 @register(StudentProfile, site=new_admin_site)

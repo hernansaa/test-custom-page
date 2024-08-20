@@ -60,6 +60,24 @@ class SchoolFacilityInline(admin.TabularInline):
     model = SchoolFacility
     extra = 1
 
+    formfield_overrides = {
+        models.TextField: {
+            "widget": UnfoldAdminTextareaWidget,
+        },
+        models.CharField: {
+            "widget": UnfoldAdminTextInputWidget,
+        },
+        models.TextChoices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+        models.IntegerField: {
+            "widget": UnfoldAdminIntegerFieldWidget,
+        },
+        models.Choices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+    }
+
 
 class AcreditationAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'logo')
@@ -68,6 +86,24 @@ class AcreditationAdmin(admin.ModelAdmin):
 class SchoolAcreditationInline(admin.TabularInline):
     model = SchoolAcreditation
     extra = 1
+
+    formfield_overrides = {
+        models.TextField: {
+            "widget": UnfoldAdminTextareaWidget,
+        },
+        models.CharField: {
+            "widget": UnfoldAdminTextInputWidget,
+        },
+        models.TextChoices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+        models.IntegerField: {
+            "widget": UnfoldAdminIntegerFieldWidget,
+        },
+        models.Choices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+    }
 
 
 
@@ -79,6 +115,24 @@ class SchoolActivityInline(admin.TabularInline):
     model = SchoolActivity
     extra = 1
 
+    formfield_overrides = {
+        models.TextField: {
+            "widget": UnfoldAdminTextareaWidget,
+        },
+        models.CharField: {
+            "widget": UnfoldAdminTextInputWidget,
+        },
+        models.TextChoices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+        models.IntegerField: {
+            "widget": UnfoldAdminIntegerFieldWidget,
+        },
+        models.Choices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+    }
+
 
 class AccommodationAdmin(admin.ModelAdmin):
     list_display = ('id', 'type', 'description', 'img')
@@ -89,6 +143,24 @@ class SchoolAccommodationInline(admin.TabularInline):
     extra = 1
     tab = True
 
+    formfield_overrides = {
+        models.TextField: {
+            "widget": UnfoldAdminTextareaWidget,
+        },
+        models.CharField: {
+            "widget": UnfoldAdminTextInputWidget,
+        },
+        models.TextChoices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+        models.IntegerField: {
+            "widget": UnfoldAdminIntegerFieldWidget,
+        },
+        models.Choices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+    }
+
 
 class AirportAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'city')
@@ -98,6 +170,24 @@ class SchoolAirportTransferInline(admin.TabularInline):
     model = SchoolAirportTransfer
     extra = 1
 
+    formfield_overrides = {
+        models.TextField: {
+            "widget": UnfoldAdminTextareaWidget,
+        },
+        models.CharField: {
+            "widget": UnfoldAdminTextInputWidget,
+        },
+        models.TextChoices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+        models.IntegerField: {
+            "widget": UnfoldAdminIntegerFieldWidget,
+        },
+        models.Choices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+    }
+
 
 class ExtraAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
@@ -106,6 +196,24 @@ class ExtraAdmin(admin.ModelAdmin):
 class SchoolExtraline(admin.TabularInline):
     model = SchoolExtra
     extra = 1
+
+    formfield_overrides = {
+        models.TextField: {
+            "widget": UnfoldAdminTextareaWidget,
+        },
+        models.CharField: {
+            "widget": UnfoldAdminTextInputWidget,
+        },
+        models.TextChoices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+        models.IntegerField: {
+            "widget": UnfoldAdminIntegerFieldWidget,
+        },
+        models.Choices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+    }
 
 
 class AvgAgeAdmin(admin.ModelAdmin):
@@ -120,6 +228,24 @@ class SchoolAvgAgeline(admin.TabularInline):
     model = SchoolAvgAge
     extra = 1
 
+    formfield_overrides = {
+        models.TextField: {
+            "widget": UnfoldAdminTextareaWidget,
+        },
+        models.CharField: {
+            "widget": UnfoldAdminTextInputWidget,
+        },
+        models.TextChoices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+        models.IntegerField: {
+            "widget": UnfoldAdminIntegerFieldWidget,
+        },
+        models.Choices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+    }
+
 
 class ClassroomEquipmentAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'icon')
@@ -129,20 +255,92 @@ class SchoolClassroomEquipmentline(admin.TabularInline):
     model = SchoolClassroomEquipment
     extra = 1
 
+    formfield_overrides = {
+        models.TextField: {
+            "widget": UnfoldAdminTextareaWidget,
+        },
+        models.CharField: {
+            "widget": UnfoldAdminTextInputWidget,
+        },
+        models.TextChoices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+        models.IntegerField: {
+            "widget": UnfoldAdminIntegerFieldWidget,
+        },
+        models.Choices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+    }
+
 
 class SchoolNationalityMixline(admin.TabularInline):
     model = NationalityMix
     extra = 1
+
+    formfield_overrides = {
+        models.TextField: {
+            "widget": UnfoldAdminTextareaWidget,
+        },
+        models.CharField: {
+            "widget": UnfoldAdminTextInputWidget,
+        },
+        models.TextChoices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+        models.IntegerField: {
+            "widget": UnfoldAdminIntegerFieldWidget,
+        },
+        models.Choices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+    }
 
 
 class ContactInformationInline(admin.TabularInline):
     model = ContactInformation
     extra = 1
 
+    formfield_overrides = {
+        models.TextField: {
+            "widget": UnfoldAdminTextareaWidget,
+        },
+        models.CharField: {
+            "widget": UnfoldAdminTextInputWidget,
+        },
+        models.TextChoices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+        models.IntegerField: {
+            "widget": UnfoldAdminIntegerFieldWidget,
+        },
+        models.Choices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+    }
+
 
 class SchoolAgencyBranchInline(admin.TabularInline):
     model = SchoolAgencyBranch
     extra = 1
+
+    formfield_overrides = {
+        models.TextField: {
+            "widget": UnfoldAdminTextareaWidget,
+        },
+        models.CharField: {
+            "widget": UnfoldAdminTextInputWidget,
+        },
+        models.TextChoices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+        models.IntegerField: {
+            "widget": UnfoldAdminIntegerFieldWidget,
+        },
+        models.Choices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+    }
 
 
 class CourseInline(admin.StackedInline):
@@ -174,11 +372,28 @@ class AddressInline(admin.TabularInline):
     model = Address
     extra = 1
 
+    formfield_overrides = {
+        models.TextField: {
+            "widget": UnfoldAdminTextareaWidget,
+        },
+        models.CharField: {
+            "widget": UnfoldAdminTextInputWidget,
+        },
+        models.TextChoices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+        models.IntegerField: {
+            "widget": UnfoldAdminIntegerFieldWidget,
+        },
+        models.Choices: {
+            "widget": UnfoldAdminSelectWidget,
+        },
+    }
+
 
 @register(School, site=new_admin_site)
 class SchoolAdmin(ModelAdmin):
-    # Unfold Admin method
-    compressed_fields = True
+    compressed_fields = True # Unfold Admin method
     
     list_display = ('name', 'language_id')
     search_fields = ('name', 'language_id__name')
