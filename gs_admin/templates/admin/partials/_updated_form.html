@@ -1,0 +1,48 @@
+<form {% if has_file_field %}enctype="multipart/form-data" {% endif %}{% if form_url %}action="{{ form_url }}" {% endif %}method="post" id="{{ opts.model_name }}_form" {% if adminform.model_admin.warn_unsaved_form %}class="warn-unsaved-form"{% endif %} novalidate hx-post="{% url 'update_admin_form' %}" hx-target="#content-main" hx-trigger="click" hx-swap="innerHTML">
+  {% csrf_token %}
+
+  {% block form_top %}{% endblock %}
+
+  <div>
+      {% if is_popup %}
+          <input type="hidden" name="{{ is_popup_var }}" value="1">
+      {% endif %}
+
+      {% if to_field %}
+          <input type="hidden" name="{{ to_field_var }}" value="{{ to_field }}">
+      {% endif %}
+
+      {% include "unfold/helpers/messages/errornote.html" with errors=errors %}
+      {% include "unfold/helpers/messages/error.html" with errors=adminform.form.non_field_errors %}
+
+      {% block field_sets %}
+
+          {% for fieldset in adminform %}
+              {% if "tab" not in fieldset.classes %}
+                  {% include 'admin/includes/fieldset.html' %}
+              {% endif %}
+          {% endfor %}
+
+          {% include "unfold/helpers/fieldsets_tabs.html" %}
+      {% endblock %}
+
+      {% block after_field_sets %}{% endblock %}
+
+      {% block inline_field_sets %}
+          {% for inline_admin_formset in inline_admin_formsets %}
+              {% include inline_admin_formset.opts.template %}
+          {% endfor %}
+
+      {% endblock %}
+
+      {% block after_related_objects %}{% endblock %}
+
+      {% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
+
+      {% block admin_change_form_document_ready %}
+          <script id="django-admin-form-add-constants" src="{% static 'admin/js/change_form.js' %}"{% if adminform and add %} data-model-name="{{ opts.model_name }}"{% endif %} async></script>
+      {% endblock %}
+
+      {% prepopulated_fields_js %}
+  </div>
+</form>

@@ -54,3 +54,25 @@ class Quotation(models.Model):
             )
             if created:
                 print(f"Enrollment created for {self.student} from Quotation ID {self.id}")
+        else:
+            # Delete the associated Enrollment if it exists
+            try:
+                enrollment = Enrollment.objects.get(
+                    student=self.student,
+                    program=self.program,
+                    course=self.course,
+                    course_qty_weeks=self.course_qty_weeks,
+                    date_start=self.date_start,
+                    enrollment_fee=self.enrollment_fee,
+                    course_weekly_price=self.course_weekly_price,
+                    accommodation=self.accommodation,
+                    accommodation_qty_weeks=self.accommodation_qty_weeks,
+                    airport_transfer=self.airport_transfer,
+                    total=self.total,
+                    branch=self.branch,
+                    employee=self.employee,
+                )
+                enrollment.delete()
+                print(f"Enrollment deleted for {self.student} from Quotation ID {self.id}")
+            except Enrollment.DoesNotExist:
+                pass  # No associated Enrollment exists, so nothing to delete

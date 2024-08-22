@@ -346,8 +346,8 @@ class SchoolAgencyBranchInline(admin.TabularInline):
 class CourseInline(admin.StackedInline):
     model = Course
     extra = 1
-    tab = True
-    hide_title = True
+    # tab = True
+    # hide_title = True
 
     formfield_overrides = {
         models.TextField: {
@@ -419,6 +419,7 @@ class SchoolAdmin(admin.ModelAdmin):
     list_display = ('name', 'language_id')
     search_fields = ('name', 'language_id__name')
     list_filter = ('name', 'language_id__name')
+    save_as = True
     inlines = [
         SchoolFacilityInline,
         SchoolAcreditationInline, 

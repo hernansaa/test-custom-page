@@ -14,10 +14,6 @@ class EnrollmentAdmin(ModelAdmin):
     # List display options for the admin list view
     list_display = (
         'student',
-        'nationality',
-        'dob',
-        'email',
-        'phone',
         'program',
         'course',
         'course_qty_weeks',

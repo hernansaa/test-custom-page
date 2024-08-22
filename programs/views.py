@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from .models import Experience, CourseType
 from locations.models import Country
 
@@ -8,6 +8,8 @@ from providers.models import School, Course
 
 from enquiries.forms import InquiryForm
 from enquiries.models import Inquiry
+
+from .forms import TestAdminForm
 
 def index(request): 
     
@@ -101,3 +103,14 @@ def filter_courses(request):
     school_id = request.POST.get('school_id')
     courses = Course.objects.filter(school_id=school_id).values('id', 'name')
     return JsonResponse(list(courses), safe=False)
+
+
+def update_admin_form(request):
+
+    form = TestAdminForm(request.POST)
+    school_id = request.POST.get('school_id')
+    
+    if form:
+        courses = Course.objects.filter(school_id=school_id)
+        return render(request, 'admin/partials/_updated_form.html', {'courses': courses, 'form': form})
+    return HttpResponse('sdfsdf')
