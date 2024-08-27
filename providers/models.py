@@ -133,7 +133,7 @@ class Course(models.Model):
     school = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.name} | {self.school}"
+        return f"{self.name}"
     
 
 # class CoursePrice(models.Model):

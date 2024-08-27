@@ -9,10 +9,11 @@ class QuotationAdmin(admin.ModelAdmin):
         'student',
         'city',
         'school', 
-        'course', 
-        'date_start', 
+        'course',
+        'course_qty_weeks',
         'total', 
         'status', 
+        'date_start',
         'created_at'
     )
 
@@ -29,6 +30,14 @@ class QuotationAdmin(admin.ModelAdmin):
         'school__name', 
         'course__name'
     )
+
+    readonly_fields = ('created_at',
+        'school_total', 
+        'accommodation_total', 
+        'total', 
+        'enrollment_fee', 
+        'airport_transfer_total', 
+        'enquiry',)
 
     # list_editable = ('status',)
 
@@ -87,10 +96,6 @@ class QuotationAdmin(admin.ModelAdmin):
             )
         }),
     )
-
-    readonly_fields = ('created_at','school_total', 'accommodation_total', 'total', 'enrollment_fee', 
-                       'airport_transfer_total',)
-
 
     class Media:
         js = ('js/quotation_admin.js',)

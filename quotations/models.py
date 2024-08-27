@@ -5,9 +5,20 @@ from smart_selects.db_fields import ChainedForeignKey
 from locations.models import City
 from enquiries.models import Enquiry
 from students.models import StudentProfile
-from branches.models import AgencyBranch, EmployeeProfile
-from providers.models import (School, Course, CoursePrice, CoursePriceList, SchoolAccommodation, 
-    AccommodationPrice, AccommodationPriceList, SchoolAirportTransfer)
+from branches.models import (
+    AgencyBranch, 
+    EmployeeProfile,
+    )
+from providers.models import (
+    School, 
+    Course,
+    CoursePrice, 
+    CoursePriceList, 
+    SchoolAccommodation, 
+    AccommodationPrice, 
+    AccommodationPriceList, 
+    SchoolAirportTransfer
+    )
 
 
 class Quotation(models.Model):
