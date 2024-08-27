@@ -1,13 +1,12 @@
 from django.db import models
 
-from smart_selects.db_fields import ChainedForeignKey, ChainedManyToManyField
+from smart_selects.db_fields import ChainedForeignKey
 
 from enquiries.models import Enquiry
 from students.models import StudentProfile
 from branches.models import AgencyBranch, EmployeeProfile
-from enrollments.models import Enrollment
 from providers.models import (Course, CoursePrice, CoursePriceList, SchoolAccommodation, 
-                              AccommodationPrice, AccommodationPriceList, Accommodation, SchoolAirportTransfer)
+    AccommodationPrice, AccommodationPriceList, SchoolAirportTransfer)
 
 
 class Quotation(models.Model):
@@ -63,14 +62,13 @@ class Quotation(models.Model):
         null=True,
         blank=True,
         )
-    # accommodation_qty_weeks = models.ForeignKey('providers.AccommodationPrice', on_delete=models.CASCADE, null=True, blank=True)
     accommodation_price_list = ChainedForeignKey(
         AccommodationPriceList, 
         chained_field="accommodation",
         chained_model_field="school_accommodation",
-        #show_all=False,
+        show_all=False,
         auto_choose=False,
-        # sort=True,
+        sort=True,
         null=True,
         blank=True,
         )
@@ -84,7 +82,6 @@ class Quotation(models.Model):
         null=True,
         blank=True,
         )
-    #airport_transfer = models.ForeignKey('providers.SchoolAirportTransfer', null=True, blank=True, on_delete=models.CASCADE)
     airport_transfer = ChainedForeignKey(
         SchoolAirportTransfer, 
         chained_field="school",
