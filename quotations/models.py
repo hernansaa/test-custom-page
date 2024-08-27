@@ -2,7 +2,7 @@ from django.db import models
 
 from smart_selects.db_fields import ChainedForeignKey
 
-from locations.models import Country, State, City
+from locations.models import City
 from enquiries.models import Enquiry
 from students.models import StudentProfile
 from branches.models import AgencyBranch, EmployeeProfile
@@ -15,6 +15,13 @@ class Quotation(models.Model):
     Quotation model representing a student's quote for a course, which can be 
     converted into an Enrollment if method is_enrolled is True.
     """
+
+    QUOTATION_STATUS = (
+        ('sent', 'sent'),
+        ('approved', 'approved'),
+        ('rejected', 'rejected'),
+        ('expired', 'expired'),
+    )
 
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, null=True, blank=True)
     enquiry = ChainedForeignKey(
@@ -119,7 +126,8 @@ class Quotation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     branch = models.ForeignKey(AgencyBranch, on_delete=models.CASCADE, null=True, blank=True)
     employee = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE, null=True, blank=True)
-    is_accepted = models.BooleanField(default=False)
+    status = models.CharField(max_length=10, choices=QUOTATION_STATUS, null=True, blank=True)
+
 
     def __str__(self):
         return f"{self.student} enrolled in {self.course}"

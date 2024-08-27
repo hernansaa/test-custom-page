@@ -2,12 +2,9 @@ from django.db import models
 
 from branches.models import AgencyBranch, EmployeeProfile
 from students.models import StudentProfile
-from currencies.models import Currency
-
-# Create your models here.
 
 
-# This is the original inquiry for the programs
+# This is the original inquiry for the programs (probably delete when sure)
 class Inquiry(models.Model):
     name = models.CharField(max_length=100)
     nationality = models.CharField(max_length=100, blank=True, null=True)
