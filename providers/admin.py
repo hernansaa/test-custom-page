@@ -60,24 +60,6 @@ class SchoolFacilityInline(admin.TabularInline):
     model = SchoolFacility
     extra = 1
 
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
-
 
 class AcreditationAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'logo')
@@ -86,25 +68,6 @@ class AcreditationAdmin(admin.ModelAdmin):
 class SchoolAcreditationInline(admin.TabularInline):
     model = SchoolAcreditation
     extra = 1
-
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
-
 
 
 class ActivityAdmin(admin.ModelAdmin):
@@ -115,24 +78,6 @@ class SchoolActivityInline(admin.TabularInline):
     model = SchoolActivity
     extra = 1
 
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
-
 
 class AccommodationAdmin(admin.ModelAdmin):
     list_display = ('id', 'type', 'description', 'img')
@@ -141,25 +86,6 @@ class AccommodationAdmin(admin.ModelAdmin):
 class SchoolAccommodationInline(admin.TabularInline):
     model = SchoolAccommodation
     extra = 1
-    tab = True
-
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
 
 
 class AirportAdmin(admin.ModelAdmin):
@@ -170,24 +96,6 @@ class SchoolAirportTransferInline(admin.TabularInline):
     model = SchoolAirportTransfer
     extra = 1
 
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
-
 
 class ExtraAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
@@ -196,24 +104,6 @@ class ExtraAdmin(admin.ModelAdmin):
 class SchoolExtraline(admin.TabularInline):
     model = SchoolExtra
     extra = 1
-
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
 
 
 class AvgAgeAdmin(admin.ModelAdmin):
@@ -228,24 +118,6 @@ class SchoolAvgAgeline(admin.TabularInline):
     model = SchoolAvgAge
     extra = 1
 
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
-
 
 class ClassroomEquipmentAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'icon')
@@ -255,140 +127,30 @@ class SchoolClassroomEquipmentline(admin.TabularInline):
     model = SchoolClassroomEquipment
     extra = 1
 
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
-
 
 class SchoolNationalityMixline(admin.TabularInline):
     model = NationalityMix
     extra = 1
-
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
 
 
 class ContactInformationInline(admin.TabularInline):
     model = ContactInformation
     extra = 1
 
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
-
 
 class SchoolAgencyBranchInline(admin.TabularInline):
     model = SchoolAgencyBranch
     extra = 1
 
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
-
 
 class CourseInline(admin.StackedInline):
     model = Course
     extra = 1
-    # tab = True
-    # hide_title = True
-
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
 
 
 class AddressInline(admin.TabularInline):
     model = Address
     extra = 1
-
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
 
 
 @register(School, site=new_admin_site)
@@ -497,5 +259,5 @@ admin.site.register(Course, CourseAdmin)
 admin.site.register(Address, AddressAdmin)
 # admin.site.register(CoursePrice) Not needed so far since I have it as inline in the CoursePriceList Admin
 admin.site.register(CoursePriceList, CoursePriceListAdmin)
-#admin.site.register(AccommodationPrice) Not needed so far since I have it as inline in the AccommodationPriceList Admin
+# admin.site.register(AccommodationPrice) # Not needed so far since I have it as inline in the AccommodationPriceList Admin
 admin.site.register(AccommodationPriceList, AccommodationPriceListAdmin)

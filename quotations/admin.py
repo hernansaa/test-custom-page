@@ -4,6 +4,8 @@ from gs_admin.sites import new_admin_site
 
 from django.contrib.admin import register
 
+from django.forms import Select
+
 from .models import Quotation
 
 # Register your models here.
@@ -11,19 +13,19 @@ class QuotationAdmin(admin.ModelAdmin):
     # Fields to display in the list view
     list_display = (
         'student', 
-        'program', 
+        'school', 
         'course', 
         'date_start', 
         'total', 
-        'is_enrolled', 
+        'is_accepted', 
         'created_at'
     )
 
     # Fields to add filters in the list view
     list_filter = (
-        'program', 
+        'school', 
         'course', 
-        'is_enrolled', 
+        'is_accepted', 
         'created_at'
     )
 
@@ -31,12 +33,12 @@ class QuotationAdmin(admin.ModelAdmin):
     search_fields = (
         'student__name', 
         'student__email', 
-        'program__name', 
+        'school__name', 
         'course__name'
     )
 
     # Editable fields directly from the list view
-    list_editable = ('is_enrolled',)
+    list_editable = ('is_accepted',)
 
     # Fields grouped in the detail view
     fieldsets = (
@@ -44,33 +46,50 @@ class QuotationAdmin(admin.ModelAdmin):
             'fields': (
                 'student', 
                 'enquiry',
-                'program', 
+                'school', 
                 'course', 
+                'course_price_list',
                 'course_qty_weeks',
                 'date_start',
-                'total'
             )
         }),
-        ('Fees & Prices', {
+        ('Accommodation', {
             'fields': (
-                'enrollment_fee', 
-                'course_weekly_price', 
-                'accommodation', 
-                'accommodation_qty_weeks', 
-                'airport_transfer'
+                # 'course_weekly_price', 
+                'accommodation',
+                'accommodation_price_list',  
+                'accommodation_qty_weeks',
+            )
+        }),
+        ('Airport Transfer', {
+            'fields': (
+                'airport_transfer',
+            )
+        }),
+        ('Quotation Details', {
+            'fields': (
+                'enrollment_fee',
+                'school_total',
+                'accommodation_total',
+                'total',
             )
         }),
         ('Other Details', {
             'fields': (
                 'branch', 
                 'employee', 
-                'is_enrolled'
+                'is_accepted'
             )
         }),
     )
 
     # Readonly fields (if any)
-    readonly_fields = ('created_at',)
+    readonly_fields = ('created_at','school_total', 'accommodation_total', 'total', 'enrollment_fee')
+
+
+    class Media:
+        js = ('js/quotation_admin.js',)  # Path to your JS file
+    
 
     # Automatically prepopulate the `total` field (if needed)
     # You may need to implement this in the model or through JS in the admin
@@ -94,19 +113,19 @@ class QuotationAdmin(admin.ModelAdmin):
     # Fields to display in the list view
     list_display = (
         'student', 
-        'program', 
+        'school', 
         'course', 
         'date_start', 
         'total', 
-        'is_enrolled', 
+        'is_accepted', 
         'created_at'
     )
 
     # Fields to add filters in the list view
     list_filter = (
-        'program', 
+        'school', 
         'course', 
-        'is_enrolled', 
+        'is_accepted', 
         'created_at'
     )
 
@@ -114,12 +133,12 @@ class QuotationAdmin(admin.ModelAdmin):
     search_fields = (
         'student__name', 
         'student__email', 
-        'program__name', 
+        'school__name', 
         'course__name'
     )
 
     # Editable fields directly from the list view
-    list_editable = ('is_enrolled',)
+    list_editable = ('is_accepted',)
 
     # Fields grouped in the detail view
     fieldsets = (
@@ -127,7 +146,7 @@ class QuotationAdmin(admin.ModelAdmin):
             'fields': (
                 'student', 
                 'enquiry',
-                'program', 
+                'school', 
                 'course', 
                 'course_qty_weeks',
                 'date_start',
@@ -147,7 +166,7 @@ class QuotationAdmin(admin.ModelAdmin):
             'fields': (
                 'branch', 
                 'employee', 
-                'is_enrolled'
+                'is_accepted'
             )
         }),
     )

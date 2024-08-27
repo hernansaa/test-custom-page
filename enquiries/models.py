@@ -55,7 +55,7 @@ class Enquiry(models.Model):
 
 
     def __str__(self):
-        return f"Enquiry from {self.name} ({self.email})"
+        return f"#{self.id} Enquiry from {self.name} ({self.email})"
 
 
 class Contact(models.Model):

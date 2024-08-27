@@ -78,7 +78,7 @@ class QuotationInline(admin.StackedInline):
     extra = 0  # No extra empty forms by default
     fields = (
         'student',
-        'program',
+        'school',
         'course',
         'course_qty_weeks',
         'date_start',
@@ -93,7 +93,7 @@ class QuotationInline(admin.StackedInline):
         )
     readonly_fields = (
         'student',
-        'program',
+        'school',
         'course',
         'course_qty_weeks',
         'date_start',
