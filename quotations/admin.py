@@ -12,7 +12,8 @@ from .models import Quotation
 class QuotationAdmin(admin.ModelAdmin):
     # Fields to display in the list view
     list_display = (
-        'student', 
+        'student',
+        'city',
         'school', 
         'course', 
         'date_start', 
@@ -42,10 +43,19 @@ class QuotationAdmin(admin.ModelAdmin):
 
     # Fields grouped in the detail view
     fieldsets = (
-        (None, {
+        ('Student Details', {
             'fields': (
-                'student', 
-                'enquiry',
+                'student',
+                'enquiry', 
+            )
+        }),
+        ('School Location', {
+            'fields': (
+                'city', 
+            )
+        }),
+        ('School Details', {
+            'fields': (
                 'school', 
                 'course', 
                 'course_price_list',
@@ -53,7 +63,7 @@ class QuotationAdmin(admin.ModelAdmin):
                 'date_start',
             )
         }),
-        ('Accommodation', {
+        ('Accommodation Details', {
             'fields': (
                 # 'course_weekly_price', 
                 'accommodation',
@@ -71,6 +81,7 @@ class QuotationAdmin(admin.ModelAdmin):
                 'enrollment_fee',
                 'school_total',
                 'accommodation_total',
+                'airport_transfer_total',
                 'total',
             )
         }),
@@ -84,7 +95,8 @@ class QuotationAdmin(admin.ModelAdmin):
     )
 
     # Readonly fields (if any)
-    readonly_fields = ('created_at','school_total', 'accommodation_total', 'total', 'enrollment_fee')
+    readonly_fields = ('created_at','school_total', 'accommodation_total', 'total', 'enrollment_fee', 
+                       'airport_transfer_total',)
 
 
     class Media:

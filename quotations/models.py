@@ -2,10 +2,11 @@ from django.db import models
 
 from smart_selects.db_fields import ChainedForeignKey
 
+from locations.models import Country, State, City
 from enquiries.models import Enquiry
 from students.models import StudentProfile
 from branches.models import AgencyBranch, EmployeeProfile
-from providers.models import (Course, CoursePrice, CoursePriceList, SchoolAccommodation, 
+from providers.models import (School, Course, CoursePrice, CoursePriceList, SchoolAccommodation, 
     AccommodationPrice, AccommodationPriceList, SchoolAirportTransfer)
 
 
@@ -16,9 +17,28 @@ class Quotation(models.Model):
     """
 
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, null=True, blank=True)
-    enquiry = models.OneToOneField(Enquiry, on_delete=models.CASCADE, related_name="quotation", null=True, blank=True)
+    enquiry = ChainedForeignKey(
+        Enquiry, 
+        chained_field="student",
+        chained_model_field="student",
+        show_all=False,
+        auto_choose=False,
+        sort=True,
+        null=True,
+        blank=True,
+        )
     # program = models.ForeignKey('providers.School', on_delete=models.CASCADE)
-    school = models.ForeignKey('providers.School', on_delete=models.CASCADE)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True)
+    school = ChainedForeignKey(
+        School,
+        chained_field="city",
+        chained_model_field="address__city",
+        show_all=False,
+        auto_choose=False,
+        sort=True,
+        null=True,
+        blank=True,
+        )
     course = ChainedForeignKey(
         Course, 
         chained_field="school",
@@ -94,6 +114,7 @@ class Quotation(models.Model):
         )
     school_total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     accommodation_total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    airport_transfer_total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     branch = models.ForeignKey(AgencyBranch, on_delete=models.CASCADE, null=True, blank=True)
@@ -128,14 +149,15 @@ class Quotation(models.Model):
     
     def save(self, *args, **kwargs):
         # Calculate the total before saving
-        if self.course.enrollment_fee:
-            self.enrollment_fee = self.course.enrollment_fee
-        else:
-            self.enrollment_fee = 0
-        self.school_total = self.calculate_school_total()
-        self.accommodation_total = self.calculate_accommodation_total()
-        self.total = self.school_total + self.accommodation_total + self.enrollment_fee
-        super(Quotation, self).save(*args, **kwargs)
+        enrollment_fee = self.course.enrollment_fee if self.course.enrollment_fee else 0
+        self.total = (
+            self.calculate_school_total() +
+            self.calculate_accommodation_total() +
+            self.airport_transfer.price +
+            enrollment_fee
+        )
+        super().save(*args, **kwargs)
+
 
 
     # def save(self, *args, **kwargs):
