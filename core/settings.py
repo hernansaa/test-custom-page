@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'providers',
     'email_client',
     'enrollments',
+    'invoices',
     'quotations',
     'enquiries',
     'programs',

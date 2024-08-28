@@ -13,7 +13,7 @@ class QuotationAdmin(admin.ModelAdmin):
         'course_qty_weeks',
         'total', 
         'status', 
-        'date_start',
+        'course_date_start',
         'created_at'
     )
 
@@ -59,7 +59,7 @@ class QuotationAdmin(admin.ModelAdmin):
                 'course', 
                 'course_price_list',
                 'course_qty_weeks',
-                'date_start',
+                'course_date_start',
             )
         }),
         ('Accommodation Details', {
@@ -68,6 +68,7 @@ class QuotationAdmin(admin.ModelAdmin):
                 'accommodation',
                 'accommodation_price_list',  
                 'accommodation_qty_weeks',
+                'accommodation_date_start',
             )
         }),
         ('Airport Transfer', {
@@ -114,7 +115,7 @@ class QuotationAdmin(admin.ModelAdmin):
         'student', 
         'school', 
         'course', 
-        'date_start', 
+        'course_date_start', 
         'total', 
         'status', 
         'created_at'
@@ -148,7 +149,7 @@ class QuotationAdmin(admin.ModelAdmin):
                 'school', 
                 'course', 
                 'course_qty_weeks',
-                'date_start',
+                'course_date_start',
                 'total'
             )
         }),

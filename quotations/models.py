@@ -23,8 +23,8 @@ from providers.models import (
 
 class Quotation(models.Model):
     """
-    Quotation model representing a student's quote for a course, which can be 
-    converted into an Enrollment if method is_enrolled is True.
+    Quotation model representing a student's quote for a course, which can
+    create the invoice if the status is set to 'approved'.
     """
 
     QUOTATION_STATUS = (
@@ -87,7 +87,7 @@ class Quotation(models.Model):
         null=True,
         blank=True,
         )
-    date_start = models.DateField(null=True, blank=True)
+    course_date_start = models.DateField(null=True, blank=True)
     enrollment_fee = models.DecimalField(decimal_places=2, max_digits=6, null=True, blank=True)
     course_weekly_price = models.DecimalField(decimal_places=2, max_digits=6, null=True, blank=True)
     accommodation = ChainedForeignKey(
@@ -120,6 +120,7 @@ class Quotation(models.Model):
         null=True,
         blank=True,
         )
+    accommodation_date_start = models.DateField(null=True, blank=True)
     airport_transfer = ChainedForeignKey(
         SchoolAirportTransfer, 
         chained_field="school",
@@ -141,7 +142,7 @@ class Quotation(models.Model):
 
 
     def __str__(self):
-        return f"{self.student} enrolled in {self.course}"
+        return f"#{self.id}"
     
     
     def calculate_school_total(self):
@@ -159,7 +160,7 @@ class Quotation(models.Model):
         """
         Calculate the total cost based on course price and number of weeks.
         """
-        if self.course_qty_weeks:
+        if self.accommodation_qty_weeks:
             total = self.accommodation_qty_weeks.week_price_ls * self.accommodation_qty_weeks.qty_weeks
         else:
             total = 0
@@ -168,14 +169,18 @@ class Quotation(models.Model):
     
     def save(self, *args, **kwargs):
         # Calculate the total before saving
-        enrollment_fee = self.course.enrollment_fee if self.course.enrollment_fee else 0
-        self.total = (
-            self.calculate_school_total() +
-            self.calculate_accommodation_total() +
-            self.airport_transfer.price +
-            enrollment_fee
-        )
-        super().save(*args, **kwargs)
+        if self.course.enrollment_fee:
+            self.enrollment_fee = self.course.enrollment_fee
+        else:
+            self.enrollment_fee = 0
+        self.school_total = self.calculate_school_total()
+        self.accommodation_total = self.calculate_accommodation_total()
+        if self.airport_transfer:
+            self.airport_transfer_total = self.airport_transfer.price
+        else:
+            self.airport_transfer_total = 0
+        self.total = self.school_total + self.accommodation_total + self.airport_transfer_total + self.enrollment_fee
+        super(Quotation, self).save(*args, **kwargs)
 
 
 
