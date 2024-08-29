@@ -10,6 +10,7 @@ from gs_admin.sites import new_admin_site
 from django.contrib.admin import register
 
 from unfold.admin import ModelAdmin
+
 from unfold.widgets import (UnfoldAdminSplitDateTimeWidget, UnfoldAdminSplitDateTimeVerticalWidget, 
                             UnfoldAdminDateWidget, AdminDateWidget, UnfoldAdminSingleDateWidget,
                             UnfoldAdminTextareaWidget, UnfoldAdminSelectWidget, UnfoldAdminIntegerFieldWidget,
@@ -228,14 +229,14 @@ class AccommodationPriceInline(admin.TabularInline):
     extra = 1
 
 
-class AccommodationPriceListAdmin (admin.ModelAdmin):
+class AccommodationPriceListAdmin(admin.ModelAdmin):
     list_display = ('school_accommodation', 'year')
     inlines = [
         AccommodationPriceInline,
     ]
 
 
-class CoursePriceListAdmin (admin.ModelAdmin):
+class CoursePriceListAdmin(admin.ModelAdmin):
     list_display = ('id', 'course', 'year')
     inlines = [
         CoursePriceInline,

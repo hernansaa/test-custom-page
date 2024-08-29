@@ -3,6 +3,6 @@ Django==5.0.6
 django-mailbox==4.10.1
 django-smart-selects==1.7.1
 django-tinymce==4.1.0
-django-unfold==0.35.0
+django-unfold==0.37.0
 pillow==10.3.0
 sqlparse==0.5.0

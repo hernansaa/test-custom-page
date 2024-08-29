@@ -1,8 +1,10 @@
 from django.contrib import admin
 from django.contrib.admin import register
 from gs_admin.sites import new_admin_site
+from unfold.admin import ModelAdmin
 from .models import Quotation
 
+# DJANGO ADMIN CONFIGURATION
 
 class QuotationAdmin(admin.ModelAdmin):
     list_display = (
@@ -107,17 +109,21 @@ admin.site.register(Quotation, QuotationAdmin)
 
 
 
-# THIS IS THE UNFOLD ADMIN CONFIGURATIOn
+# UNFOLD ADMIN CONFIGURATION
+
+
 @register(Quotation, site=new_admin_site)
-class QuotationAdmin(admin.ModelAdmin):
+class QuotationAdmin(ModelAdmin):
     # Fields to display in the list view
     list_display = (
-        'student', 
+        'student',
+        'city',
         'school', 
-        'course', 
-        'course_date_start', 
+        'course',
+        'course_qty_weeks',
         'total', 
         'status', 
+        'course_date_start',
         'created_at'
     )
 
@@ -138,35 +144,62 @@ class QuotationAdmin(admin.ModelAdmin):
     )
 
     # Editable fields directly from the list view
-    list_editable = ('status',)
+    # list_editable = ('status',)
 
     # Fields grouped in the detail view
     fieldsets = (
-        (None, {
+        ('Student Details', {
             'fields': (
-                'student', 
-                'enquiry',
-                'school', 
-                'course', 
-                'course_qty_weeks',
-                'course_date_start',
-                'total'
+                'student',
+                'enquiry', 
             )
         }),
-        ('Fees & Prices', {
+        ('School Location', {
             'fields': (
-                'enrollment_fee', 
-                'course_weekly_price', 
-                'accommodation', 
-                'accommodation_qty_weeks', 
-                'airport_transfer'
+                'city', 
+            )
+        }),
+        ('School Details', {
+            'fields': (
+                'school', 
+                'course', 
+                'course_price_list',
+                'course_qty_weeks',
+                'course_date_start',
+            )
+        }),
+        ('Accommodation Details', {
+            'fields': (
+                # 'course_weekly_price', 
+                'accommodation',
+                'accommodation_price_list',  
+                'accommodation_qty_weeks',
+                'accommodation_date_start',
+            )
+        }),
+        ('Airport Transfer', {
+            'fields': (
+                'airport_transfer',
+            )
+        }),
+        ('Quotation Details', {
+            'fields': (
+                'enrollment_fee',
+                'school_total',
+                'accommodation_total',
+                'airport_transfer_total',
+                'total',
+            )
+        }),
+        ('Quatation Status', {
+            'fields': (
+                'status',
             )
         }),
         ('Other Details', {
             'fields': (
                 'branch', 
                 'employee', 
-                'status'
             )
         }),
     )

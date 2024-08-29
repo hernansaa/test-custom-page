@@ -12,24 +12,32 @@ from unfold.widgets import (UnfoldAdminSplitDateTimeWidget, UnfoldAdminSplitDate
                             UnfoldAdminTextareaWidget, UnfoldAdminSelectWidget, UnfoldAdminIntegerFieldWidget,
                             UnfoldAdminTextInputWidget)
 
+from unfold.contrib.forms.widgets import WysiwygWidget
+
 from .models import (HomePage, AboutUs, ContactPage, TeamMember, StudentReviewsSection,
     WhyUsSection, ContactSection, FeaturedProgramsSection, PopularDestiniesSection,
     HeaderHeroSection, NavbarItem)
 
+from tinymce.models import HTMLField
+
 
 # DJANGO ADMIN
+
 
 class TeamMemberInline(admin.TabularInline):
     model = TeamMember
     extra = 0 
 
+@admin.register(AboutUs)
 class AboutUsAdmin(admin.ModelAdmin):
     inlines = [TeamMemberInline]
     list_display = ('header_title',)
 
+
 class NavbarItemInline(admin.StackedInline):
     model = NavbarItem
     extra = 0
+
 
 class HeaderHeroSectionInline(admin.StackedInline):
     model = HeaderHeroSection
@@ -91,6 +99,8 @@ class HomePageAdmin(admin.ModelAdmin):
         NavbarItemInline,
     ]
 
+
+admin.site.register(ContactPage)
 
 
 # UNFOLD ADMIN
@@ -157,7 +167,7 @@ class WhyUsSectionInline(StackedInline):
 
 @admin.register(HomePage, site=new_admin_site)
 class HomePageAdmin(ModelAdmin):
-    compressed_fields = True # Unfold Admin Option
+    compressed_fields = True
     list_display = ['branch']
     inlines = [
         StudentReviewsSectionInline,
@@ -184,7 +194,25 @@ class HomePageAdmin(ModelAdmin):
     # )
 
 
+@admin.register(ContactPage, site=new_admin_site)
+class ContactPageAdmin(ModelAdmin):
+    compressed_fields = True 
 
 
-admin.site.register(AboutUs, AboutUsAdmin)
-admin.site.register(ContactPage)
+class TeamMemberInline(TabularInline):
+    model = TeamMember
+    extra = 0 
+
+
+@admin.register(AboutUs, site=new_admin_site)
+class AbouUsAdmin(ModelAdmin):
+    compressed_fields = True
+    inlines = [TeamMemberInline]
+    # list_display = ['branch']
+
+    #Waiting for Issue to be replied in Unfold Github
+    formfield_overrides = {
+        models.TextField: {
+            "widget": WysiwygWidget,
+        },
+    }

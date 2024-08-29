@@ -37,13 +37,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # "unfold.apps.BasicAppConfig", # <- Custom app config, not overriding default admin
-    # "unfold.contrib.filters",  # optional, if special filters are needed
-    # "unfold.contrib.forms",  # optional, if special form elements are needed
-    # "unfold.contrib.inlines",  # optional, if special inlines are needed
-    # "unfold.contrib.import_export",  # optional, if django-import-export package is used
-    # "unfold.contrib.guardian",  # optional, if django-guardian package is used
-    # "unfold.contrib.simple_history",  # optional, if django-simple-history package is used
+    "unfold.apps.BasicAppConfig", # <- Custom app config, not overriding default admin
+    "unfold.contrib.filters",  # optional, if special filters are needed
+    "unfold.contrib.forms",  # optional, if special form elements are needed
+    "unfold.contrib.inlines",  # optional, if special inlines are needed
+    "unfold.contrib.import_export",  # optional, if django-import-export package is used
+    "unfold.contrib.guardian",  # optional, if django-guardian package is used
+    "unfold.contrib.simple_history",  # optional, if django-simple-history package is used
     'tinymce',
     'smart_selects',
     'students',
@@ -59,9 +59,10 @@ INSTALLED_APPS = [
     'programs',
     'locations',
     'home',
-    'gs_admin',
-    'unfold',
+    # 'gs_admin',
+    # 'unfold',
     'django.contrib.admin',
+    'gs_admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -304,6 +305,11 @@ UNFOLD = {
                 "collapsible": True,  # Collapsible group of links
                 "items": [
                     {
+                        "title": _("Programs"),
+                        "icon": "surfing",
+                        "link": reverse_lazy("gs-admin:programs_experience_changelist"),
+                    },
+                    {
                         "title": _("Schools"),
                         "icon": "school",  # Supported icon set: https://fonts.google.com/icons
                         "link": reverse_lazy("gs-admin:providers_school_changelist"),
@@ -313,7 +319,7 @@ UNFOLD = {
                     {
                         "title": _("Accommodation"),
                         "icon": "apartment",
-                        "link": reverse_lazy("gs-admin:enrollments_enrollment_changelist"),
+                        "link": reverse_lazy("gs-admin:programs_experience_changelist"),
                     },
                 ],
             },
@@ -361,12 +367,12 @@ UNFOLD = {
                     {
                         "title": _("About us"),
                         "icon": "account_balance",
-                        "link": reverse_lazy("gs-admin:home_homepage_changelist"),
+                        "link": reverse_lazy("gs-admin:home_aboutus_changelist"),
                     },
                     {
                         "title": _("Contact"),
                         "icon": "receipt_long",
-                        "link": reverse_lazy("gs-admin:home_homepage_changelist"),
+                        "link": reverse_lazy("gs-admin:home_contactpage_changelist"),
                     },
                 ],
             },
