@@ -10,7 +10,10 @@ def create_invoice(sender, instance, created, **kwargs):
         # Check if the invoice already exists for this quotation
         if not hasattr(instance, 'invoice'):
             # Generate a unique invoice number (last invoice id)
-            invoice_number = Invoice.objects.order_by('-id').first().id # Get the last invoice by ID
+            if Invoice.objects.order_by('-id').first():
+                invoice_number = int(Invoice.objects.order_by('-id').first().id) + 1 # Get the last invoice by ID
+            else:
+                invoice_number = 1
 
             Invoice.objects.create(
                 quotation=instance,

@@ -8,7 +8,7 @@ from gs_admin.sites import new_admin_site
 
 from django.contrib.admin import register
 
-from unfold.admin import ModelAdmin
+from unfold.admin import ModelAdmin, TabularInline, StackedInline
 from unfold.widgets import (UnfoldAdminSplitDateTimeWidget, UnfoldAdminSplitDateTimeVerticalWidget, 
                             UnfoldAdminDateWidget, AdminDateWidget, UnfoldAdminSingleDateWidget,
                             UnfoldAdminTextareaWidget, UnfoldAdminTextInputWidget, UnfoldAdminIntegerFieldWidget,
@@ -92,6 +92,8 @@ class InquiryAdmin(admin.ModelAdmin):
             context={'form': form, 'inquiries': inquiries, 'ids': ','.join(inquiry_ids)}
         )
     
+
+
 @register(Enquiry, site=new_admin_site)
 class EnquiryAdmin(ModelAdmin):
     # Unfold admin method

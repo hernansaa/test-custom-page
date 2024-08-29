@@ -203,8 +203,8 @@ USE_DJANGO_JQUERY = True
 # Unfold Admin configuration
 
 UNFOLD = {
-    "SITE_TITLE": 'GS Admin',
-    "SITE_HEADER": 'GS Admin',
+    "SITE_TITLE": 'GS Manager',
+    "SITE_HEADER": 'GS Manager',
     "SIDEBAR": {
         "show_search": True,  # Search in applications and models names
         "show_all_applications": False,  # Dropdown with all applications and models
@@ -220,27 +220,171 @@ UNFOLD = {
     "SIDEBAR": {
         "show_search": True,  # Search in applications and models names
         "show_all_applications": True,  # Dropdown with all applications and models
-        # "navigation": [
-        #     {
-        #         "title": _("Navigation"),
-        #         "separator": True,  # Top border
-        #         "collapsible": True,  # Collapsible group of links
-        #         "items": [
-        #             {
-        #                 "title": _("Dashboard"),
-        #                 "icon": "dashboard",  # Supported icon set: https://fonts.google.com/icons
-        #                 "link": reverse_lazy("admin:index"),
-        #                 "badge": "sample_app.badge_callback",
-        #                 "permission": lambda request: request.user.is_superuser,
-        #             },
-        #             {
-        #                 "title": _("Users"),
-        #                 "icon": "people",
-        #                 "link": reverse_lazy("admin:users_user_changelist"),
-        #             },
-        #         ],
-        #     },
-        # ],
+        "navigation": [
+            {
+                "title": _("CRM"),
+                "separator": False,  # Top border
+                "collapsible": True,  # Collapsible group of links
+                "items": [
+                    {
+                        "title": _("Dashboard"),
+                        "icon": "dashboard",  # Supported icon set: https://fonts.google.com/icons
+                        "link": reverse_lazy("gs-admin:index"),
+                        # "badge": "sample_app.badge_callback",
+                        # "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": _("Enquiries"),
+                        "icon": "people",
+                        "link": reverse_lazy("gs-admin:enquiries_enquiry_changelist"),
+                    },
+                    {
+                        "title": _("Quotations"),
+                        "icon": "request_quote",
+                        "link": reverse_lazy("gs-admin:quotations_quotation_changelist"),
+                    },
+                    {
+                        "title": _("Invoices"),
+                        "icon": "receipt_long",
+                        "link": reverse_lazy("gs-admin:invoices_invoice_changelist"),
+                    },
+                    {
+                        "title": _("Enrollments"),
+                        "icon": "contract_edit",
+                        "link": reverse_lazy("gs-admin:enrollments_enrollment_changelist"),
+                    },
+                    {
+                        "title": _("Students"),
+                        "icon": "people",
+                        "link": reverse_lazy("gs-admin:students_studentprofile_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": _("Email (soon)"),
+                "separator": False,  # Top border
+                "collapsible": True,  # Collapsible group of links
+                "items": [
+                    {
+                        "title": _("Inbox"),
+                        "icon": "inbox",  # Supported icon set: https://fonts.google.com/icons
+                        "link": reverse_lazy("gs-admin:enquiries_contact_changelist"),
+                        # "badge": "sample_app.badge_callback",
+                        # "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": _("Sent"),
+                        "icon": "outbox",
+                        "link": reverse_lazy("gs-admin:enquiries_contact_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": _("Chat (soon)"),
+                "separator": False,  # Top border
+                "collapsible": True,  # Collapsible group of links
+                "items": [
+                    {
+                        "title": _("Inbox"),
+                        "icon": "inbox",  # Supported icon set: https://fonts.google.com/icons
+                        "link": reverse_lazy("gs-admin:enquiries_contact_changelist"),
+                        # "badge": "sample_app.badge_callback",
+                        # "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": _("Sent"),
+                        "icon": "outbox",
+                        "link": reverse_lazy("gs-admin:enquiries_contact_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": _("Providers"),
+                "separator": False,  # Top border
+                "collapsible": True,  # Collapsible group of links
+                "items": [
+                    {
+                        "title": _("Schools"),
+                        "icon": "school",  # Supported icon set: https://fonts.google.com/icons
+                        "link": reverse_lazy("gs-admin:providers_school_changelist"),
+                        # "badge": "sample_app.badge_callback",
+                        # "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": _("Accommodation"),
+                        "icon": "apartment",
+                        "link": reverse_lazy("gs-admin:enrollments_enrollment_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": _("Accounting"),
+                "separator": False,  # Top border
+                "collapsible": True,  # Collapsible group of links
+                "items": [
+                    {
+                        "title": _("Dashboard"),
+                        "icon": "dashboard",  # Supported icon set: https://fonts.google.com/icons
+                        "link": reverse_lazy("admin:index"),
+                        # "badge": "sample_app.badge_callback",
+                        # "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": _("Balance"),
+                        "icon": "account_balance",
+                        "link": reverse_lazy("about_us"),
+                    },
+                    {
+                        "title": _("Invoices"),
+                        "icon": "receipt_long",
+                        "link": reverse_lazy("about_us"),
+                    },
+                    {
+                        "title": _("Reports"),
+                        "icon": "bar_chart",
+                        "link": reverse_lazy("about_us"),
+                    },
+                ],
+            },
+            {
+                "title": _("Website"),
+                "separator": False,  # Top border
+                "collapsible": True,  # Collapsible group of links
+                "items": [
+                    {
+                        "title": _("Home"),
+                        "icon": "home",  # Supported icon set: https://fonts.google.com/icons
+                        "link": reverse_lazy("gs-admin:home_homepage_changelist"),
+                        # "badge": "sample_app.badge_callback",
+                        # "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": _("About us"),
+                        "icon": "account_balance",
+                        "link": reverse_lazy("gs-admin:home_homepage_changelist"),
+                    },
+                    {
+                        "title": _("Contact"),
+                        "icon": "receipt_long",
+                        "link": reverse_lazy("gs-admin:home_homepage_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": _("Configuration"),
+                "separator": False,  # Top border
+                "collapsible": True,  # Collapsible group of links
+                "items": [
+                    {
+                        "title": _("Home"),
+                        "icon": "home",  # Supported icon set: https://fonts.google.com/icons
+                        "link": reverse_lazy("gs-admin:home_homepage_changelist"),
+                        # "badge": "sample_app.badge_callback",
+                        # "permission": lambda request: request.user.is_superuser,
+                    },
+                ],
+            },
+        ],
     },
     "SHOW_VIEW_ON_SITE": True, # show/hide "View on site" button, default: True
     "COLORS": {

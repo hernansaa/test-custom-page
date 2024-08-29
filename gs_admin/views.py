@@ -8,3 +8,7 @@ def dashboard_callback(request, context):
     })
 
     return context
+
+
+def index(request):
+    return render(request, 'gs_admin/index.html')

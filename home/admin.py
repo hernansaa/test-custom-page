@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db import models
 
-from unfold.admin import ModelAdmin
+from unfold.admin import ModelAdmin, TabularInline, StackedInline
 
 from django.utils.translation import gettext_lazy as _
 
@@ -16,185 +16,66 @@ from .models import (HomePage, AboutUs, ContactPage, TeamMember, StudentReviewsS
     WhyUsSection, ContactSection, FeaturedProgramsSection, PopularDestiniesSection,
     HeaderHeroSection, NavbarItem)
 
-# Register your models here.
+
+# DJANGO ADMIN
+
+class TeamMemberInline(admin.TabularInline):
+    model = TeamMember
+    extra = 0 
+
+class AboutUsAdmin(admin.ModelAdmin):
+    inlines = [TeamMemberInline]
+    list_display = ('header_title',)
 
 class NavbarItemInline(admin.StackedInline):
     model = NavbarItem
     extra = 0
-    # tab = True
-
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
 
 class HeaderHeroSectionInline(admin.StackedInline):
     model = HeaderHeroSection
     extra = 0
     max_num = 0 
-    # tab = True
 
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
 
 class PopularDestiniesSectionInline(admin.StackedInline):
     model = PopularDestiniesSection
     extra = 0
     max_num = 0
-    # tab = True
     verbose_name = "Popular Destiny"
     verbose_name_plural = "Popular Destinies"
     unfold = True
 
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
 
 class FeaturedProgramsSectionInline(admin.StackedInline):
     model = FeaturedProgramsSection
     extra = 0
     max_num = 0
-    # tab = True
     verbose_name = "Featured Program"
     verbose_name_plural = "Featured Programs"
 
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
 
 class ContactSectionInline(admin.StackedInline):
     model = ContactSection
     extra = 0
     max_num = 0
-    # tab = True
     verbose_name = "Contact"
     verbose_name_plural = "Contact"
 
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
 
 class StudentReviewsSectionInline(admin.StackedInline):
     model = StudentReviewsSection
     extra = 0
     max_num = 0
-    # tab = True
     verbose_name = "Testimonial"
     verbose_name_plural = "Testimonial"
 
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
 
 class WhyUsSectionInline(admin.StackedInline):
     model = WhyUsSection
     extra = 0
     max_num = 0
-    # tab = True
     verbose_name = "Whys?"
     verbose_name_plural = "Why us?"
-
-    formfield_overrides = {
-        models.TextField: {
-            "widget": UnfoldAdminTextareaWidget,
-        },
-        models.CharField: {
-            "widget": UnfoldAdminTextInputWidget,
-        },
-        models.TextChoices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-        models.IntegerField: {
-            "widget": UnfoldAdminIntegerFieldWidget,
-        },
-        models.Choices: {
-            "widget": UnfoldAdminSelectWidget,
-        },
-    }
 
 
 @admin.register(HomePage)
@@ -209,6 +90,69 @@ class HomePageAdmin(admin.ModelAdmin):
         HeaderHeroSectionInline,
         NavbarItemInline,
     ]
+
+
+
+# UNFOLD ADMIN
+
+
+class NavbarItemInline(StackedInline):
+    model = NavbarItem
+    extra = 0
+    # tab = True
+
+
+class HeaderHeroSectionInline(StackedInline):
+    model = HeaderHeroSection
+    extra = 0
+    max_num = 0 
+    # tab = True
+
+
+class PopularDestiniesSectionInline(StackedInline):
+    model = PopularDestiniesSection
+    extra = 0
+    max_num = 0
+    # tab = True
+    verbose_name = "Popular Destiny"
+    verbose_name_plural = "Popular Destinies"
+    unfold = True
+
+
+class FeaturedProgramsSectionInline(StackedInline):
+    model = FeaturedProgramsSection
+    extra = 0
+    max_num = 0
+    # tab = True
+    verbose_name = "Featured Program"
+    verbose_name_plural = "Featured Programs"
+
+
+class ContactSectionInline(StackedInline):
+    model = ContactSection
+    extra = 0
+    max_num = 0
+    # tab = True
+    verbose_name = "Contact"
+    verbose_name_plural = "Contact"
+
+
+class StudentReviewsSectionInline(StackedInline):
+    model = StudentReviewsSection
+    extra = 0
+    max_num = 0
+    # tab = True
+    verbose_name = "Testimonial"
+    verbose_name_plural = "Testimonial"
+
+
+class WhyUsSectionInline(StackedInline):
+    model = WhyUsSection
+    extra = 0
+    max_num = 0
+    # tab = True
+    verbose_name = "Whys?"
+    verbose_name_plural = "Why us?"
 
 
 @admin.register(HomePage, site=new_admin_site)
@@ -238,16 +182,6 @@ class HomePageAdmin(ModelAdmin):
     #         },
     #     ),
     # )
-
-
-
-class TeamMemberInline(admin.TabularInline):
-    model = TeamMember
-    extra = 0 
-
-class AboutUsAdmin(admin.ModelAdmin):
-    inlines = [TeamMemberInline]
-    list_display = ('header_title',)
 
 
 
