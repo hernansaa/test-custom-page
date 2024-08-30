@@ -2,15 +2,25 @@ from django.db import models
 from smart_selects.db_fields import ChainedForeignKey
 from django.utils import timezone
 
+from locations.models import City
+from students.models import StudentProfile
 from quotations.models import Quotation
-from providers.models import School, Course, CoursePrice, SchoolAccommodation, AccommodationPrice, SchoolAirportTransfer
+from providers.models import (
+    School, 
+    Course, 
+    CoursePrice, 
+    SchoolAccommodation, 
+    AccommodationPrice, 
+    SchoolAirportTransfer
+    )
 
 
 class Invoice(models.Model):
     quotation = models.OneToOneField(Quotation, on_delete=models.CASCADE)
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, null=True, blank=True)
     invoice_number = models.CharField(max_length=20, unique=True)
     date_issued = models.DateField(auto_now_add=True)
-    city = models.CharField(max_length=100)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True)
     school = ChainedForeignKey(
         School,
         chained_field="city",

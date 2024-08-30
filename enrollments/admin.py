@@ -9,48 +9,166 @@ from django.contrib.admin import register
 from unfold.admin import ModelAdmin
 
 
-@register(Enrollment, site=new_admin_site)
-class EnrollmentAdmin(ModelAdmin):
-    # List display options for the admin list view
+# DJANGO ADMIN
+
+class EnrollmentAdmin(admin.ModelAdmin):
+    # Fields to display in the list view
     list_display = (
+        'id',
         'student',
-        'program',
         'course',
         'course_qty_weeks',
-        'date_start',
-        'enrollment_fee',
-        'course_weekly_price',
+        'course_date_start',
         'accommodation',
         'accommodation_qty_weeks',
+        'accommodation_date_start',
         'airport_transfer',
-        'total',
         'created_at',
-        'branch',
-        'employee'
-    )
-
-    # Fields to filter by in the admin list view
-    list_filter = (
-        'nationality',
-        'program',
-        'course',
-        'date_start',
-        'accommodation',
-        'branch',
-        'employee',
-        'student'
-    )
-
-    # Search fields for the admin search bar
-    search_fields = (
-        'email',
-        'phone',
-        'program__name',
-        'course__name',
-        'accommodation__name',
-        'student__name'
     )
     
+    # Fields to be searchable in the admin interface
+    search_fields = (
+        'student__name',  # Assuming 'name' is a field in StudentProfile
+        'course__name',   # Assuming 'name' is a field in Course
+        'city__name',     # Assuming 'name' is a field in City
+        'school__name',   # Assuming 'name' is a field in School
+    )
+
+    # Filters to be added in the right sidebar of the list view
+    list_filter = (
+        'city',
+        'school',
+        'course',
+        'accommodation',
+        'airport_transfer',
+        'created_at',
+    )
+
+    # Fields to be used in the detail view
+    fields = (
+        'id',
+        'invoice',
+        'student',
+        'city',
+        'school',
+        'course',
+        'course_qty_weeks',
+        'course_date_start',
+        'accommodation',
+        'accommodation_qty_weeks',
+        'accommodation_date_start',
+        'airport_transfer',
+    )
+
+    readonly_fields = (
+        'id',
+        'invoice',
+        'student',
+        'city',
+        'school',
+        'course',
+        'course_qty_weeks',
+        'course_date_start',
+        'accommodation',
+        'accommodation_qty_weeks',
+        'accommodation_date_start',
+        'airport_transfer',
+    )
+
+    # Optionally, you can specify which fields to include in the form view for adding/editing
+    # and customize how they are laid out.
+    # You can also use `fieldsets` to group fields into sections.
+
+    # Set ordering of the records in the list view
+    ordering = ('-created_at',)
+
+    # List how many records should be shown per page
+    list_per_page = 25
 
 
-admin.site.register(Enrollment)
+# Register the Enrollment model with the Django admin site
+admin.site.register(Enrollment, EnrollmentAdmin)
+
+
+
+
+# UNFOLD ADMIN
+
+
+@register(Enrollment, site=new_admin_site)
+class EnrollmentAdmin(ModelAdmin):
+    compressed_fields = True
+    list_fullwidth = True
+    list_display = (
+        'id',
+        'student',
+        'course',
+        'course_qty_weeks',
+        'course_date_start',
+        'accommodation',
+        'accommodation_qty_weeks',
+        'accommodation_date_start',
+        'airport_transfer',
+        'created_at',
+    )
+    
+    # Fields to be searchable in the admin interface
+    search_fields = (
+        'student__name',  # Assuming 'name' is a field in StudentProfile
+        'course__name',   # Assuming 'name' is a field in Course
+        'city__name',     # Assuming 'name' is a field in City
+        'school__name',   # Assuming 'name' is a field in School
+    )
+
+    # Filters to be added in the right sidebar of the list view
+    list_filter = (
+        'city',
+        'school',
+        'course',
+        'accommodation',
+        'airport_transfer',
+        'created_at',
+    )
+
+    # Fields to be used in the detail view
+    fields = (
+        'id',
+        'invoice',
+        'student',
+        'city',
+        'school',
+        'course',
+        'course_qty_weeks',
+        'course_date_start',
+        'accommodation',
+        'accommodation_qty_weeks',
+        'accommodation_date_start',
+        'airport_transfer',
+    )
+
+    readonly_fields = (
+        'id',
+        'invoice',
+        'student',
+        'city',
+        'school',
+        'course',
+        'course_qty_weeks',
+        'course_date_start',
+        'accommodation',
+        'accommodation_qty_weeks',
+        'accommodation_date_start',
+        'airport_transfer',
+    )
+
+    # Optionally, you can specify which fields to include in the form view for adding/editing
+    # and customize how they are laid out.
+    # You can also use `fieldsets` to group fields into sections.
+
+    # Set ordering of the records in the list view
+    ordering = ('-created_at',)
+
+    # List how many records should be shown per page
+    list_per_page = 25
+
+

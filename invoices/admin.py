@@ -17,7 +17,7 @@ class PaymentInline(admin.TabularInline):
 class InvoiceAdmin(admin.ModelAdmin):
     list_display = (
         'invoice_number',
-        'get_student_name',
+        'student',
         'quotation',
         'date_issued', 
         'enrollment_fee',
@@ -112,10 +112,10 @@ class InvoiceAdmin(admin.ModelAdmin):
     # Optional: Custom actions (e.g., mark invoices as paid)
     actions = ['mark_as_paid']
 
-    def get_student_name(self, obj):
-        """Returns the student's name from the related Quotation."""
-        return obj.quotation.student.name + ' ' + obj.quotation.student.surname if obj.quotation and obj.quotation.student else None
-    get_student_name.short_description = 'Student'
+    # def get_student_name(self, obj):
+    #     """Returns the student's name from the related Quotation."""
+    #     return obj.quotation.student.name + ' ' + obj.quotation.student.surname if obj.quotation and obj.quotation.student else None
+    # get_student_name.short_description = 'Student'
     
     # def mark_as_paid(self, request, queryset):
     #     """Custom admin action to mark selected invoices as paid."""
@@ -135,10 +135,11 @@ class PaymentInline(TabularInline): # Unfold TabularInline
 
 @register(Invoice, site=new_admin_site)
 class InvoiceAdmin(ModelAdmin):
+    list_fullwidth = True
     compressed_fields = True
     list_display = (
         'invoice_number',
-        'get_student_name',
+        'student',
         'quotation',
         'date_issued', 
         'enrollment_fee',
@@ -233,10 +234,10 @@ class InvoiceAdmin(ModelAdmin):
     # Optional: Custom actions (e.g., mark invoices as paid)
     actions = ['mark_as_paid']
 
-    def get_student_name(self, obj):
-        """Returns the student's name from the related Quotation."""
-        return obj.quotation.student.name + ' ' + obj.quotation.student.surname if obj.quotation and obj.quotation.student else None
-    get_student_name.short_description = 'Student'
+    # def get_student_name(self, obj):
+    #     """Returns the student's name from the related Quotation."""
+    #     return obj.quotation.student.name + ' ' + obj.quotation.student.surname if obj.quotation and obj.quotation.student else None
+    # get_student_name.short_description = 'Student'
     
     # def mark_as_paid(self, request, queryset):
     #     """Custom admin action to mark selected invoices as paid."""

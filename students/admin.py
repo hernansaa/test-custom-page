@@ -40,34 +40,30 @@ class EnrollmentInline(admin.StackedInline):
     model = Enrollment
     extra = 0  # No extra empty forms by default
     fields = (
+        'id',
+        'invoice',
         'student',
-        'program',
         'course',
         'course_qty_weeks',
-        'date_start',
-        'enrollment_fee',
-        'course_weekly_price',
+        'course_date_start',
         'accommodation',
         'accommodation_qty_weeks',
+        'accommodation_date_start',
         'airport_transfer',
-        'total',
-        'branch',
-        'employee'
+        'created_at',
         )
     readonly_fields = (
+        'id',
+        'invoice',
         'student',
-        'program',
         'course',
         'course_qty_weeks',
-        'date_start',
-        'enrollment_fee',
-        'course_weekly_price',
+        'course_date_start',
         'accommodation',
         'accommodation_qty_weeks',
+        'accommodation_date_start',
         'airport_transfer',
-        'total',
-        'branch',
-        'employee'
+        'created_at',
         )
     ordering = ('-created_at',)
     # tab = True
@@ -114,16 +110,22 @@ class QuotationInline(admin.StackedInline):
 class StudentProfileAdmin(ModelAdmin):
     # Display fields in changeform in compressed mode
     compressed_fields = True  
-    
+    list_fullwidth = True
     list_display = ('name', 'surname', 'email', 'dob', 'branch', 'employee')
     list_filter = ('name', 'surname', 'email', 'dob', 'branch', 'employee')
     search_fields = ('name', 'surname', 'email', 'dob')
-    inlines = [EnquiryInline, QuotationInline, EnrollmentInline,]
+    inlines = [EnquiryInline, 
+               QuotationInline, 
+               EnrollmentInline,
+            ]
 
 
 class StudentProfileAdmin(admin.ModelAdmin):
     list_display = ('name', 'surname', 'email', 'dob', 'branch', 'employee')  
-    inlines = [EnquiryInline, QuotationInline, EnrollmentInline,]
+    inlines = [EnquiryInline,
+            QuotationInline, 
+            EnrollmentInline,
+            ]
 
 
 admin.site.register(StudentProfile, StudentProfileAdmin)

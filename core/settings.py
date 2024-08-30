@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "unfold.contrib.import_export",  # optional, if django-import-export package is used
     "unfold.contrib.guardian",  # optional, if django-guardian package is used
     "unfold.contrib.simple_history",  # optional, if django-simple-history package is used
+    'widget_tweaks',
     'tinymce',
     'smart_selects',
     'students',
@@ -200,7 +201,6 @@ DEFAULT_FROM_EMAIL = 'hernan@globalstudies.es'
  
 USE_DJANGO_JQUERY = True
 
-
 # Unfold Admin configuration
 
 UNFOLD = {
@@ -316,11 +316,11 @@ UNFOLD = {
                         # "badge": "sample_app.badge_callback",
                         # "permission": lambda request: request.user.is_superuser,
                     },
-                    {
-                        "title": _("Accommodation"),
-                        "icon": "apartment",
-                        "link": reverse_lazy("gs-admin:programs_experience_changelist"),
-                    },
+                    # {
+                    #     "title": _("Accommodation"),
+                    #     "icon": "apartment",
+                    #     "link": reverse_lazy("gs-admin:programs_experience_changelist"),
+                    # },
                 ],
             },
             {

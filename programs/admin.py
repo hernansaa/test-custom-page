@@ -1,11 +1,9 @@
 from django.contrib import admin
-from django.db import models
+from django.contrib.admin import register
 
 from gs_admin.sites import new_admin_site
 
-from django.contrib.admin import register
-
-from unfold.admin import ModelAdmin
+from unfold.admin import ModelAdmin, TabularInline
 
 from .models import (
     CourseType, Include, NotInclude, Requirement,
@@ -54,23 +52,6 @@ class ExperienceFaqInline(admin.TabularInline):
     extra = 1
 
 
-
-@register(Experience, site=new_admin_site)
-class ExperienceGsAdmin(ModelAdmin):
-    # Display fields in changeform in compressed mode
-    compressed_fields = True
-    list_display = ('name', 'city', 'duration_from_weeks', 'duration_to_weeks', 'allows_work', 'price', 'school', 'course')
-    list_filter = ('allows_work', 'city', 'start_date', 'end_date',)
-    search_fields = ('name', 'city__name', 'school__name', 'course__name')
-    inlines = [
-        ExperienceIncludedInline, 
-        ExperienceNotIncludedInline, 
-        ExperienceRequirementInline,
-        ExperienceFaqInline,
-        ]
-    save_as = True
-
-
 class ExperienceAdmin(admin.ModelAdmin):
 
     list_display = ('name', 'city', 'duration_from_weeks', 'duration_to_weeks', 'allows_work', 'price', 'school', 'course')
@@ -92,3 +73,43 @@ admin.site.register(Requirement, RequirementAdmin)
 admin.site.register(Experience, ExperienceAdmin)
 admin.site.register(Faq, FaqAdmin)
 
+
+
+# UNFOLD ADMIN
+
+
+class ExperienceIncludedInline(TabularInline):
+    model = ExperienceIncluded
+    extra = 0
+
+
+class ExperienceNotIncludedInline(TabularInline):
+    model = ExperienceNotIncluded
+    extra = 0
+
+
+class ExperienceRequirementInline(TabularInline):
+    model = ExperienceRequirement
+    extra = 0
+
+
+class ExperienceFaqInline(TabularInline):
+    model = ExperienceFaq
+    extra = 0
+
+
+@register(Experience, site=new_admin_site)
+class ExperienceGsAdmin(ModelAdmin):
+    # Display fields in changeform in compressed mode
+    compressed_fields = True
+    list_display = ('name', 'city', 'duration_from_weeks', 'duration_to_weeks', 'allows_work', 'price', 'school', 'course')
+    list_filter = ('allows_work', 'city', 'start_date', 'end_date',)
+    search_fields = ('name', 'city__name', 'school__name', 'course__name')
+    list_fullwidth = True
+    inlines = [
+        ExperienceIncludedInline, 
+        ExperienceNotIncludedInline, 
+        ExperienceRequirementInline,
+        ExperienceFaqInline,
+        ]
+    save_as = True

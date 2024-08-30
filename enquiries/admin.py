@@ -98,35 +98,40 @@ class InquiryAdmin(admin.ModelAdmin):
 class EnquiryAdmin(ModelAdmin):
     # Unfold admin method
     compressed_fields = True
-
+    list_fullwidth = True
     list_display = ['student', 'rating','follow_up_date', 'email', 'nationality', 'phone', 'program', 'branch', 'employee', 'created_at']
     list_filter = ['rating', 'program', 'branch', 'employee', 'created_at', 'follow_up_date']
     search_fields = ['name', 'surname', 'email', 'nationality']
     list_per_page = 20
     list_editable = ['branch','employee', 'rating', 'follow_up_date']
 
-
     fieldsets = (
         ('Personal Information', {
             'fields': ('name','surname', 'student', 'dob', 'nationality', 'email', 'phone')
         }),
         ('Course Information', {
+            'classes': ["wide", "collapse"],
             'fields': ('program', 'course', 'date_start', 'course_weekly_price', 'course_qty_weeks', 'enrollment_fee',
                        )
         }),
         ('Accommodation', {
+            'classes': ["wide", "collapse"],
             'fields': ('accommodation', 'accommodation_qty_weeks')
         }),
         ('Total', {
+            'classes': ["wide", "collapse"],
             'fields': ('total',)
         }),
         ('Assigment', {
+            'classes': ["wide", "collapse"],
             'fields': ('branch', 'employee')
         }),
         ('Follow Up', {
+            'classes': ["wide", "collapse"],
             'fields': ('rating', 'follow_up_date',)
         }),
         ('Timestamps', {
+            'classes': ["wide", "collapse"],
             'fields': ('created_at',)
         }),
     )

@@ -1,22 +1,13 @@
 from django.contrib import admin
-from django.db import models
-
+from django.db import models 
 from django.utils.translation import gettext_lazy as _
+from django.contrib.admin import register
 
 from branches.models import AgencyBranch
 
 from gs_admin.sites import new_admin_site
 
-from django.contrib.admin import register
-
-from unfold.admin import ModelAdmin
-
-from unfold.widgets import (UnfoldAdminSplitDateTimeWidget, UnfoldAdminSplitDateTimeVerticalWidget, 
-                            UnfoldAdminDateWidget, AdminDateWidget, UnfoldAdminSingleDateWidget,
-                            UnfoldAdminTextareaWidget, UnfoldAdminSelectWidget, UnfoldAdminIntegerFieldWidget,
-                            UnfoldAdminTextInputWidget)
-from unfold.contrib.forms.widgets import ArrayWidget, WysiwygWidget
-
+from unfold.admin import ModelAdmin, TabularInline, StackedInline
 
 from .models import (
     School,
@@ -50,20 +41,116 @@ from .models import (
     CoursePriceList,
 )
 
-# Register your models here.
+
+# UNFOLD ADMIN
 
 
-class FacilityAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'icon')
+class SchoolFacilityInline(TabularInline):
+    model = SchoolFacility
+    extra = 0
 
+
+class SchoolAcreditationInline(TabularInline):
+    model = SchoolAcreditation
+    extra = 0
+
+
+class SchoolActivityInline(TabularInline):
+    model = SchoolActivity
+    extra = 0
+
+
+class SchoolAccommodationInline(TabularInline):
+    model = SchoolAccommodation
+    extra = 0
+
+
+class SchoolAirportTransferInline(TabularInline):
+    model = SchoolAirportTransfer
+    extra = 0
+
+
+class SchoolExtraline(TabularInline):
+    model = SchoolExtra
+    extra = 0
+
+
+class SchoolAvgAgeline(TabularInline):
+    model = SchoolAvgAge
+    extra = 0
+
+
+class SchoolClassroomEquipmentline(TabularInline):
+    model = SchoolClassroomEquipment
+    extra = 0
+
+
+class SchoolNationalityMixline(TabularInline):
+    model = NationalityMix
+    extra = 0
+
+
+class ContactInformationInline(TabularInline):
+    model = ContactInformation
+    extra = 0
+
+
+class SchoolAgencyBranchInline(TabularInline):
+    model = SchoolAgencyBranch
+    extra = 0
+
+
+class CourseInline(StackedInline):
+    model = Course
+    extra = 0
+    tab = True
+
+
+class AddressInline(TabularInline):
+    model = Address
+    extra = 0
+
+
+@register(School, site=new_admin_site)
+class SchoolAdmin(ModelAdmin):
+    compressed_fields = True  # Unfold Admin method
+    list_display = ('name', 'language_id')
+    search_fields = ('name', 'language_id__name')
+    list_filter = ('name', 'language_id__name')
+    list_fullwidth = True
+    inlines = [
+        SchoolFacilityInline,
+        SchoolAcreditationInline, 
+        SchoolActivityInline, 
+        SchoolAccommodationInline,
+        SchoolAirportTransferInline,
+        SchoolExtraline,
+        SchoolAvgAgeline,
+        SchoolClassroomEquipmentline,
+        SchoolNationalityMixline,
+        ContactInformationInline,
+        SchoolAgencyBranchInline,
+        CourseInline,
+        AddressInline,
+    ]
+
+    # def change_view(self, request, object_id, form_url='', extra_context=None):
+    #     extra_context = extra_context or {}
+
+    #     # Use the form specified in the admin class
+    #     form_class = self.get_form(request, obj=None)
+    #     form = form_class(request.POST or None, instance=self.get_object(request, object_id))
+
+    #     extra_context['form'] = form
+
+    #     return super().change_view(request, object_id, form_url, extra_context=extra_context)
+
+
+# DJANGO ADMIN
 
 class SchoolFacilityInline(admin.TabularInline):
     model = SchoolFacility
     extra = 1
-
-
-class AcreditationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'logo')
 
 
 class SchoolAcreditationInline(admin.TabularInline):
@@ -71,17 +158,9 @@ class SchoolAcreditationInline(admin.TabularInline):
     extra = 1
 
 
-class ActivityAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description', 'img')
-
-
 class SchoolActivityInline(admin.TabularInline):
     model = SchoolActivity
     extra = 1
-
-
-class AccommodationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'type', 'description', 'img')
 
 
 class SchoolAccommodationInline(admin.TabularInline):
@@ -89,39 +168,18 @@ class SchoolAccommodationInline(admin.TabularInline):
     extra = 1
 
 
-class AirportAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'city')
-
-
 class SchoolAirportTransferInline(admin.TabularInline):
     model = SchoolAirportTransfer
     extra = 1
-
-
-class ExtraAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
-
 
 class SchoolExtraline(admin.TabularInline):
     model = SchoolExtra
     extra = 1
 
 
-class AvgAgeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'from_age', 'to_age')
-
-
-class AddressAdmin(admin.ModelAdmin):
-    list_display = ('id', 'city', 'street', 'school')
-
-
 class SchoolAvgAgeline(admin.TabularInline):
     model = SchoolAvgAge
     extra = 1
-
-
-class ClassroomEquipmentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'icon')
 
 
 class SchoolClassroomEquipmentline(admin.TabularInline):
@@ -154,30 +212,6 @@ class AddressInline(admin.TabularInline):
     extra = 1
 
 
-@register(School, site=new_admin_site)
-class SchoolAdmin(ModelAdmin):
-    compressed_fields = True # Unfold Admin method
-    
-    list_display = ('name', 'language_id')
-    search_fields = ('name', 'language_id__name')
-    list_filter = ('name', 'language_id__name')
-    inlines = [
-        SchoolFacilityInline,
-        SchoolAcreditationInline, 
-        SchoolActivityInline, 
-        SchoolAccommodationInline,
-        SchoolAirportTransferInline,
-        SchoolExtraline,
-        SchoolAvgAgeline,
-        SchoolClassroomEquipmentline,
-        SchoolNationalityMixline,
-        ContactInformationInline,
-        SchoolAgencyBranchInline,
-        CourseInline,
-        AddressInline,
-    ]
-
-
 class SchoolAdmin(admin.ModelAdmin):
     list_display = ('name', 'language_id')
     search_fields = ('name', 'language_id__name')
@@ -193,11 +227,48 @@ class SchoolAdmin(admin.ModelAdmin):
         SchoolAvgAgeline,
         SchoolClassroomEquipmentline,
         SchoolNationalityMixline,
-        ContactInformationInline,
+        ContactInformationInline, 
         SchoolAgencyBranchInline,
         CourseInline,
         AddressInline,
     ]
+
+
+
+class AccommodationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'type', 'description', 'img')
+
+
+class AirportAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'city')
+
+
+class ActivityAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'description', 'img')
+
+
+class ExtraAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+
+
+class FacilityAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'icon')
+
+
+class AvgAgeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'from_age', 'to_age')
+
+
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ('id', 'city', 'street', 'school')
+
+
+class ClassroomEquipmentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'icon')
+
+
+class AcreditationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'logo')
 
 
 class LanguageAdmin(admin.ModelAdmin):

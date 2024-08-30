@@ -17,6 +17,7 @@ def create_invoice(sender, instance, created, **kwargs):
 
             Invoice.objects.create(
                 quotation=instance,
+                student = instance.student,
                 invoice_number=invoice_number,
                 total_amount=instance.total,
                 enrollment_fee = instance.enrollment_fee,
@@ -35,18 +36,19 @@ def create_invoice(sender, instance, created, **kwargs):
         else:
             # Update the existing invoice using the update method
             Invoice.objects.filter(id=instance.invoice.id).update(
+                student = instance.student,
                 total_amount=instance.total,
                 enrollment_fee=instance.enrollment_fee,
-                school=str(instance.school),
-                course=str(instance.course),
-                course_qty_weeks=str(instance.course_qty_weeks),
+                school=instance.school,
+                course=instance.course,
+                course_qty_weeks=instance.course_qty_weeks,
                 course_date_start=instance.course_date_start,
                 school_total=instance.school_total,
-                accommodation=str(instance.accommodation),
-                accommodation_qty_weeks=str(instance.accommodation_qty_weeks),
+                accommodation=instance.accommodation,
+                accommodation_qty_weeks=instance.accommodation_qty_weeks,
                 accommodation_date_start=instance.accommodation_date_start,
                 accommodation_total=instance.accommodation_total,
-                airport_transfer=str(instance.airport_transfer),
+                airport_transfer=instance.airport_transfer,
                 airport_transfer_total=instance.airport_transfer_total,
             )
 
@@ -85,4 +87,3 @@ def update_enrollment_fee_paid_status(invoice):
         else:
             invoice.enrollment_fee_paid = False
         invoice.save()
-

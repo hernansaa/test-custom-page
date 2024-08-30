@@ -1,13 +1,22 @@
 from django.contrib import admin
+from django.db import models
+from smart_selects.db_fields import ChainedForeignKey
 from django.contrib.admin import register
 from gs_admin.sites import new_admin_site
-from unfold.admin import ModelAdmin
+
+from unfold.admin import ModelAdmin, UnfoldAdminSelectWidget
+
+
+from django.forms.widgets import Select
+
+
 from .models import Quotation
 
 # DJANGO ADMIN CONFIGURATION
 
 class QuotationAdmin(admin.ModelAdmin):
     list_display = (
+        'id',
         'student',
         'city',
         'school', 
@@ -51,11 +60,13 @@ class QuotationAdmin(admin.ModelAdmin):
             )
         }),
         ('School Location', {
+            "classes": ["wide", "collapse"],
             'fields': (
                 'city', 
             )
         }),
         ('School Details', {
+            "classes": ["wide", "collapse"],
             'fields': (
                 'school', 
                 'course', 
@@ -65,6 +76,7 @@ class QuotationAdmin(admin.ModelAdmin):
             )
         }),
         ('Accommodation Details', {
+            "classes": ["wide", "collapse"],
             'fields': (
                 # 'course_weekly_price', 
                 'accommodation',
@@ -74,11 +86,13 @@ class QuotationAdmin(admin.ModelAdmin):
             )
         }),
         ('Airport Transfer', {
+            "classes": ["wide", "collapse"],
             'fields': (
                 'airport_transfer',
             )
         }),
         ('Quotation Details', {
+            "classes": ["wide", "collapse"],
             'fields': (
                 'enrollment_fee',
                 'school_total',
@@ -88,11 +102,13 @@ class QuotationAdmin(admin.ModelAdmin):
             )
         }),
         ('Quatation Status', {
+            "classes": ["wide", "collapse"],
             'fields': (
                 'status',
             )
         }),
         ('Other Details', {
+            "classes": ["wide", "collapse"],
             'fields': (
                 'branch', 
                 'employee', 
@@ -113,9 +129,11 @@ admin.site.register(Quotation, QuotationAdmin)
 
 
 @register(Quotation, site=new_admin_site)
-class QuotationAdmin(ModelAdmin):
+class QuotationAdmin(admin.ModelAdmin):
+    list_fullwidth = True
     # Fields to display in the list view
     list_display = (
+        'id',
         'student',
         'city',
         'school', 
@@ -146,6 +164,16 @@ class QuotationAdmin(ModelAdmin):
     # Editable fields directly from the list view
     # list_editable = ('status',)
 
+    # Readonly fields (if any)
+    readonly_fields = ('created_at',
+        'school_total', 
+        'accommodation_total', 
+        'total', 
+        'enrollment_fee', 
+        'airport_transfer_total', 
+        'enquiry',
+        )
+
     # Fields grouped in the detail view
     fieldsets = (
         ('Student Details', {
@@ -160,6 +188,7 @@ class QuotationAdmin(ModelAdmin):
             )
         }),
         ('School Details', {
+            "classes": ["wide", "collapse"],
             'fields': (
                 'school', 
                 'course', 
@@ -204,5 +233,8 @@ class QuotationAdmin(ModelAdmin):
         }),
     )
 
-    # Readonly fields (if any)
-    readonly_fields = ('created_at',)
+    # formfield_overrides = {
+    #     models.ForeignKey: {
+    #         "widget": Select,
+    #     },
+    # }
