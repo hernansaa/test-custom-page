@@ -22,7 +22,7 @@ class Transaction(models.Model):
         ('REFUNDED', 'Refunded'),
     ]
 
-    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)  # Foreign key to Course model
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='transactions')  # Foreign key to Course model
     amount = models.DecimalField(max_digits=10, decimal_places=2)  # Transaction amount
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)  # Currency code, e.g., USD, EUR
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)  # Payment method used

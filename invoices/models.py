@@ -96,23 +96,9 @@ class Invoice(models.Model):
         return f"Invoice #{self.invoice_number} for {self.quotation.student}"
   
     def total_paid(self):
-        return sum(payment.amount for payment in self.payments.all())
+        return sum(transaction.amount for transaction in self.transactions.all())
 
     def outstanding_balance(self):
         return self.total_amount - self.total_paid()
     
 
-class Payment(models.Model):
-    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='payments')
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    date = models.DateField(auto_now_add=True)
-    payment_method = models.CharField(max_length=50, choices=[
-        ('credit_card', 'Credit Card'),
-        ('bank_transfer', 'Bank Transfer'),
-        ('cash', 'Cash'),
-        # Add other payment methods as needed
-    ])
-    reference_number = models.CharField(max_length=50, null=True, blank=True)
-
-    def __str__(self):
-        return f"Payment of {self.amount} for Invoice #{self.invoice.invoice_number}"

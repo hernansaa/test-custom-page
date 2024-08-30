@@ -329,22 +329,22 @@ UNFOLD = {
                 "separator": False,  # Top border
                 "collapsible": True,  # Collapsible group of links
                 "items": [
+                    # {
+                    #     "title": _("Dashboard"),
+                    #     "icon": "dashboard",  # Supported icon set: https://fonts.google.com/icons
+                    #     "link": reverse_lazy("admin:index"),
+                    #     # "badge": "sample_app.badge_callback",
+                    #     # "permission": lambda request: request.user.is_superuser,
+                    # },
+                    # {
+                    #     "title": _("Balance"),
+                    #     "icon": "account_balance",
+                    #     "link": reverse_lazy("about_us"),
+                    # },
                     {
-                        "title": _("Dashboard"),
-                        "icon": "dashboard",  # Supported icon set: https://fonts.google.com/icons
-                        "link": reverse_lazy("admin:index"),
-                        # "badge": "sample_app.badge_callback",
-                        # "permission": lambda request: request.user.is_superuser,
-                    },
-                    {
-                        "title": _("Balance"),
-                        "icon": "account_balance",
-                        "link": reverse_lazy("about_us"),
-                    },
-                    {
-                        "title": _("Invoices"),
+                        "title": _("Transactions"),
                         "icon": "receipt_long",
-                        "link": reverse_lazy("about_us"),
+                        "link": reverse_lazy("gs-admin:accounting_transaction_changelist"),
                     },
                     {
                         "title": _("Reports"),

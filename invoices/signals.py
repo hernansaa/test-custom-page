@@ -1,6 +1,7 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
-from .models import Invoice, Payment
+from accounting.models import Transaction
+from .models import Invoice
 from quotations.models import Quotation
 
 
@@ -53,13 +54,13 @@ def create_invoice(sender, instance, created, **kwargs):
             )
 
 
-@receiver(post_save, sender=Payment)
+@receiver(post_save, sender=Transaction)
 def update_invoice_paid_status_on_save(sender, instance, **kwargs):
     update_invoice_paid_status(instance.invoice)
     update_enrollment_fee_paid_status(instance.invoice)
 
 
-@receiver(post_delete, sender=Payment)
+@receiver(post_delete, sender=Transaction)
 def update_invoice_paid_status_on_delete(sender, instance, **kwargs):
     update_invoice_paid_status(instance.invoice)
     update_enrollment_fee_paid_status(instance.invoice)

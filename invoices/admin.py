@@ -1,6 +1,8 @@
 from django.contrib import admin
 
-from .models import Invoice, Payment
+from .models import Invoice
+
+from accounting.models import Transaction
 
 from gs_admin.sites import new_admin_site
 
@@ -9,8 +11,8 @@ from django.contrib.admin import register
 from unfold.admin import ModelAdmin, TabularInline, StackedInline
 
 
-class PaymentInline(admin.TabularInline):
-    model = Payment
+class TransactionInline(admin.TabularInline):
+    model = Transaction
     extra = 0
 
 
@@ -107,7 +109,7 @@ class InvoiceAdmin(admin.ModelAdmin):
         )
     
 
-    inlines = [PaymentInline]
+    inlines = [TransactionInline]
 
     # Optional: Custom actions (e.g., mark invoices as paid)
     actions = ['mark_as_paid']
@@ -129,9 +131,12 @@ admin.site.register(Invoice, InvoiceAdmin)
 
 # UNFOLD ADMIN
 
-class PaymentInline(TabularInline): # Unfold TabularInline
-    model = Payment
+
+class TransactionInline(StackedInline):
+    model = Transaction
     extra = 0
+    tab = True
+
 
 @register(Invoice, site=new_admin_site)
 class InvoiceAdmin(ModelAdmin):
@@ -229,7 +234,7 @@ class InvoiceAdmin(ModelAdmin):
         )
     
 
-    inlines = [PaymentInline]
+    inlines = [TransactionInline]
 
     # Optional: Custom actions (e.g., mark invoices as paid)
     actions = ['mark_as_paid']
