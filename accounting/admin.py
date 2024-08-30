@@ -1,0 +1,51 @@
+from django.contrib import admin
+from .models import Transaction
+
+# Register your models here.
+
+from django.contrib import admin
+from .models import Transaction
+
+# DJANGO ADMIN
+
+class TransactionAdmin(admin.ModelAdmin):
+    list_display = (
+        'id', 
+        'invoice', 
+        'amount', 
+        'currency', 
+        'payment_method', 
+        'status', 
+        'transaction_date', 
+        'transaction_fee',
+    )
+    list_filter = (
+        'payment_method', 
+        'status', 
+        'currency', 
+        'transaction_date',
+    )
+    search_fields = (
+        'id', 
+        'invoice__id',  # Assuming Invoice has an ID field
+        'description', 
+        'reference',
+    )
+    ordering = ['-transaction_date']
+    readonly_fields = ['transaction_date']  # Make the transaction date read-only
+    fieldsets = (
+        (None, {
+            'fields': ('invoice', 'amount', 'currency', 'payment_method', 'status', 'transaction_fee')
+        }),
+        ('Additional Information', {
+            'fields': ('reference', 'description', 'receipt', 'related_transactions'),
+            'classes': ('collapse',),
+        }),
+        ('Date Information', {
+            'fields': ('transaction_date',),
+        }),
+    )
+    filter_horizontal = ('related_transactions',)  # Use filter widget for related transactions
+    autocomplete_fields = ['invoice']  # Enable autocomplete for Invoice if many records
+
+admin.site.register(Transaction, TransactionAdmin)

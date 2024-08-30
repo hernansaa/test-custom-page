@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'tinymce',
     'smart_selects',
+    'accounting',
     'students',
     'currencies',
     'django_mailbox',

@@ -129,7 +129,7 @@ admin.site.register(Quotation, QuotationAdmin)
 
 
 @register(Quotation, site=new_admin_site)
-class QuotationAdmin(admin.ModelAdmin):
+class QuotationAdmin(ModelAdmin):
     list_fullwidth = True
     # Fields to display in the list view
     list_display = (
@@ -188,7 +188,7 @@ class QuotationAdmin(admin.ModelAdmin):
             )
         }),
         ('School Details', {
-            "classes": ["wide", "collapse"],
+            # "classes": ["wide", "collapse"],
             'fields': (
                 'school', 
                 'course', 
