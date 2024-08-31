@@ -16,8 +16,6 @@ from quotations.models import Quotation
 from invoices.models import Invoice
 from enrollments.models import Enrollment
 
-from unfold.contrib.forms.widgets import WysiwygWidget
-
 
 class EnquiryInline(admin.StackedInline):
     model = Enquiry
@@ -258,6 +256,7 @@ class StudentProfileAdmin(ModelAdmin):
     list_display = ('id', 'name', 'surname', 'email', 'dob', 'show_status_customized_color', 'branch', 'employee')
     list_filter = ('name', 'status', 'surname', 'email', 'dob', 'branch', 'employee')
     search_fields = ('id', 'name', 'surname', 'email', 'dob')
+    list_editable = ('branch', 'employee',)
     inlines = [
         EnquiryInline, 
         QuotationInline,
