@@ -2,14 +2,15 @@ from django.contrib import admin
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import reverse
 from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
+from django.contrib.admin import register
 
 from gs_admin.sites import new_admin_site
 
-from django.contrib.admin import register
-
 from unfold.admin import ModelAdmin, TabularInline, StackedInline
+from unfold.decorators import action, display
 
-from .models import StudentProfile
+from .models import StudentProfile, StudentStatus
 from enquiries.models import Enquiry
 from quotations.models import Quotation
 from invoices.models import Invoice
@@ -252,16 +253,31 @@ class InvoiceInline(StackedInline):
 
 @register(StudentProfile, site=new_admin_site)
 class StudentProfileAdmin(ModelAdmin):
-    # Display fields in changeform in compressed mode
     compressed_fields = True  
     list_fullwidth = True
-    list_display = ('id', 'name', 'surname', 'email', 'dob', 'branch', 'employee')
-    list_filter = ('name', 'surname', 'email', 'dob', 'branch', 'employee')
+    list_display = ('id', 'name', 'surname', 'email', 'dob', 'show_status_customized_color', 'branch', 'employee')
+    list_filter = ('name', 'status', 'surname', 'email', 'dob', 'branch', 'employee')
     search_fields = ('id', 'name', 'surname', 'email', 'dob')
-    inlines = [EnquiryInline, 
-               QuotationInline,
-               InvoiceInline,
-               EnrollmentInline,
-            ]
+    inlines = [
+        EnquiryInline, 
+        QuotationInline,
+        InvoiceInline,
+        EnrollmentInline,
+        ]
+    
+    @display(
+        description=_("Status"),
+        ordering="status",
+        label={
+            # "success": green, 
+            # "warning": orange, 
+            # "info": blue, "danger": red
+            StudentStatus.ENROLLED: "success",
+            StudentStatus.NOT_ENROLLED: "info",
+            StudentStatus.STUDYING: "warning",
+        },
+    )
+    def show_status_customized_color(self, obj):
+        return obj.status
 
 

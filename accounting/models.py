@@ -1,8 +1,15 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from currencies.models import Currency
 from invoices.models import Invoice
+
+
+
+class TransactionType(models.TextChoices):
+        IN = "in", _("In")
+        OUT = "out", _("Out")
 
 
 class Transaction(models.Model):
@@ -23,10 +30,11 @@ class Transaction(models.Model):
     ]
 
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='transactions')  # Foreign key to Course model
+    type = models.CharField(_("status"), choices=TransactionType.choices, null=True, blank=True, max_length=255,)
     amount = models.DecimalField(max_digits=10, decimal_places=2)  # Transaction amount
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)  # Currency code, e.g., USD, EUR
-    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)  # Payment method used
-    status = models.CharField(max_length=20, choices=TRANSACTION_STATUS_CHOICES, default='PENDING')  # Transaction status
+    payment_method = models.CharField(max_length=25, choices=PAYMENT_METHOD_CHOICES)  # Payment method used
+    status = models.CharField(max_length=25, choices=TRANSACTION_STATUS_CHOICES, default='PENDING')  # Transaction status
     transaction_date = models.DateTimeField(default=timezone.now)  # Date and time of the transaction
     reference = models.CharField(max_length=200,blank=True, null=True)  
     description = models.TextField(blank=True, null=True)

@@ -14,7 +14,9 @@ from unfold.contrib.import_export.forms import ExportForm, ImportForm, Selectabl
 
 from .models import Quotation, QuotationStatus
 
+
 # DJANGO ADMIN CONFIGURATION
+
 
 class QuotationAdmin(admin.ModelAdmin):
     list_display = (
@@ -119,12 +121,9 @@ class QuotationAdmin(admin.ModelAdmin):
         }),
     )
 
-    def show_status_customized_color(self, obj):
-        return obj.status
-    
+
     def send_email_button(self, obj):
-        return f'<a class="button" href="/admin/app_name/order/{obj.id}/send_email/">Send Email</a>'
-    
+        return f'<a class="button" href="/admin/app_name/order/{obj.id}/send_email/">Send Email</a>'  
     send_email_button.short_description = 'Send Email'
     send_email_button.allow_tags = True
 
@@ -273,7 +272,6 @@ class QuotationAdmin(ModelAdmin, ImportExportModelAdmin):
             QuotationStatus.REJECTED: "danger",  # red
         },
     )
-    
     def show_status_customized_color(self, obj):
         return obj.status
     

@@ -100,7 +100,7 @@ class EnquiryAdmin(ModelAdmin, ImportExportModelAdmin):
     list_filter = ['rating', 'program', 'branch', 'employee', 'created_at', 'follow_up_date']
     search_fields = ['name', 'surname', 'email', 'nationality']
     list_per_page = 20
-    list_editable = ['branch','employee', 'rating', 'follow_up_date']
+    list_editable = ['branch','employee', 'rating', 'follow_up_date',]
 
     fieldsets = (
         ('Personal Information', {
