@@ -474,7 +474,7 @@ CELERY_TIMEZONE = 'UTC'  # Adjust to your timezone
 CELERY_BEAT_SCHEDULE = {
     'update-student-statuses-daily': {
         'task': 'students.tasks.update_student_statuses',
-        'schedule': timedelta(seconds=5), # Just to Test
+        'schedule': timedelta(seconds=60), # Just to Test
         # 'schedule': crontab(hour=0, minute=0),  # Every day at midnight
     },
 }

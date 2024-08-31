@@ -29,6 +29,7 @@ class QuotationAdmin(admin.ModelAdmin):
         'total', 
         'status', 
         'course_date_start',
+        'course_date_finish',
         'created_at',
         'send_email_button'
     )
@@ -78,6 +79,7 @@ class QuotationAdmin(admin.ModelAdmin):
                 'course_price_list',
                 'course_qty_weeks',
                 'course_date_start',
+                'course_date_finish',
             )
         }),
         ('Accommodation Details', {
@@ -88,6 +90,7 @@ class QuotationAdmin(admin.ModelAdmin):
                 'accommodation_price_list',  
                 'accommodation_qty_weeks',
                 'accommodation_date_start',
+                'accommodation_date_finish',
             )
         }),
         ('Airport Transfer', {
@@ -145,7 +148,6 @@ class QuotationAdmin(ModelAdmin, ImportExportModelAdmin):
     import_form_class = ImportForm
     export_form_class = ExportForm
     list_fullwidth = True
-    # Fields to display in the list view
     list_display = (
         'id',
         'student',
@@ -153,14 +155,18 @@ class QuotationAdmin(ModelAdmin, ImportExportModelAdmin):
         'school', 
         'course',
         'course_qty_weeks',
+        'accommodation',
+        'accommodation_qty_weeks',
         'total', 
         "show_status_customized_color", 
         'course_date_start',
+        'course_date_finish',
+        'accommodation_date_start',
+        'accommodation_date_finish',
         'created_at',
         'send_email_button',
     )
 
-    # Fields to add filters in the list view
     list_filter = (
         'school', 
         'course', 
@@ -168,7 +174,6 @@ class QuotationAdmin(ModelAdmin, ImportExportModelAdmin):
         'created_at'
     )
 
-    # Fields that can be searched in the list view
     search_fields = (
         'student__name', 
         'student__email', 
@@ -179,7 +184,6 @@ class QuotationAdmin(ModelAdmin, ImportExportModelAdmin):
     # Editable fields directly from the list view
     # list_editable = ('status',)
 
-    # Readonly fields (if any)
     readonly_fields = ('created_at',
         'school_total', 
         'accommodation_total', 
@@ -190,7 +194,6 @@ class QuotationAdmin(ModelAdmin, ImportExportModelAdmin):
         'send_email_button',
         )
 
-    # Fields grouped in the detail view
     fieldsets = (
         ('Student Details', {
             'fields': (
@@ -211,6 +214,7 @@ class QuotationAdmin(ModelAdmin, ImportExportModelAdmin):
                 'course_price_list',
                 'course_qty_weeks',
                 'course_date_start',
+                'course_date_finish',
             )
         }),
         ('Accommodation Details', {
@@ -220,6 +224,7 @@ class QuotationAdmin(ModelAdmin, ImportExportModelAdmin):
                 'accommodation_price_list',  
                 'accommodation_qty_weeks',
                 'accommodation_date_start',
+                'accommodation_date_finish',
             )
         }),
         ('Airport Transfer', {
@@ -266,10 +271,9 @@ class QuotationAdmin(ModelAdmin, ImportExportModelAdmin):
         description=_("Status"),
         ordering="status",
         label={
-            QuotationStatus.APPROVED: "success",  # green
-            QuotationStatus.PENDING: "warning",  # orange
-            # QuotationStatus.INACTIVE: "warning",  # orange
-            QuotationStatus.REJECTED: "danger",  # red
+            QuotationStatus.APPROVED: "success",
+            QuotationStatus.PENDING: "warning",
+            QuotationStatus.REJECTED: "danger",
         },
     )
     def show_status_customized_color(self, obj):

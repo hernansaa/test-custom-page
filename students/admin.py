@@ -5,10 +5,14 @@ from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from django.contrib.admin import register
 
+from import_export.admin import ImportExportModelAdmin
+
 from gs_admin.sites import new_admin_site
 
 from unfold.admin import ModelAdmin, TabularInline, StackedInline
 from unfold.decorators import action, display
+from unfold.contrib.import_export.forms import ExportForm, ImportForm, SelectableFieldsExportForm
+
 
 from .models import StudentProfile, StudentStatus
 from enquiries.models import Enquiry
@@ -161,6 +165,7 @@ class EnrollmentInline(StackedInline):
         'course',
         'course_qty_weeks',
         'course_date_start',
+        'course_date_finish',
         'accommodation',
         'accommodation_qty_weeks',
         'accommodation_date_start',
@@ -174,9 +179,11 @@ class EnrollmentInline(StackedInline):
         'course',
         'course_qty_weeks',
         'course_date_start',
+        'course_date_finish',
         'accommodation',
         'accommodation_qty_weeks',
         'accommodation_date_start',
+        'accommodation_date_finish',
         'airport_transfer',
         'created_at',
         )
@@ -235,10 +242,12 @@ class InvoiceInline(StackedInline):
         'course',
         'course_qty_weeks',
         'course_date_start',
+        'course_date_finish',
         'school_total',
         'accommodation',
         'accommodation_qty_weeks',
         'accommodation_date_start',
+        'accommodation_date_finish',
         'accommodation_total',
         'airport_transfer',
         'airport_transfer_total',
@@ -250,7 +259,9 @@ class InvoiceInline(StackedInline):
 
 
 @register(StudentProfile, site=new_admin_site)
-class StudentProfileAdmin(ModelAdmin):
+class StudentProfileAdmin(ModelAdmin, ImportExportModelAdmin):
+    import_form_class = ImportForm
+    export_form_class = ExportForm
     compressed_fields = True  
     list_fullwidth = True
     list_display = ('id', 'name', 'surname', 'email', 'dob', 'show_status_customized_color', 'branch', 'employee')

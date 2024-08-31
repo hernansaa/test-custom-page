@@ -52,6 +52,7 @@ class Invoice(models.Model):
         blank=True,
         )
     course_date_start = models.DateField(null=True, blank=True)
+    course_date_finish = models.DateField(null=True, blank=True)
     school_total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     accommodation = ChainedForeignKey(
         SchoolAccommodation, 
@@ -74,6 +75,7 @@ class Invoice(models.Model):
         blank=True,
         )
     accommodation_date_start = models.DateField(null=True, blank=True)
+    accommodation_date_finish = models.DateField(null=True, blank=True)
     accommodation_total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     airport_transfer = ChainedForeignKey(
         SchoolAirportTransfer, 

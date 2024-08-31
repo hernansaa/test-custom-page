@@ -1,9 +1,9 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
-from accounting.models import Transaction
+
 from .models import Invoice
 from quotations.models import Quotation
-
+from accounting.models import Transaction
 
 @receiver(post_save, sender=Quotation)
 def create_invoice(sender, instance, created, **kwargs):
@@ -26,10 +26,12 @@ def create_invoice(sender, instance, created, **kwargs):
                 course = instance.course,
                 course_qty_weeks = instance.course_qty_weeks,
                 course_date_start = instance.course_date_start,
+                course_date_finish = instance.course_date_finish,
                 school_total = instance.school_total,
                 accommodation = instance.accommodation,
                 accommodation_qty_weeks = instance.accommodation_qty_weeks,
                 accommodation_date_start=instance.accommodation_date_start,
+                accommodation_date_finish=instance.accommodation_date_finish,
                 accommodation_total = instance.accommodation_total,
                 airport_transfer = instance.airport_transfer,
                 airport_transfer_total = instance.airport_transfer_total,
@@ -44,10 +46,12 @@ def create_invoice(sender, instance, created, **kwargs):
                 course=instance.course,
                 course_qty_weeks=instance.course_qty_weeks,
                 course_date_start=instance.course_date_start,
+                course_date_finish = instance.course_date_finish,
                 school_total=instance.school_total,
                 accommodation=instance.accommodation,
                 accommodation_qty_weeks=instance.accommodation_qty_weeks,
                 accommodation_date_start=instance.accommodation_date_start,
+                accommodation_date_finish=instance.accommodation_date_finish,
                 accommodation_total=instance.accommodation_total,
                 airport_transfer=instance.airport_transfer,
                 airport_transfer_total=instance.airport_transfer_total,

@@ -24,10 +24,9 @@ from providers.models import (
 
 
 class QuotationStatus(TextChoices):
-        APPROVED = "approved", _("Approved")
-        PENDING = "pending", _("Pending")
-        # INACTIVE = "inactive", _("Inactive")
-        REJECTED = "rejected", _("Rejected")
+    APPROVED = "approved", _("Approved")
+    PENDING = "pending", _("Pending")
+    REJECTED = "rejected", _("Rejected")
 
 
 class Quotation(models.Model):
@@ -97,6 +96,7 @@ class Quotation(models.Model):
         blank=True,
         )
     course_date_start = models.DateField(null=True, blank=True)
+    course_date_finish = models.DateField(null=True, blank=True)
     enrollment_fee = models.DecimalField(decimal_places=2, max_digits=6, null=True, blank=True)
     course_weekly_price = models.DecimalField(decimal_places=2, max_digits=6, null=True, blank=True)
     accommodation = ChainedForeignKey(
@@ -130,6 +130,7 @@ class Quotation(models.Model):
         blank=True,
         )
     accommodation_date_start = models.DateField(null=True, blank=True)
+    accommodation_date_finish = models.DateField(null=True, blank=True)
     airport_transfer = ChainedForeignKey(
         SchoolAirportTransfer, 
         chained_field="school",
@@ -190,53 +191,3 @@ class Quotation(models.Model):
             self.airport_transfer_total = 0
         self.total = self.school_total + self.accommodation_total + self.airport_transfer_total + self.enrollment_fee
         super(Quotation, self).save(*args, **kwargs)
-
-
-
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)  # Save the Quotation first
-
-    #     if self.is_accepted:
-    #         # Create an Enrollment if not already exists for this quotation
-    #         enrollment, created = Enrollment.objects.get_or_create(
-    #             student=self.student,
-    #             program=self.program,
-    #             course=self.course,
-    #             course_qty_weeks=self.course_qty_weeks,
-    #             date_start=self.date_start,
-    #             enrollment_fee=self.enrollment_fee,
-    #             course_weekly_price=self.course_weekly_price,
-    #             accommodation=self.accommodation,
-    #             accommodation_qty_weeks=self.accommodation_qty_weeks,
-    #             airport_transfer=self.airport_transfer,
-    #             total=self.total,
-    #             branch=self.branch,
-    #             employee=self.employee,
-    #         )
-    #         if created:
-    #             print(f"Enrollment created for {self.student} from Quotation ID {self.id}")
-    #     else:
-    #         # Delete the associated Enrollment if it exists
-    #         try:
-    #             enrollment = Enrollment.objects.get(
-    #                 student=self.student,
-    #                 program=self.program,
-    #                 course=self.course,
-    #                 course_qty_weeks=self.course_qty_weeks,
-    #                 date_start=self.date_start,
-    #                 enrollment_fee=self.enrollment_fee,
-    #                 course_weekly_price=self.course_weekly_price,
-    #                 accommodation=self.accommodation,
-    #                 accommodation_qty_weeks=self.accommodation_qty_weeks,
-    #                 airport_transfer=self.airport_transfer,
-    #                 total=self.total,
-    #                 branch=self.branch,
-    #                 employee=self.employee,
-    #             )
-    #             enrollment.delete()
-    #             print(f"Enrollment deleted for {self.student} from Quotation ID {self.id}")
-    #         except Enrollment.DoesNotExist:
-    #             pass  # No associated Enrollment exists, so nothing to delete
-
-    
-    

@@ -109,9 +109,11 @@ class EnrollmentAdmin(ModelAdmin, ImportExportModelAdmin):
         'course',
         'course_qty_weeks',
         'course_date_start',
+        'course_date_finish',
         'accommodation',
         'accommodation_qty_weeks',
         'accommodation_date_start',
+        'accommodation_date_finish',
         'airport_transfer',
         'created_at',
     )
@@ -145,9 +147,11 @@ class EnrollmentAdmin(ModelAdmin, ImportExportModelAdmin):
         'course',
         'course_qty_weeks',
         'course_date_start',
+        'course_date_finish',
         'accommodation',
         'accommodation_qty_weeks',
         'accommodation_date_start',
+        'accommodation_date_finish',
         'airport_transfer',
     )
 
@@ -160,9 +164,11 @@ class EnrollmentAdmin(ModelAdmin, ImportExportModelAdmin):
         'course',
         'course_qty_weeks',
         'course_date_start',
+        'course_date_finish',
         'accommodation',
         'accommodation_qty_weeks',
         'accommodation_date_start',
+        'accommodation_date_finish',
         'airport_transfer',
     )
 

@@ -17,9 +17,11 @@ def create_enrollment(sender, instance, created, **kwargs):
                 course = instance.course,
                 course_qty_weeks = instance.course_qty_weeks,
                 course_date_start = instance.course_date_start,
+                course_date_finish = instance.course_date_finish,
                 accommodation = instance.accommodation,
                 accommodation_qty_weeks = instance.accommodation_qty_weeks,
                 accommodation_date_start=instance.accommodation_date_start,
+                accommodation_date_finish=instance.accommodation_date_finish,
                 airport_transfer = instance.airport_transfer,
             )
         else:
@@ -31,9 +33,11 @@ def create_enrollment(sender, instance, created, **kwargs):
                 course=instance.course,
                 course_qty_weeks=instance.course_qty_weeks,
                 course_date_start=instance.course_date_start,
+                course_date_finish=instance.course_date_finish,
                 accommodation=instance.accommodation,
                 accommodation_qty_weeks=instance.accommodation_qty_weeks,
                 accommodation_date_start=instance.accommodation_date_start,
+                accommodation_date_finish=instance.accommodation_date_finish,
                 airport_transfer=instance.airport_transfer,
             )
 
