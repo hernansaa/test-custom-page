@@ -16,6 +16,9 @@ from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
+from celery.schedules import crontab
+from celery.schedules import timedelta
+
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -202,6 +205,7 @@ DEFAULT_FROM_EMAIL = 'hernan@globalstudies.es'
 # Includes jQuery in every page that includes a field from smart_selects.
  
 USE_DJANGO_JQUERY = True
+
 
 # Unfold Admin configuration
 
@@ -455,3 +459,30 @@ UNFOLD = {
         },
     },
 }
+
+
+
+
+# Celery settings
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Use the Redis broker
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'  # Store results in Redis
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'  # Adjust to your timezone
+
+CELERY_BEAT_SCHEDULE = {
+    'update-student-statuses-daily': {
+        'task': 'students.tasks.update_student_statuses',
+        'schedule': timedelta(seconds=5), # Just to Test
+        # 'schedule': crontab(hour=0, minute=0),  # Every day at midnight
+    },
+}
+
+# # TEST 
+# CELERY_BEAT_SCHEDULE = {
+#     'print-hello-every-5-seconds': {
+#         'task': 'students.tasks.print_hello',
+#         'schedule': timedelta(seconds=5),
+#     },
+# }
