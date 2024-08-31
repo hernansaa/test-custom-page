@@ -42,8 +42,9 @@ This project is a CRM system that includes task management, user authentication,
 
 ### Project Structure
 
--core/: Main project folder containing settings and configuration.
--your_app/: Contains the main application logic.
+- **core/**: Main project folder containing settings and configuration.
+- **your_app/**: Contains the main application logic.
+
 
 
 ### Celery Configuration
