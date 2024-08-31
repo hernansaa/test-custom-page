@@ -18,7 +18,6 @@ from .models import (HomePage, AboutUs, ContactPage, TeamMember, StudentReviewsS
     WhyUsSection, ContactSection, FeaturedProgramsSection, PopularDestiniesSection,
     HeaderHeroSection, NavbarItem)
 
-from tinymce.models import HTMLField
 
 
 # DJANGO ADMIN

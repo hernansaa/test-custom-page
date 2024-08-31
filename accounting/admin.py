@@ -84,7 +84,7 @@ class TransactionAdmin(ModelAdmin):
     ordering = ['-transaction_date']
     readonly_fields = ['transaction_date']  # Make the transaction date read-only
     fieldsets = (
-        (None, {
+        ('Invoice details', {
             'fields': ('invoice', 'amount', 'currency', 'payment_method', 'status', 'transaction_fee')
         }),
         ('Additional Information', {

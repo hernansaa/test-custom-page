@@ -134,7 +134,7 @@ admin.site.register(Invoice, InvoiceAdmin)
 
 class TransactionInline(StackedInline):
     model = Transaction
-    extra = 0
+    extra = 1
     tab = True
 
 

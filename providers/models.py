@@ -261,7 +261,7 @@ class SchoolAccommodation(models.Model):
     name =  models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.accommodation.type} | {self.name} | {self.school}"
+        return f"{self.accommodation.type} | {self.name}"
 
 
 class AccommodationPriceList(models.Model):

@@ -116,6 +116,7 @@ class QuotationAdmin(admin.ModelAdmin):
         }),
     )
 
+
     class Media:
         js = ('js/quotation_admin.js',)
     
@@ -232,6 +233,8 @@ class QuotationAdmin(ModelAdmin):
             )
         }),
     )
+
+    autocomplete_fields = ['student'] 
 
     # formfield_overrides = {
     #     models.ForeignKey: {

@@ -262,42 +262,66 @@ UNFOLD = {
                     },
                 ],
             },
+            # {
+            #     "title": _("Email (soon)"),
+            #     "separator": False,  # Top border
+            #     "collapsible": True,  # Collapsible group of links
+            #     "items": [
+            #         {
+            #             "title": _("Inbox"),
+            #             "icon": "inbox",  # Supported icon set: https://fonts.google.com/icons
+            #             "link": reverse_lazy("gs-admin:enquiries_contact_changelist"),
+            #             # "badge": "sample_app.badge_callback",
+            #             # "permission": lambda request: request.user.is_superuser,
+            #         },
+            #         {
+            #             "title": _("Sent"),
+            #             "icon": "outbox",
+            #             "link": reverse_lazy("gs-admin:enquiries_contact_changelist"),
+            #         },
+            #     ],
+            # },
+            # {
+            #     "title": _("Chat (soon)"),
+            #     "separator": False,  # Top border
+            #     "collapsible": True,  # Collapsible group of links
+            #     "items": [
+            #         {
+            #             "title": _("Inbox"),
+            #             "icon": "inbox",  # Supported icon set: https://fonts.google.com/icons
+            #             "link": reverse_lazy("gs-admin:enquiries_contact_changelist"),
+            #             # "badge": "sample_app.badge_callback",
+            #             # "permission": lambda request: request.user.is_superuser,
+            #         },
+            #         {
+            #             "title": _("Sent"),
+            #             "icon": "outbox",
+            #             "link": reverse_lazy("gs-admin:enquiries_contact_changelist"),
+            #         },
+            #     ],
+            # },
             {
-                "title": _("Email (soon)"),
+                "title": _("Programs"),
                 "separator": False,  # Top border
                 "collapsible": True,  # Collapsible group of links
                 "items": [
                     {
-                        "title": _("Inbox"),
-                        "icon": "inbox",  # Supported icon set: https://fonts.google.com/icons
-                        "link": reverse_lazy("gs-admin:enquiries_contact_changelist"),
-                        # "badge": "sample_app.badge_callback",
-                        # "permission": lambda request: request.user.is_superuser,
+                        "title": _("Experiences"),
+                        "icon": "surfing",
+                        "link": reverse_lazy("gs-admin:programs_experience_changelist"),
                     },
-                    {
-                        "title": _("Sent"),
-                        "icon": "outbox",
-                        "link": reverse_lazy("gs-admin:enquiries_contact_changelist"),
-                    },
-                ],
-            },
-            {
-                "title": _("Chat (soon)"),
-                "separator": False,  # Top border
-                "collapsible": True,  # Collapsible group of links
-                "items": [
-                    {
-                        "title": _("Inbox"),
-                        "icon": "inbox",  # Supported icon set: https://fonts.google.com/icons
-                        "link": reverse_lazy("gs-admin:enquiries_contact_changelist"),
-                        # "badge": "sample_app.badge_callback",
-                        # "permission": lambda request: request.user.is_superuser,
-                    },
-                    {
-                        "title": _("Sent"),
-                        "icon": "outbox",
-                        "link": reverse_lazy("gs-admin:enquiries_contact_changelist"),
-                    },
+                    # {
+                    #     "title": _("Groups"),
+                    #     "icon": "school",  # Supported icon set: https://fonts.google.com/icons
+                    #     "link": reverse_lazy("gs-admin:providers_school_changelist"),
+                    #     # "badge": "sample_app.badge_callback",
+                    #     # "permission": lambda request: request.user.is_superuser,
+                    # },
+                    # {
+                    #     "title": _("Accommodation"),
+                    #     "icon": "apartment",
+                    #     "link": reverse_lazy("gs-admin:programs_experience_changelist"),
+                    # },
                 ],
             },
             {
@@ -305,11 +329,6 @@ UNFOLD = {
                 "separator": False,  # Top border
                 "collapsible": True,  # Collapsible group of links
                 "items": [
-                    {
-                        "title": _("Programs"),
-                        "icon": "surfing",
-                        "link": reverse_lazy("gs-admin:programs_experience_changelist"),
-                    },
                     {
                         "title": _("Schools"),
                         "icon": "school",  # Supported icon set: https://fonts.google.com/icons
@@ -383,11 +402,26 @@ UNFOLD = {
                 "collapsible": True,  # Collapsible group of links
                 "items": [
                     {
-                        "title": _("Home"),
-                        "icon": "home",  # Supported icon set: https://fonts.google.com/icons
-                        "link": reverse_lazy("gs-admin:home_homepage_changelist"),
+                        "title": _("Branches"),
+                        "icon": "storefront",
+                        "link": reverse_lazy("gs-admin:branches_agencybranch_changelist"),
+                    },
+                    {
+                        "title": _("Employees"),
+                        "icon": "group",
+                        "link": reverse_lazy("gs-admin:branches_employeeprofile_changelist"),
+                    },
+                    {
+                        "title": _("Currencies"),
+                        "icon": "currency_exchange",  # Supported icon set: https://fonts.google.com/icons
+                        "link": reverse_lazy("gs-admin:currencies_currency_changelist"),
                         # "badge": "sample_app.badge_callback",
                         # "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": _("Locations"),
+                        "icon": "location_on",
+                        "link": reverse_lazy("gs-admin:locations_city_changelist"),
                     },
                 ],
             },
