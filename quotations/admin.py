@@ -1,16 +1,18 @@
 from django.contrib import admin
-from django.db import models
 from smart_selects.db_fields import ChainedForeignKey
 from django.contrib.admin import register
+from django.urls import path
+from django.utils.translation import gettext_lazy as _
+from django.utils.safestring import mark_safe
+
 from gs_admin.sites import new_admin_site
 
-from unfold.admin import ModelAdmin, UnfoldAdminSelectWidget
+from unfold.admin import ModelAdmin
+from unfold.decorators import action, display
+from import_export.admin import ImportExportModelAdmin
+from unfold.contrib.import_export.forms import ExportForm, ImportForm, SelectableFieldsExportForm
 
-
-from django.forms.widgets import Select
-
-
-from .models import Quotation
+from .models import Quotation, QuotationStatus
 
 # DJANGO ADMIN CONFIGURATION
 
@@ -25,7 +27,8 @@ class QuotationAdmin(admin.ModelAdmin):
         'total', 
         'status', 
         'course_date_start',
-        'created_at'
+        'created_at',
+        'send_email_button'
     )
 
     list_filter = (
@@ -116,6 +119,15 @@ class QuotationAdmin(admin.ModelAdmin):
         }),
     )
 
+    def show_status_customized_color(self, obj):
+        return obj.status
+    
+    def send_email_button(self, obj):
+        return f'<a class="button" href="/admin/app_name/order/{obj.id}/send_email/">Send Email</a>'
+    
+    send_email_button.short_description = 'Send Email'
+    send_email_button.allow_tags = True
+
 
     class Media:
         js = ('js/quotation_admin.js',)
@@ -130,7 +142,9 @@ admin.site.register(Quotation, QuotationAdmin)
 
 
 @register(Quotation, site=new_admin_site)
-class QuotationAdmin(ModelAdmin):
+class QuotationAdmin(ModelAdmin, ImportExportModelAdmin):
+    import_form_class = ImportForm
+    export_form_class = ExportForm
     list_fullwidth = True
     # Fields to display in the list view
     list_display = (
@@ -141,9 +155,10 @@ class QuotationAdmin(ModelAdmin):
         'course',
         'course_qty_weeks',
         'total', 
-        'status', 
+        "show_status_customized_color", 
         'course_date_start',
-        'created_at'
+        'created_at',
+        'send_email_button',
     )
 
     # Fields to add filters in the list view
@@ -173,6 +188,7 @@ class QuotationAdmin(ModelAdmin):
         'enrollment_fee', 
         'airport_transfer_total', 
         'enquiry',
+        'send_email_button',
         )
 
     # Fields grouped in the detail view
@@ -226,6 +242,11 @@ class QuotationAdmin(ModelAdmin):
                 'status',
             )
         }),
+        ('Send E-mail', {
+            'fields': (
+                'send_email_button',
+            )
+        }),
         ('Other Details', {
             'fields': (
                 'branch', 
@@ -234,10 +255,41 @@ class QuotationAdmin(ModelAdmin):
         }),
     )
 
-    autocomplete_fields = ['student'] 
+    autocomplete_fields = ['student']
 
-    # formfield_overrides = {
-    #     models.ForeignKey: {
-    #         "widget": Select,
-    #     },
-    # }
+    # def get_form(self, request, obj=None, change=False, **kwargs):
+    #     form = super().get_form(request, obj, change, **kwargs)
+    #     form.base_fields["status"].widget = UnfoldAdminColorInputWidget()
+    #     return form
+
+
+    @display(
+        description=_("Status"),
+        ordering="status",
+        label={
+            QuotationStatus.APPROVED: "success",  # green
+            QuotationStatus.PENDING: "warning",  # orange
+            # QuotationStatus.INACTIVE: "warning",  # orange
+            QuotationStatus.REJECTED: "danger",  # red
+        },
+    )
+    
+    def show_status_customized_color(self, obj):
+        return obj.status
+    
+    def send_email_button(self, obj):
+        return mark_safe(f'<a class="button" href="/admin/app_name/order/{obj.id}/send_email/">Send Email</a>')
+    
+    send_email_button.short_description = 'Send Email'
+    send_email_button.allow_tags = True
+
+    # def get_urls(self):
+    #     urls = super().get_urls()
+    #     custom_urls = [
+    #         path(
+    #             '<int:order_id>/send_email/',
+    #             self.admin_site.admin_view(self.send_email),
+    #             name='send-email',
+    #         ),
+    #     ]
+    #     return custom_urls + urls

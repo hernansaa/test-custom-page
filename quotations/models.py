@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import TextChoices
+from django.utils.translation import gettext_lazy as _
 
 from smart_selects.db_fields import ChainedForeignKey
 
@@ -19,6 +21,13 @@ from providers.models import (
     AccommodationPriceList, 
     SchoolAirportTransfer
     )
+
+
+class QuotationStatus(TextChoices):
+        APPROVED = "approved", _("Approved")
+        PENDING = "pending", _("Pending")
+        # INACTIVE = "inactive", _("Inactive")
+        REJECTED = "rejected", _("Rejected")
 
 
 class Quotation(models.Model):
@@ -138,7 +147,7 @@ class Quotation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     branch = models.ForeignKey(AgencyBranch, on_delete=models.CASCADE, null=True, blank=True)
     employee = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE, null=True, blank=True)
-    status = models.CharField(max_length=10, choices=QUOTATION_STATUS, null=True, blank=True)
+    status = models.CharField(_("status"), choices=QuotationStatus.choices, null=True, blank=True, max_length=255, default="pending")
 
 
     def __str__(self):

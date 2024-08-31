@@ -7,6 +7,8 @@ from .models import Enrollment
 from django.contrib.admin import register
 
 from unfold.admin import ModelAdmin
+from import_export.admin import ImportExportModelAdmin
+from unfold.contrib.import_export.forms import ExportForm, ImportForm, SelectableFieldsExportForm
 
 
 # DJANGO ADMIN
@@ -96,7 +98,9 @@ admin.site.register(Enrollment, EnrollmentAdmin)
 
 
 @register(Enrollment, site=new_admin_site)
-class EnrollmentAdmin(ModelAdmin):
+class EnrollmentAdmin(ModelAdmin, ImportExportModelAdmin):
+    import_form_class = ImportForm
+    export_form_class = ExportForm
     compressed_fields = True
     list_fullwidth = True
     list_display = (
@@ -127,6 +131,7 @@ class EnrollmentAdmin(ModelAdmin):
         'course',
         'accommodation',
         'airport_transfer',
+        'course_date_start',
         'created_at',
     )
 

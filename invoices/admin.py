@@ -10,6 +10,9 @@ from django.contrib.admin import register
 
 from unfold.admin import ModelAdmin, TabularInline, StackedInline
 
+from import_export.admin import ImportExportModelAdmin
+from unfold.contrib.import_export.forms import ExportForm, ImportForm, SelectableFieldsExportForm
+
 
 class TransactionInline(admin.TabularInline):
     model = Transaction
@@ -139,7 +142,9 @@ class TransactionInline(StackedInline):
 
 
 @register(Invoice, site=new_admin_site)
-class InvoiceAdmin(ModelAdmin):
+class InvoiceAdmin(ModelAdmin, ImportExportModelAdmin):
+    import_form_class = ImportForm
+    export_form_class = ExportForm
     list_fullwidth = True
     compressed_fields = True
     list_display = (

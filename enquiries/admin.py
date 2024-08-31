@@ -9,12 +9,8 @@ from gs_admin.sites import new_admin_site
 from django.contrib.admin import register
 
 from unfold.admin import ModelAdmin, TabularInline, StackedInline
-from unfold.widgets import (UnfoldAdminSplitDateTimeWidget, UnfoldAdminSplitDateTimeVerticalWidget, 
-                            UnfoldAdminDateWidget, AdminDateWidget, UnfoldAdminSingleDateWidget,
-                            UnfoldAdminTextareaWidget, UnfoldAdminTextInputWidget, UnfoldAdminIntegerFieldWidget,
-                            UnfoldAdminSelectWidget)
-from unfold.contrib.forms.widgets import ArrayWidget, WysiwygWidget
-
+from import_export.admin import ImportExportModelAdmin
+from unfold.contrib.import_export.forms import ExportForm, ImportForm, SelectableFieldsExportForm
 from email_client.models import SentEmail
 
 from .models import Inquiry, Enquiry, Contact
@@ -95,8 +91,9 @@ class InquiryAdmin(admin.ModelAdmin):
 
 
 @register(Enquiry, site=new_admin_site)
-class EnquiryAdmin(ModelAdmin):
-    # Unfold admin method
+class EnquiryAdmin(ModelAdmin, ImportExportModelAdmin):
+    import_form_class = ImportForm
+    export_form_class = ExportForm
     compressed_fields = True
     list_fullwidth = True
     list_display = ['student', 'rating','follow_up_date', 'email', 'nationality', 'phone', 'program', 'branch', 'employee', 'created_at']

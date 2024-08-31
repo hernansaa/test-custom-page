@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -423,6 +424,16 @@ UNFOLD = {
                         "icon": "location_on",
                         "link": reverse_lazy("gs-admin:locations_city_changelist"),
                     },
+                    # {
+                    #     "title": _("Users"),
+                    #     "icon": "person",
+                    #     "link": reverse_lazy("admin:auth_user_changelist"),
+                    # },
+                    # {
+                    #     "title": _("Groups"),
+                    #     "icon": "group",
+                    #     "link": reverse_lazy("admin:auth_group_changelist"),
+                    # },
                 ],
             },
         ],
