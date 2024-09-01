@@ -1,0 +1,352 @@
+{% extends "admin/base_site.html" %}
+{% load widget_tweaks %}
+
+{% load i18n admin_urls static admin_modify %}
+
+{% block extrahead %}{{ block.super }}
+    <script src="{% url 'admin:jsi18n' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/static/smart-selects/admin/js/chainedfk.js"></script>
+    <script src="/static/smart-selects/admin/js/bindfields.js"></script>
+    <!-- <style>[x-cloak]{display:none}</style> -->
+    <!-- Include the Alpine library on your page -->
+    <!-- <script src="https://unpkg.com/alpinejs" defer></script> -->
+    <!-- Include the TailwindCSS library on your page -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- {{ media }} -->
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} app-{{ opts.app_label }} model-{{ opts.model_name }} change-form{% endblock %}
+
+{% if not is_popup %}
+    {% block breadcrumbs %}
+        <div class="px-4 lg:px-12">
+            <div class="container mb-6 mx-auto -my-3 lg:mb-12">
+                <ul class="flex">
+                    {% url 'admin:index' as link %}
+                    {% trans 'Home' as name %}
+                    {% include 'unfold/helpers/breadcrumb_item.html' with link=link name=name %}
+
+                    {% url 'admin:app_list' app_label=opts.app_label as link %}
+                    {% include 'unfold/helpers/breadcrumb_item.html' with link=link name=opts.app_config.verbose_name %}
+
+                    {% if has_view_permission %}
+                        {% url opts|admin_urlname:'changelist' as link %}
+                        {% include 'unfold/helpers/breadcrumb_item.html' with link=link  name=opts.verbose_name_plural|capfirst %}
+                    {% else %}
+                        {% include 'unfold/helpers/breadcrumb_item.html' with link='' name=opts.verbose_name_plural|capfirst %}
+                    {% endif %}
+
+                    {% if add %}
+                        {% blocktranslate trimmed with name=opts.verbose_name asvar breadcrumb_name %}
+                            Add {{ name }}
+                        {% endblocktranslate %}
+
+                        {% include 'unfold/helpers/breadcrumb_item.html' with link='' name=breadcrumb_name %}
+                    {% else %}
+                        {% include 'unfold/helpers/breadcrumb_item.html' with link='' name=original|truncatewords:'18' %}
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    {% endblock %}
+{% endif %}
+
+{% block nav-global %}{% spaceless %}
+    {% if change and not is_popup %}
+        {% block object-tools-items %}
+            {% change_form_object_tools %}
+        {% endblock %}
+    {% endif %}
+{% endspaceless %}{% endblock %}
+
+{% block nav-global-side %}
+    {% if has_add_permission %}
+        {% include "unfold/helpers/add_link.html" %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div id="content-main">
+        {% block form_before %}{% endblock %}
+
+
+        <h1 class="text-2xl font-semibold text-gray-800 mb-6">Edit Quotation</h1>
+
+        <form method="post" enctype="multipart/form-data" class="space-y-8">
+            {% csrf_token %}
+            
+            <!-- Grid Container for Two-Column Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+        
+                <!-- Left Column: Form Fields -->
+                <div class="md:col-span-5 space-y-6">
+                    <!-- Student Field -->
+                    <div>
+                        <label for="{{ form.student.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Student</label>
+                        {% render_field form.student class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm bg-transparent focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Enquiry Field -->
+                    <div>
+                        <label for="{{ form.enquiry.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Enquiry</label>
+                        {% render_field form.enquiry class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm bg-transparent focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- City Field -->
+                    <div>
+                        <label for="{{ form.city.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">City</label>
+                        {% render_field form.city class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm bg-transparent focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- School Field -->
+                    <div>
+                        <label for="{{ form.school.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">School</label>
+                        {% render_field form.school class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm bg-transparent focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Course Field -->
+                    <div>
+                        <label for="{{ form.course.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Course</label>
+                        {% render_field form.course class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm bg-transparent focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Course Price List Field -->
+                    <div>
+                        <label for="{{ form.course_price_list.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Course Price List</label>
+                        {% render_field form.course_price_list class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm bg-transparent focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Course Qty Weeks Field -->
+                    <div>
+                        <label for="{{ form.course_qty_weeks.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Course Quantity Weeks</label>
+                        {% render_field form.course_qty_weeks class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Course Date Start Field -->
+                    <div>
+                        <label for="{{ form.course_date_start.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Course Date Start</label>
+                        {% render_field form.course_date_start class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Course Date Finish Field -->
+                    <div>
+                        <label for="{{ form.course_date_finish.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Course Date Finish</label>
+                        {% render_field form.course_date_finish class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Enrollment Fee Field -->
+                    <div>
+                        <label for="{{ form.enrollment_fee.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Enrollment Fee</label>
+                        {% render_field form.enrollment_fee class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Course Weekly Price Field -->
+                    <div>
+                        <label for="{{ form.course_weekly_price.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Course Weekly Price</label>
+                        {% render_field form.course_weekly_price class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Accommodation Field -->
+                    <div>
+                        <label for="{{ form.accommodation.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Accommodation</label>
+                        {% render_field form.accommodation class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Accommodation Price List Field -->
+                    <div>
+                        <label for="{{ form.accommodation_price_list.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Accommodation Price List</label>
+                        {% render_field form.accommodation_price_list class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Accommodation Qty Weeks Field -->
+                    <div>
+                        <label for="{{ form.accommodation_qty_weeks.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Accommodation Quantity Weeks</label>
+                        {% render_field form.accommodation_qty_weeks class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Accommodation Date Start Field -->
+                    <div>
+                        <label for="{{ form.accommodation_date_start.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Accommodation Date Start</label>
+                        {% render_field form.accommodation_date_start class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Accommodation Date Finish Field -->
+                    <div>
+                        <label for="{{ form.accommodation_date_finish.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Accommodation Date Finish</label>
+                        {% render_field form.accommodation_date_finish class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Airport Transfer Field -->
+                    <div>
+                        <label for="{{ form.airport_transfer.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Airport Transfer</label>
+                        {% render_field form.airport_transfer class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- School Total Field -->
+                    <div>
+                        <label for="{{ form.school_total.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">School Total</label>
+                        {% render_field form.school_total class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Accommodation Total Field -->
+                    <div>
+                        <label for="{{ form.accommodation_total.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Accommodation Total</label>
+                        {% render_field form.accommodation_total class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Airport Transfer Total Field -->
+                    <div>
+                        <label for="{{ form.airport_transfer_total.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Airport Transfer Total</label>
+                        {% render_field form.airport_transfer_total class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Total Field -->
+                    <div>
+                        <label for="{{ form.total.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Total</label>
+                        {% render_field form.total class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Created At Field (Optional) -->
+                    <div>
+                        <label for="{{ form.created_at.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Created At</label>
+                        {% render_field form.created_at class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Branch Field -->
+                    <div>
+                        <label for="{{ form.branch.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Branch</label>
+                        {% render_field form.branch class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Employee Field -->
+                    <div>
+                        <label for="{{ form.employee.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Employee</label>
+                        {% render_field form.employee class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+        
+                    <!-- Status Field -->
+                    <div>
+                        <label for="{{ form.status.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                        {% render_field form.status class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %}
+                    </div>
+                </div>
+        
+                <!-- Right Column: Quotation Content -->
+                <div class="p-6 bg-white border border-gray-300 rounded-md shadow-sm md:col-span-7">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Presupuesto #{{ quotation.id }}</h2>
+
+                    <!-- Quotation Number -->
+                    <div class="flex justify-between mb-3">
+                        <span class="text-sm font-medium text-gray-700">N° Presupuesto:</span>
+                        <span class="text-sm text-gray-900">#{{ quotation.id }}</span>
+                    </div>
+
+                    <!-- Date -->
+                    <div class="flex justify-between mb-3">
+                        <span class="text-sm font-medium text-gray-700">Fecha emisión:</span>
+                        <span class="text-sm text-gray-900">{{ quotation.created_at }}</span>
+                    </div>
+
+                    <!-- Customer Name -->
+                    <div class="flex justify-between mb-3">
+                        <span class="text-sm font-medium text-gray-700">Nombre Estudiante:</span>
+                        <span class="text-sm text-gray-900">{{ quotation.student }}</span>
+                    </div>
+
+                    <!-- Quotation Status -->
+                    <!-- <div class="flex justify-between mb-3">
+                        <span class="text-sm font-medium text-gray-700">Estado presupuesto:</span>
+                        <span class="text-sm text-gray-900">{{ quotation.status }}</span>
+                    </div> -->
+
+                    <!-- Items Header -->
+                    <h3 class="text-lg font-semibold text-gray-900 mt-6 mb-2">Detalles</h3>
+
+                    <!-- Items Table -->
+                    <div class="border border-gray-200 rounded-md shadow-sm">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-4 py-2 text-left text-sm font-medium text-gray-500">Descripción</th>
+                                    <th scope="col" class="px-4 py-2 text-right text-sm font-medium text-gray-500">Cantidad</th>
+                                    <th scope="col" class="px-4 py-2 text-right text-sm font-medium text-gray-500">Precio</th>
+                                    <th scope="col" class="px-4 py-2 text-right text-sm font-medium text-gray-500">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <tr>
+                                        <td class="px-4 py-2 text-sm text-gray-900">Matricula</td>
+                                        <td class="px-4 py-2 text-sm text-right text-gray-900">1</td>
+                                        <td class="px-4 py-2 text-sm text-right text-gray-900">{{ quotation.enrollment_fee }}</td>
+                                        <td class="px-4 py-2 text-sm text-right text-gray-900">{{ quotation.enrollment_fee }}</td>
+                                    </tr>
+                                    <td class="px-4 py-2 text-sm text-gray-900">
+                                        <p>Escuela: {{ quotation.school }}<p> 
+                                        <p>Curso: {{ quotation.course }}</p>
+                                        <p>Fecha inicio: {{ quotation.course_date_start }}</p>
+                                        <p>Fecha finalización: {{ quotation.course_date_finish }}</p>
+                                    </td>
+                                    <td class="px-4 py-2 text-sm text-right text-gray-900">{{ quotation.course_qty_weeks }}</td>
+                                    <td class="px-4 py-2 text-sm text-right text-gray-900">falta</td>
+                                    <td class="px-4 py-2 text-sm text-right text-gray-900">${{ quotation.school_total }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 text-sm text-gray-900">{{ quotation.accommodation }}</td>
+                                    <td class="px-4 py-2 text-sm text-right text-gray-900">{{ quotation.accommodation_qty_weeks }}</td>
+                                    <td class="px-4 py-2 text-sm text-right text-gray-900">falta</td>
+                                    <td class="px-4 py-2 text-sm text-right text-gray-900">{{ quotation.accommodation_total }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 text-sm text-gray-900">{{ quotation.airport_transfer }}</td>
+                                    <td class="px-4 py-2 text-sm text-right text-gray-900">{{ quotation.airport_transfer.trip }}</td>
+                                    <td class="px-4 py-2 text-sm text-right text-gray-900">falta</td>
+                                    <td class="px-4 py-2 text-sm text-right text-gray-900">{{ quotation.airport_transfer_total }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Summary -->
+                    <div class="mt-4">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-sm font-medium text-gray-700">Subtotal:</span>
+                            <span class="text-sm text-gray-900">{{ quotation.total }}</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-sm font-medium text-gray-700">Tax (0%):</span>
+                            <span class="text-sm text-gray-900">$0.00</span>
+                        </div>
+                        <div class="flex justify-between font-bold text-gray-900">
+                            <span class="text-sm">Total:</span>
+                            <span class="text-sm">{{ quotation.total }}</span>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+            <!-- Grid Container for Two-Column Layout -->
+
+
+
+            
+            <!-- Submit Button -->
+            <div class="flex justify-end mt-6">
+                <input type="submit" value="Save Changes" class="inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            </div>
+        </form>
+        
+
+
+        {% block form_after %}{% endblock %}
+    </div>
+
+
+
+{% endblock %}
+
+
+
+
+
+

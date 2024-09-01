@@ -40,6 +40,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'quotations',
     "unfold.apps.BasicAppConfig", # <- Custom app config, not overriding default admin
     "unfold.contrib.filters",  # optional, if special filters are needed
     "unfold.contrib.forms",  # optional, if special form elements are needed
@@ -59,7 +60,6 @@ INSTALLED_APPS = [
     'email_client',
     'enrollments',
     'invoices',
-    'quotations',
     'enquiries',
     'programs',
     'locations',

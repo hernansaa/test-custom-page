@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
+    path('', include('quotations.urls')),
     path('', include('providers.urls')),
     path('', include('programs.urls')),  # Include URLs from the 'programs' app
     path('', include('gs_admin.urls')),

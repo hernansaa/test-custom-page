@@ -12,6 +12,8 @@ from unfold.decorators import action, display
 from import_export.admin import ImportExportModelAdmin
 from unfold.contrib.import_export.forms import ExportForm, ImportForm, SelectableFieldsExportForm
 
+from .forms import QuotationAdminForm
+
 from .models import Quotation, QuotationStatus
 
 
@@ -144,7 +146,8 @@ admin.site.register(Quotation, QuotationAdmin)
 
 
 @register(Quotation, site=new_admin_site)
-class QuotationAdmin(ModelAdmin, ImportExportModelAdmin):
+class QuotationAdmin(admin.ModelAdmin):
+    form = QuotationAdminForm
     import_form_class = ImportForm
     export_form_class = ExportForm
     list_fullwidth = True
@@ -259,7 +262,7 @@ class QuotationAdmin(ModelAdmin, ImportExportModelAdmin):
         }),
     )
 
-    autocomplete_fields = ['student']
+    # autocomplete_fields = ['student']
 
     # def get_form(self, request, obj=None, change=False, **kwargs):
     #     form = super().get_form(request, obj, change, **kwargs)
@@ -295,3 +298,19 @@ class QuotationAdmin(ModelAdmin, ImportExportModelAdmin):
     #         ),
     #     ]
     #     return custom_urls + urls
+
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        extra_context = extra_context or {}
+        obj = self.get_object(request, object_id)
+        form = self.get_form(request, obj)(request.POST or None, instance=obj)
+        extra_context['form'] = form
+        extra_context['quotation'] = Quotation.objects.get(id=object_id)
+        return super().change_view(request, object_id, form_url, extra_context=extra_context)
+
+
+    def add_view(self, request, form_url='', extra_context=None):
+        extra_context = extra_context or {}
+        form = self.get_form(request)(request.POST or None)
+        extra_context['form'] = form
+        return super().add_view(request, form_url, extra_context=extra_context)
