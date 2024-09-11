@@ -4,6 +4,7 @@ from django.contrib.admin import register
 from django.urls import path
 from django.utils.translation import gettext_lazy as _
 from django.utils.safestring import mark_safe
+from django.db import models
 
 from gs_admin.sites import new_admin_site
 
@@ -11,6 +12,8 @@ from unfold.admin import ModelAdmin
 from unfold.decorators import action, display
 from import_export.admin import ImportExportModelAdmin
 from unfold.contrib.import_export.forms import ExportForm, ImportForm, SelectableFieldsExportForm
+from unfold.contrib.forms.widgets import ArrayWidget, WysiwygWidget, UnfoldAdminSelectWidget
+
 
 from .forms import QuotationAdminForm
 
@@ -146,7 +149,7 @@ admin.site.register(Quotation, QuotationAdmin)
 
 
 @register(Quotation, site=new_admin_site)
-class QuotationAdmin(admin.ModelAdmin):
+class QuotationAdmin(ModelAdmin):
     form = QuotationAdminForm
     import_form_class = ImportForm
     export_form_class = ExportForm

@@ -8,7 +8,6 @@ class QuotationAdminForm(forms.ModelForm):
         model = Quotation
         fields = ('__all__')
 
-    
     course_date_start = forms.DateField(
         widget=forms.DateInput(attrs={'type': 'date', 'min': datetime.now().date()}),
         label='Fecha Inicio'
