@@ -1,0 +1,130 @@
+<!-- Logo and Quotation Header -->
+<div class="flex justify-between items-center mb-8">
+    <img src="logo-placeholder.png" alt="Logo" class="h-12">
+    <div class="text-right">
+        <h2 class="text-2xl font-bold text-gray-800">Presupuesto #{{ quotation.id }}</h2>
+        <p class="text-sm text-gray-600">Fecha emisión: {{ quotation.created_at }}</p>
+        <p class="text-sm text-gray-600">{{ status|capfirst }}</p>
+    </div>
+</div>
+
+<!-- Student Information -->
+<div class="mb-6">
+  <h3 class="text-lg font-semibold text-gray-800">Información del Estudiante</h3>
+  <div class="mt-2">
+      <p class="text-sm text-gray-700"><span class="font-medium">Nombre:</span> {{ student }}</p>
+  </div>
+</div>
+
+<!-- Items Table -->
+<div class="mb-6">
+  <h3 class="text-lg font-semibold text-gray-800 mb-4">Detalles del Presupuesto</h3>
+  <div class="border border-gray-200 rounded-lg overflow-hidden">
+      <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-100">
+              <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
+                  <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad</th>
+                  <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Precio</th>
+                  <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+              </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+              <tr>
+                  <td class="px-6 py-4 text-sm text-gray-700">Matricula</td>
+                  <td class="px-6 py-4 text-sm text-right text-gray-700">1</td>
+                  <td class="px-6 py-4 text-sm text-right text-gray-700">{{ course.enrollment_fee }}</td>
+                  <td class="px-6 py-4 text-sm text-right text-gray-700">{{ course.enrollment_fee }}</td>
+              </tr>
+              <tr>
+                  <td class="px-6 py-4 text-sm text-gray-700">
+                      <p>Escuela: {{ school }}</p> 
+                      <p>Curso: {{ course }}</p>
+                      <p>Fecha inicio: {{ course_date_start }}</p>
+                      <p>Fecha finalización: {{ course_date_finish }}</p>
+                  </td>
+                  <td class="px-6 py-4 text-sm text-right text-gray-700">{{ course_price }}</td>
+                  <td class="px-6 py-4 text-sm text-right text-gray-700">${{ course_price.week_price_ls }}</td>
+                  <td class="px-6 py-4 text-sm text-right text-gray-700">${{ course_price.calculate_course_total_low }}</td>
+              </tr>
+              <tr>
+                  <td class="px-6 py-4 text-sm text-gray-700">{{ accommodation }}
+                    <p>Fecha inicio: {{ accommodation_date_start }}</p>
+                    <p>Fecha finalización: {{ accommodation_date_finish }}</p>
+                  </td>
+                  <td class="px-6 py-4 text-sm text-right text-gray-700">{{ accommodation_price }}</td>
+                  <td class="px-6 py-4 text-sm text-right text-gray-700">${{ accommodation_price.week_price_ls }}</td>
+                  <td class="px-6 py-4 text-sm text-right text-gray-700">{{ accommodation_price.calculate_accommodation_total_low }}</td>
+              </tr>
+              <tr>
+                  <td class="px-6 py-4 text-sm text-gray-700">{{ airport_transfer }}</td>
+                  <td class="px-6 py-4 text-sm text-right text-gray-700">{{ airport_transfer.trip }}</td>
+                  <td class="px-6 py-4 text-sm text-right text-gray-700">{{ airport_transfer.price }}</td>
+                  <td class="px-6 py-4 text-sm text-right text-gray-700">{{ airport_transfer.price }}</td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+</div>
+
+<!-- Summary -->
+<div class="mt-8">
+  <div class="flex justify-between mb-2">
+      <span class="text-sm font-medium text-gray-800">Subtotal:</span>
+      <span class="text-sm text-gray-800">{{ quotation_total }}</span>
+  </div>
+  <div class="flex justify-between mb-2">
+      <span class="text-sm font-medium text-gray-800">Tax (0%):</span>
+      <span class="text-sm text-gray-800">$0.00</span>
+  </div>
+  <div class="flex justify-between font-bold text-gray-800">
+      <span class="text-sm">Total:</span>
+      <span class="text-sm">{{ quotation_total }}</span>
+  </div>
+</div>
+
+
+
+<script>
+    
+document.addEventListener('DOMContentLoaded', function() {
+    var schoolSelect = document.getElementById('id_school');
+    var courseSelect = document.getElementById('id_course');
+
+    schoolSelect.addEventListener('change', function() {
+        var schoolId = schoolSelect.value;
+
+        if (schoolId) {
+            fetch('/admin/get_courses_by_school/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                params: {
+                    'school_id': schoolId
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Clear existing options
+                courseSelect.innerHTML = '';
+
+                // Add new options
+                data.forEach(function(course) {
+                    var option = document.createElement('option');
+                    option.value = course.id;
+                    option.textContent = course.name;
+                    courseSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching courses:', error);
+            });
+        } else {
+            // Clear options if no school selected
+            courseSelect.innerHTML = '';
+        }
+    });
+});
+
+</script>

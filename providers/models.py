@@ -136,18 +136,6 @@ class Course(models.Model):
         return f"{self.name}"
     
 
-# class CoursePrice(models.Model):
-#     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='prices')
-#     weeks = models.PositiveIntegerField()
-#     price = models.DecimalField(decimal_places=2, max_digits=6)
-
-#     class Meta:
-#        unique_together = ('course', 'weeks')
-
-#     def __str__(self):
-#         return f"{self.weeks} semanas ({self.weeks * self.price})"
-
-
 class CoursePriceList(models.Model):
     """
     Course Price Lists 
@@ -171,11 +159,43 @@ class CoursePrice(models.Model):
     week_price_promotional = models.DecimalField(decimal_places=2, max_digits=6)
     course_price_list = models.ForeignKey(CoursePriceList, on_delete=models.CASCADE, null=True, blank=True)
 
+
+    def calculate_course_total(self, season="low"):
+        """
+        Calculate the total cost based on the season and number of weeks.
+        """
+        if self.qty_weeks:
+            if season == "high":
+                total = self.qty_weeks * (self.week_price_hs or 0)
+            else:  # Assume low season as default
+                total = self.qty_weeks * (self.week_price_ls or 0)
+        else:
+            total = 0
+        return total
+
+
+    def calculate_course_total_low(self):
+        """
+        Calculate the total cost for the low season.
+        """
+        return self.calculate_course_total(season="low")
+
+
+    def calculate_course_total_high(self):
+        """
+        Calculate the total cost for the high season.
+        """
+        return self.calculate_course_total(season="high")
+
+
     class Meta:
        unique_together = ('course_price_list', 'qty_weeks')
 
+
     def __str__(self):
         return f"{self.qty_weeks} semanas"
+    
+    
 
 
 class Address(models.Model):
@@ -286,6 +306,33 @@ class AccommodationPrice(models.Model):
     week_price_hs = models.DecimalField(decimal_places=2, max_digits=6) # hs = high season
     week_price_promotional = models.DecimalField(decimal_places=2, max_digits=6)
     accommodation_price_list = models.ForeignKey(AccommodationPriceList, on_delete=models.CASCADE, null=True, blank=True)
+
+    def calculate_accommodation_total(self, season="low"):
+        """
+        Calculate the total cost based on the season and number of weeks.
+        """
+        if self.qty_weeks:
+            if season == "high":
+                total = self.qty_weeks * (self.week_price_hs or 0)
+            else:  # Assume low season as default
+                total = self.qty_weeks * (self.week_price_ls or 0)
+        else:
+            total = 0
+        return total
+
+
+    def calculate_accommodation_total_low(self):
+        """
+        Calculate the total cost for the low season.
+        """
+        return self.calculate_accommodation_total(season="low")
+
+
+    def calculate_accommodation_total_high(self):
+        """
+        Calculate the total cost for the high season.
+        """
+        return self.calculate_accommodation_total(season="high")
 
     class Meta:
        unique_together = ('accommodation_price_list', 'qty_weeks')

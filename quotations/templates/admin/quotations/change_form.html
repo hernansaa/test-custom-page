@@ -250,6 +250,7 @@
                         <div class="text-right">
                             <h2 class="text-2xl font-bold text-gray-800">Presupuesto #{{ quotation.id }}</h2>
                             <p class="text-sm text-gray-600">Fecha emisión: {{ quotation.created_at }}</p>
+                            <p class="text-sm text-gray-600">{{ quotation.status|capfirst }}</p>
                         </div>
                     </div>
                 
@@ -289,19 +290,22 @@
                                             <p>Fecha finalización: {{ quotation.course_date_finish }}</p>
                                         </td>
                                         <td class="px-6 py-4 text-sm text-right text-gray-700">{{ quotation.course_qty_weeks }}</td>
-                                        <td class="px-6 py-4 text-sm text-right text-gray-700">falta</td>
+                                        <td class="px-6 py-4 text-sm text-right text-gray-700">{{ quotation.course_qty_weeks.week_price_ls }}</td>
                                         <td class="px-6 py-4 text-sm text-right text-gray-700">${{ quotation.school_total }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="px-6 py-4 text-sm text-gray-700">{{ quotation.accommodation }}</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">{{ quotation.accommodation }}
+                                            <p>Fecha inicio: {{ quotation.accommodation_date_start }}</p>
+                                            <p>Fecha finalización: {{ quotation.accommodation_date_finish }}</p>
+                                          </td>
                                         <td class="px-6 py-4 text-sm text-right text-gray-700">{{ quotation.accommodation_qty_weeks }}</td>
-                                        <td class="px-6 py-4 text-sm text-right text-gray-700">falta</td>
+                                        <td class="px-6 py-4 text-sm text-right text-gray-700">{{ quotation.accommodation_qty_weeks.week_price_ls }}</td>
                                         <td class="px-6 py-4 text-sm text-right text-gray-700">{{ quotation.accommodation_total }}</td>
                                     </tr>
                                     <tr>
                                         <td class="px-6 py-4 text-sm text-gray-700">{{ quotation.airport_transfer }}</td>
                                         <td class="px-6 py-4 text-sm text-right text-gray-700">{{ quotation.airport_transfer.trip }}</td>
-                                        <td class="px-6 py-4 text-sm text-right text-gray-700">falta</td>
+                                        <td class="px-6 py-4 text-sm text-right text-gray-700">{{ quotation.airport_transfer_total }}</td>
                                         <td class="px-6 py-4 text-sm text-right text-gray-700">{{ quotation.airport_transfer_total }}</td>
                                     </tr>
                                 </tbody>

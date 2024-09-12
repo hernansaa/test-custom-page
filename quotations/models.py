@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import TextChoices
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
 
 from smart_selects.db_fields import ChainedForeignKey
 
@@ -191,3 +192,12 @@ class Quotation(models.Model):
             self.airport_transfer_total = 0
         self.total = self.school_total + self.accommodation_total + self.airport_transfer_total + self.enrollment_fee
         super(Quotation, self).save(*args, **kwargs)
+
+    
+    def delete(self, *args, **kwargs):
+        """
+        Override the delete method to prevent deletion if status is 'approved'.
+        """
+        if self.status == QuotationStatus.APPROVED:
+            raise ValidationError(_("You cannot delete a quotation that has been approved."))
+        super(Quotation, self).delete(*args, **kwargs)

@@ -3,6 +3,8 @@ from smart_selects.db_fields import ChainedForeignKey
 from django.contrib.admin import register
 from django.urls import path
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
+from django.contrib import admin, messages
 from django.utils.safestring import mark_safe
 from django.db import models
 
@@ -317,3 +319,32 @@ class QuotationAdmin(ModelAdmin):
         form = self.get_form(request)(request.POST or None)
         extra_context['form'] = form
         return super().add_view(request, form_url, extra_context=extra_context)
+
+
+    def delete_model(self, request, obj):
+        """
+        Override delete_model to handle ValidationError and provide a UI message
+        when the quotation is approved.
+        """
+        try:
+            # Attempt to delete the object
+            obj.delete()
+            # If no exception, display a success message
+            self.message_user(request, _("The quotation has been successfully deleted."), messages.SUCCESS)
+        except ValidationError as e:
+            # If validation error occurs, display an error message
+            self.message_user(request, str(e.message), messages.ERROR)
+
+    def delete_queryset(self, request, queryset):
+        """
+        Override delete_queryset to handle multiple deletions.
+        """
+        for obj in queryset:
+            try:
+                self.delete_model(request, obj)
+            except ValidationError as e:
+                self.message_user(request, str(e.message), messages.ERROR)
+
+    
+    # class Media:
+    #     js = ('js/load_courses.js',)  # Custom JS file
