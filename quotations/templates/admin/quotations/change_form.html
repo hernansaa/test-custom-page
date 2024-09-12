@@ -5,9 +5,9 @@
 
 {% block extrahead %}{{ block.super }}
     <script src="{% url 'admin:jsi18n' %}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/static/smart-selects/admin/js/chainedfk.js"></script>
-    <script src="/static/smart-selects/admin/js/bindfields.js"></script>
+    <script src="/static/smart-selects/admin/js/bindfields.js"></script> -->
     <!-- <style>[x-cloak]{display:none}</style> -->
     <!-- Include the Alpine library on your page -->
     <!-- <script src="https://unpkg.com/alpinejs" defer></script> -->
@@ -82,61 +82,71 @@
             <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
         
                 <!-- Left Column: Form Fields --> 
-                <div class="md:col-span-5 space-y-6" hx-post="{% url 'update_quotation' quotation.id %}" hx-trigger="change" hx-target="#quotation" hx-swap="innerHTML" >
+                <div class="md:col-span-5 space-y-6" id="left-column" 
+                    hx-post="{% url 'update_quotation' quotation.id %}" 
+                    hx-trigger="change" 
+                    hx-target="#quotation" 
+                    hx-swap="innerHTML">
+                    
                     <!-- Student Field -->
                     <div>
                         <label for="{{ form.student.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Student</label>
                         {{ form.student }}
-                        <!-- {% render_field form.student class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm bg-transparent focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %} -->
                     </div>
         
                     <!-- Enquiry Field -->
                     <!-- <div> -->
                         <!-- <label for="{{ form.enquiry.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Enquiry</label> -->
                         <!-- {{ form.enquiry }} -->
-                        <!-- {% render_field form.enquiry class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm bg-transparent focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %} -->
                     <!-- </div> -->
         
                     <!-- City Field -->
                     <div>
                         <label for="{{ form.city.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">City</label>
                         {{ form.city }}
-                        <!-- {% render_field form.city class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm bg-transparent focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %} -->
                     </div>
         
                     <!-- School Field -->
-                    <div>
+                    <div 
+                        hx-post="{% url 'get_courses_by_school' quotation.id %}" 
+                        hx-target="#id_course" 
+                        hx-trigger="load, change"
+                        hx-swap="innerHTML">
                         <label for="{{ form.school.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">School</label>
                         {{ form.school }}
-                        <!-- {% render_field form.school class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm bg-transparent focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %} -->
                     </div>
         
                     <!-- Course Field -->
-                    <div>
+                    <div 
+                        hx-post="{% url 'get_price_lists_by_course' quotation.id %}" 
+                        hx-target="#id_course_price_list" 
+                        hx-trigger="load, change, change from:#id_school delay:0.5s"
+                        hx-swap="innerHTML"> 
                         <label for="{{ form.course.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Course</label>
                         {{ form.course }}
-                        <!-- {% render_field form.course class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm bg-transparent focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %} -->
                     </div>
         
-                    <!-- Course Price List Field -->
-                    <div>
+                    <!-- Course Price List Field - DELAY MUSTBE FIXED BY PROPER SOLUTION -->
+                    <div 
+                        hx-post="{% url 'get_course_prices_by_price_list' quotation.id %}" 
+                        hx-target="#id_course_qty_weeks"
+                        hx-trigger="load, change, change from:#id_course delay:0.5s, change from:#id_school delay:1s" 
+                        hx-sync="#id_course:queue"
+                        hx-swap="innerHTML">
                         <label for="{{ form.course_price_list.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Course Price List</label>
                         {{ form.course_price_list }}
-                        <!-- {% render_field form.course_price_list class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm bg-transparent focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %} -->
                     </div>
         
                     <!-- Course Qty Weeks Field -->
                     <div>
                         <label for="{{ form.course_qty_weeks.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Course Quantity Weeks</label>
                         {{ form.course_qty_weeks }}
-                        <!-- {% render_field form.course_qty_weeks class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %} -->
                     </div>
         
                     <!-- Course Date Start Field -->
                     <div>
                         <label for="{{ form.course_date_start.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Course Date Start</label>
                         {{ form.course_date_start }}
-                        <!-- {% render_field form.course_date_start class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %} -->
                     </div>
         
                     <!-- Course Date Finish Field -->
@@ -246,7 +256,7 @@
                 <div class="p-8 bg-white border border-gray-300 rounded-lg shadow-md md:col-span-7" id="quotation">
                     <!-- Logo and Quotation Header -->
                     <div class="flex justify-between items-center mb-8">
-                        <img src="logo-placeholder.png" alt="Logo" class="h-12">
+                        <img src="" alt="Logo" class="h-12">
                         <div class="text-right">
                             <h2 class="text-2xl font-bold text-gray-800">Presupuesto #{{ quotation.id }}</h2>
                             <p class="text-sm text-gray-600">Fecha emisión: {{ quotation.created_at }}</p>
@@ -332,9 +342,7 @@
                 
             <!-- Grid Container for Two-Column Layout -->
 
-
-
-            
+   
             <!-- Submit Button -->
             {% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
 

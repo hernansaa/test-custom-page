@@ -216,9 +216,9 @@ UNFOLD = {
         "show_search": True,  # Search in applications and models names
         "show_all_applications": False,  # Dropdown with all applications and models
     },
-    # "STYLES": [
-    #     lambda request: static("css/style.css"),
-    # ],
+    "STYLES": [
+        lambda request: static("css/custom_admin_styles.css"),
+    ],
     # "SCRIPTS": [
     #     lambda request: static("js/jquery-3.6.0.min.js"),
     #     lambda request: static("js/chainedfk.js"),

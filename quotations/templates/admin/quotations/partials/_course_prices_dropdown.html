@@ -1,0 +1,8 @@
+<option value="0">Select weeks</option>
+{% for price in course_prices %}
+    <option value="{{ price.id }}" {% if quotation.course_qty_weeks.id == price.id %}selected{% endif %}>
+        {{ price }}
+    </option>
+{% empty %}
+    <option value="">No prices available</option>
+{% endfor %}
