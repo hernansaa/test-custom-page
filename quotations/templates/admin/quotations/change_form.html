@@ -106,36 +106,44 @@
                         {{ form.city }}
                     </div>
         
-                    <!-- School Field -->
-                    <div 
-                        hx-post="{% url 'get_courses_by_school' quotation.id %}" 
+                    <!-- JUST A DIV  ONLY TO HANDLE ONLOAD FOR SCHOOL FIELD (COULD BE ANOTHER) -->
+                    <div style="display: none;"
+                        hx-post="{% url 'get_courses_by_school' quotation.id %}?trigger=load" 
                         hx-target="#id_course" 
-                        hx-trigger="load, change"
+                        hx-trigger="load"
                         hx-swap="innerHTML">
-                        <label for="{{ form.school.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">School</label>
-                        {{ form.school }}
                     </div>
-        
+
+                    <!-- School Field  -->
+                    <div 
+                        hx-post="{% url 'get_courses_by_school' quotation.id %}?trigger=change" 
+                        hx-target="#id_course" 
+                        hx-trigger="change"
+                        hx-swap="innerHTML">
+                    <label for="{{ form.school.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">School</label>
+                    {{ form.school }}
+                    </div>
+
                     <!-- Course Field -->
                     <div 
                         hx-post="{% url 'get_price_lists_by_course' quotation.id %}" 
                         hx-target="#id_course_price_list" 
-                        hx-trigger="load, change, change from:#id_school delay:0.5s"
-                        hx-swap="innerHTML"> 
-                        <label for="{{ form.course.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Course</label>
-                        {{ form.course }}
+                        hx-trigger="load, change, change from:#id_school"
+                        hx-swap="innerHTML">
+                    <label for="{{ form.course.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Course</label>
+                    {{ form.course }}
                     </div>
-        
-                    <!-- Course Price List Field - DELAY MUSTBE FIXED BY PROPER SOLUTION -->
+
+                    <!-- Course Price List Field -->
                     <div 
                         hx-post="{% url 'get_course_prices_by_price_list' quotation.id %}" 
                         hx-target="#id_course_qty_weeks"
-                        hx-trigger="load, change, change from:#id_course delay:0.5s, change from:#id_school delay:1s" 
-                        hx-sync="#id_course:queue"
+                        hx-trigger="load, change"
                         hx-swap="innerHTML">
-                        <label for="{{ form.course_price_list.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Course Price List</label>
-                        {{ form.course_price_list }}
+                    <label for="{{ form.course_price_list.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Course Price List</label>
+                    {{ form.course_price_list }}
                     </div>
+
         
                     <!-- Course Qty Weeks Field -->
                     <div>
@@ -340,7 +348,7 @@
                     </div>
                 </div>
                 
-            <!-- Grid Container for Two-Column Layout -->
+            <!-- END Grid Container for Two-Column Layout -->
 
    
             <!-- Submit Button -->
@@ -353,6 +361,72 @@
 
         {% block form_after %}{% endblock %}
     </div>
+
+
+<!-- JavaScript to set select fields to the first option -->
+<script>
+    // Function to get the CSRF token from the cookies
+    function getCSRFToken() {
+        let csrfToken = null;
+        const cookies = document.cookie.split(';');
+        cookies.forEach(cookie => {
+            const [name, value] = cookie.trim().split('=');
+            if (name === 'csrftoken') {
+                csrfToken = value;
+            }
+        });
+        return csrfToken;
+    }
+
+    // Function to set select fields to the first option
+    function setToFirstOption(...fieldIds) {
+        fieldIds.forEach(function(fieldId) {
+            const field = document.querySelector(fieldId);
+            if (field && field.options.length > 0) {
+                field.selectedIndex = 0; // Set the select field to the first option
+            }
+        });
+    }
+
+    // Handle the change event for the #id_school field
+    function handleSchoolChange() {
+        // Reset the related fields to the first option
+        setToFirstOption('#id_course', '#id_course_price_list', '#id_course_qty_weeks',
+            '#id_accommodation', '#id_accommodation_price_list', '#id_accommodation_qty_weeks',
+            '#id_airport_transfer'); 
+
+        // Trigger the request to update the #id_course_qty_weeks field with CSRF token
+        htmx.ajax('POST', "{% url 'get_course_prices_by_price_list' quotation.id %}", {
+            target: "#id_course_qty_weeks",
+            swap: "innerHTML",
+            headers: {
+                'X-CSRFToken': getCSRFToken()  // Add CSRF token to the request header
+            }
+        });
+    }
+
+    // Handle the change event for the #id_course field
+    function handleCourseChange() {
+        // Reset the course weeks field
+        setToFirstOption('#id_course_qty_weeks');
+        
+        // Trigger the request to update the #id_course_qty_weeks field with CSRF token
+        htmx.ajax('POST', "{% url 'get_course_prices_by_price_list' quotation.id %}", {
+            target: "#id_course_qty_weeks",
+            swap: "innerHTML",
+            headers: {
+                'X-CSRFToken': getCSRFToken()  // Add CSRF token to the request header
+            }
+        });
+    }
+
+    // Attach event listeners to #id_school and #id_course fields
+    document.querySelector('#id_school').addEventListener('change', handleSchoolChange);
+    document.querySelector('#id_course').addEventListener('change', handleCourseChange);
+</script>
+
+
+
 
 
 

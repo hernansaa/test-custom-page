@@ -66,8 +66,6 @@ def update_quotation(request, id):
         if airport_transfer_id:
             airport_transfer = get_object_or_404(SchoolAirportTransfer, id=airport_transfer_id)
         
-        status = request.POST.get('status')
-        
         # Calculate total if all necessary data is present
         if course and airport_transfer and accommodation_price and course_price:
             quotation_total = (
@@ -82,7 +80,7 @@ def update_quotation(request, id):
         # Handle GET request case if needed
         # For instance, you might want to set some default values or just pass existing data
         pass
-
+    
     context = {
         'quotation': quotation,
         'student': student,
@@ -105,27 +103,40 @@ def update_quotation(request, id):
 
 
 def get_courses_by_school(request, id):
-    if request.method == 'POST':
-      quotation = get_object_or_404(Quotation, id=id)
-      school_id = request.POST.get('school')
-      courses = Course.objects.filter(school=school_id)
-    
+    # Get the quotation object
+    quotation = get_object_or_404(Quotation, id=id)
+    # Get the school ID from POST data
+    school_id = request.POST.get('school')
+
+    # Determine the correct template to render based on the trigger
+    if request.GET.get('trigger') == 'load':
+        template = 'admin/quotations/partials/_courses_dropdown_on_load.html'
+    else:
+        template = 'admin/quotations/partials/_courses_dropdown_on_change.html'
+
+    # Fetch courses based on the school ID
+    if school_id:
+        courses = Course.objects.filter(school=school_id)
+    else:
+        courses = Course.objects.none()  # No courses available if no school ID
+
     context = {
-       'courses': courses,
-       'quotation': quotation,
+        'courses': courses,
+        'quotation': quotation,
     }
 
-    return render(request, 'admin/quotations/partials/_courses_dropdown.html', context)
+    return render(request, template, context)
 
 
 def get_price_lists_by_course(request, id):
     quotation = get_object_or_404(Quotation, id=id)
     course_id = request.POST.get('course')
+    
     if course_id:
       course_price_lists = CoursePriceList.objects.filter(course=course_id)
     else:
-      course_price_lists = {}
-    
+      course_price_lists = {} 
+        
     context = {
        'course_price_lists': course_price_lists,
        'quotation': quotation,

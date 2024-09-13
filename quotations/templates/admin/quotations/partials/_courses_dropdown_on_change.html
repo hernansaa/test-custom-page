@@ -1,5 +1,6 @@
+<option value="">Select course ON CHANGE</option>
 {% for course in courses %}
-    <option value="{{ course.id }}" {% if quotation.course.id == course.id %}selected{% endif %}>
+    <option value="{{ course.id }}">
         {{ course.name }}
     </option>
 {% empty %}

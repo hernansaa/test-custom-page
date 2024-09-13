@@ -24,9 +24,3 @@ class QuotationAdminForm(forms.ModelForm):
         widget=forms.DateInput(attrs={'type': 'date', 'min': datetime.now().date()}),
         label='Fecha Finalizacion'
     )
-    
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['course_qty_weeks'].widget.attrs.update({
-    #         'onchange': 'this.form.submit();'
-    #     })

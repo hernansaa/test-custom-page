@@ -1,4 +1,4 @@
-<!-- templates/courses_dropdown.html -->
+<option value="">Select price list</option>
 {% for list in course_price_lists %}
     <option value="{{ list.id }}" {% if quotation.course_price_list.id == list.id %}selected{% endif %}>
         {{ list.year }} {{ list.course }}
