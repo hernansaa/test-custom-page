@@ -1,0 +1,8 @@
+<option value="">Select price list</option>
+{% for list in course_price_lists %}
+    <option value="{{ list.id }}">
+        {{ list.year }} {{ list.course }}
+    </option>
+{% empty %}
+    <option value="">No lists available</option>
+{% endfor %}

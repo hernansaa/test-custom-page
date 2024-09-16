@@ -105,40 +105,35 @@
                         <label for="{{ form.city.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">City</label>
                         {{ form.city }}
                     </div>
-        
-                    <!-- JUST A DIV  ONLY TO HANDLE ONLOAD FOR SCHOOL FIELD (COULD BE ANOTHER, LIKE THE FORM FIELD?) -->
-                    <div style="display: none;"
-                        hx-post="{% url 'get_courses_by_school' quotation.id %}?trigger=load" 
-                        hx-target="#id_course" 
-                        hx-trigger="load"
-                        hx-swap="innerHTML">
-                    </div>
+
 
                     <!-- School Field  -->
                     <div 
-                        hx-post="{% url 'get_courses_by_school' quotation.id %}?trigger=change" 
+                        hx-post="{% url 'get_courses_by_school' quotation.id %}?trigger=load" 
                         hx-target="#id_course" 
-                        hx-trigger="change"
+                        hx-trigger="load"
                         hx-swap="innerHTML">
                     <label for="{{ form.school.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">School</label>
                     {{ form.school }}
                     </div>
 
+                    
                     <!-- Course Field -->
                     <div 
-                        hx-post="{% url 'get_price_lists_by_course' quotation.id %}" 
+                        hx-post="{% url 'get_price_lists_by_course' quotation.id %}?trigger=load" 
                         hx-target="#id_course_price_list" 
-                        hx-trigger="load, change, change from:#id_school"
+                        hx-trigger="load"
                         hx-swap="innerHTML">
                     <label for="{{ form.course.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Course</label>
                     {{ form.course }}
                     </div>
 
+                    
                     <!-- Course Price List Field -->
                     <div 
-                        hx-post="{% url 'get_course_prices_by_price_list' quotation.id %}" 
+                        hx-post="{% url 'get_course_prices_by_price_list' quotation.id %}?trigger=load" 
                         hx-target="#id_course_qty_weeks"
-                        hx-trigger="load, change"
+                        hx-trigger="load"
                         hx-swap="innerHTML">
                     <label for="{{ form.course_price_list.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Course Price List</label>
                     {{ form.course_price_list }}
@@ -393,36 +388,83 @@
         // Reset the related fields to the first option
         setToFirstOption('#id_course', '#id_course_price_list', '#id_course_qty_weeks',
             '#id_accommodation', '#id_accommodation_price_list', '#id_accommodation_qty_weeks',
-            '#id_airport_transfer'); 
+            '#id_airport_transfer');
+        
+        const schoolId = document.querySelector("#id_school").value;
 
-        // Trigger the request to update the #id_course_qty_weeks field with CSRF token
-        htmx.ajax('POST', "{% url 'get_course_prices_by_price_list' quotation.id %}", {
-            target: "#id_course_qty_weeks",
+        // Trigger the request to update the courses (#id_course) field with CSRF token
+        htmx.ajax('POST', "{% url 'get_courses_by_school' quotation.id %}?trigger=change", {
+            target: "#id_course",
             swap: "innerHTML",
             headers: {
                 'X-CSRFToken': getCSRFToken()  // Add CSRF token to the request header
-            }
+            },
+            values: {
+            'school': schoolId  // Send school ID as form data
+        }
+        });
+
+        // Listen for the `htmx:afterSwap` event to trigger after content is swapped
+        htmx.on('#id_course', 'htmx:afterSwap', function(event) {
+            handleCourseChange();  // Only call this after the content has been swapped
         });
     }
 
     // Handle the change event for the #id_course field
     function handleCourseChange() {
-        // Reset the course weeks field
-        setToFirstOption('#id_course_qty_weeks');
+
+        // Reset the related fields to the first option
+        setToFirstOption('#id_course_price_list', '#id_course_qty_weeks',
+            '#id_accommodation', '#id_accommodation_price_list', '#id_accommodation_qty_weeks',
+            '#id_airport_transfer');
+                
+        const courseId = document.querySelector("#id_course").value;
+
+        // Trigger the request to update price lists (#id_course_price_list) field with CSRF token
+        htmx.ajax('POST', "{% url 'get_price_lists_by_course' quotation.id %}?trigger=change", {
+            target: "#id_course_price_list",
+            swap: "innerHTML",
+            headers: {
+                'X-CSRFToken': getCSRFToken()  // Add CSRF token to the request header
+            },
+            values: {
+            'course': courseId  // Send school ID as form data
+        }
+        });
+
+        // Listen for the `htmx:afterSwap` event to trigger after content is swapped
+        htmx.on('#id_course_price_list', 'htmx:afterSwap', function(event) {
+            handleCoursePriceListChange();  // Only call this after the content has been swapped
+        });
+    }
+
+    // Handle the change event for the #id_course field
+    function handleCoursePriceListChange() {
+
+        // Reset the related fields to the first option
+        setToFirstOption('#id_course_qty_weeks',
+            '#id_accommodation', '#id_accommodation_price_list', '#id_accommodation_qty_weeks',
+            '#id_airport_transfer'); 
         
-        // Trigger the request to update the #id_course_qty_weeks field with CSRF token
-        htmx.ajax('POST', "{% url 'get_course_prices_by_price_list' quotation.id %}", {
+        const priceListId = document.querySelector("#id_course_price_list").value;
+
+        // Trigger the request to update the prices (#id_course_qty_weeks) field with CSRF token
+        htmx.ajax('POST', "{% url 'get_course_prices_by_price_list' quotation.id %}?trigger=change", {
             target: "#id_course_qty_weeks",
             swap: "innerHTML",
             headers: {
                 'X-CSRFToken': getCSRFToken()  // Add CSRF token to the request header
-            }
+            },
+            values: {
+            'course_price_list': priceListId  // Send price list ID as form data
+        }
         });
     }
 
     // Attach event listeners to #id_school and #id_course fields
     document.querySelector('#id_school').addEventListener('change', handleSchoolChange);
     document.querySelector('#id_course').addEventListener('change', handleCourseChange);
+    document.querySelector('#id_course_price_list').addEventListener('change', handleCoursePriceListChange);
 </script>
 
 

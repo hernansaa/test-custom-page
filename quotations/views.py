@@ -131,6 +131,13 @@ def get_courses_by_school(request, id):
 def get_price_lists_by_course(request, id):
     quotation = get_object_or_404(Quotation, id=id)
     course_id = request.POST.get('course')
+
+    # Determine the correct template to render based on the trigger
+    if request.GET.get('trigger') == 'load':
+        template = 'admin/quotations/partials/_price_lists_dropdown_on_load.html'
+    else:
+        template = 'admin/quotations/partials/_price_lists_dropdown_on_change.html'
+
     
     if course_id:
       course_price_lists = CoursePriceList.objects.filter(course=course_id)
@@ -142,12 +149,18 @@ def get_price_lists_by_course(request, id):
        'quotation': quotation,
     }
 
-    return render(request, 'admin/quotations/partials/_price_lists_dropdown.html', context)
+    return render(request, template, context)
 
 
 def get_course_prices_by_price_list(request, id):
     quotation = get_object_or_404(Quotation, id=id)
     course_price_list_id = request.POST.get('course_price_list')
+
+    # Determine the correct template to render based on the trigger
+    if request.GET.get('trigger') == 'load':
+        template = 'admin/quotations/partials/_course_prices_dropdown_on_load.html'
+    else:
+        template = 'admin/quotations/partials/_course_prices_dropdown_on_change.html'
     
     if course_price_list_id:
       course_prices = CoursePrice.objects.filter(course_price_list=course_price_list_id)
@@ -159,7 +172,7 @@ def get_course_prices_by_price_list(request, id):
        'quotation': quotation,
     }
 
-    return render(request, 'admin/quotations/partials/_course_prices_dropdown.html', context)
+    return render(request, template, context)
 
 
 

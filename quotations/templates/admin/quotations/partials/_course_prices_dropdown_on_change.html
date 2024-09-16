@@ -1,0 +1,8 @@
+<option value="">Select week</option>
+{% for price in course_prices %}
+    <option value="{{ price.id }}">
+        {{ price }}
+    </option>
+{% empty %}
+    <option value="">No prices available</option>
+{% endfor %}
