@@ -102,13 +102,33 @@ def update_quotation(request, id):
 
 
 
-def get_courses_by_school(request, id):
-    # Get the quotation object
+def get_schools_by_city(request, id):
     quotation = get_object_or_404(Quotation, id=id)
-    # Get the school ID from POST data
+    city_id = request.POST.get('city')
+
+    if request.GET.get('trigger') == 'load':
+        template = 'admin/quotations/partials/_schools_options_on_load.html'
+    else:
+        template = 'admin/quotations/partials/_schools_options_on_change.html'
+
+    # Fetch schools based on the school ID
+    if city_id:
+        schools = School.objects.filter(address__city=city_id)
+    else:
+        schools = School.objects.none()  # No schools available if no school ID
+
+    context = {
+        'schools': schools,
+        'quotation': quotation,
+    }
+
+    return render(request, template, context)
+
+
+def get_courses_by_school(request, id):
+    quotation = get_object_or_404(Quotation, id=id)
     school_id = request.POST.get('school')
 
-    # Determine the correct template to render based on the trigger
     if request.GET.get('trigger') == 'load':
         template = 'admin/quotations/partials/_courses_dropdown_on_load.html'
     else:

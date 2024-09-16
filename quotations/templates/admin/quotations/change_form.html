@@ -101,7 +101,11 @@
                     <!-- </div> -->
         
                     <!-- City Field -->
-                    <div>
+                    <div 
+                        hx-post="{% url 'get_schools_by_city' quotation.id %}?trigger=load" 
+                        hx-target="#id_school"
+                        hx-trigger="load"
+                        hx-swap="innerHTML">
                         <label for="{{ form.city.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">City</label>
                         {{ form.city }}
                     </div>
@@ -383,6 +387,35 @@
         });
     }
 
+
+    // Handle the change event for the #id_school field
+    function handleCityChange() {
+        // Reset the related fields to the first option
+        setToFirstOption('#id_school', '#id_course', '#id_course_price_list', '#id_course_qty_weeks',
+            '#id_accommodation', '#id_accommodation_price_list', '#id_accommodation_qty_weeks',
+            '#id_airport_transfer');
+        
+        const cityId = document.querySelector("#id_city").value;
+
+        // Trigger the request to update the courses (#id_course) field with CSRF token
+        htmx.ajax('POST', "{% url 'get_schools_by_city' quotation.id %}?trigger=change", {
+            target: "#id_school",
+            swap: "innerHTML",
+            headers: {
+                'X-CSRFToken': getCSRFToken()  // Add CSRF token to the request header
+            },
+            values: {
+            'city': cityId  // Send city ID as form data
+        }
+        });
+
+        // Listen for the `htmx:afterSwap` event to trigger after content is swapped
+        htmx.on('#id_school', 'htmx:afterSwap', function(event) {
+            handleSchoolChange();  // Only call this after the content has been swapped
+        });
+    }
+
+
     // Handle the change event for the #id_school field
     function handleSchoolChange() {
         // Reset the related fields to the first option
@@ -462,6 +495,7 @@
     }
 
     // Attach event listeners to #id_school and #id_course fields
+    document.querySelector('#id_city').addEventListener('change', handleCityChange);
     document.querySelector('#id_school').addEventListener('change', handleSchoolChange);
     document.querySelector('#id_course').addEventListener('change', handleCourseChange);
     document.querySelector('#id_course_price_list').addEventListener('change', handleCoursePriceListChange);

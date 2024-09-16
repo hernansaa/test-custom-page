@@ -1,0 +1,8 @@
+<option value="">Select school on change</option>
+{% for school in schools %}
+    <option value="{{ school.id }}">
+        {{ school.name }}
+    </option>
+{% empty %}
+    <option value="">No lists available</option>
+{% endfor %}

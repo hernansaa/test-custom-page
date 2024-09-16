@@ -1,0 +1,8 @@
+<option value="">Select school on load</option>
+{% for school in schools %}
+    <option value="{{ school.id }}" {% if quotation.school.id == school.id %}selected{% endif %}>
+        {{ school.name }}
+    </option>
+{% empty %}
+    <option value="">No lists available</option>
+{% endfor %}
