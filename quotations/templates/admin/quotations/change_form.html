@@ -106,7 +106,7 @@
                         {{ form.city }}
                     </div>
         
-                    <!-- JUST A DIV  ONLY TO HANDLE ONLOAD FOR SCHOOL FIELD (COULD BE ANOTHER) -->
+                    <!-- JUST A DIV  ONLY TO HANDLE ONLOAD FOR SCHOOL FIELD (COULD BE ANOTHER, LIKE THE FORM FIELD?) -->
                     <div style="display: none;"
                         hx-post="{% url 'get_courses_by_school' quotation.id %}?trigger=load" 
                         hx-target="#id_course" 

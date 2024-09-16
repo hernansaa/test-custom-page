@@ -11,7 +11,7 @@ diff-match-patch==20230430
 Django==5.0.6
 django-import-export==4.1.1
 django-mailbox==4.10.1
-django-smart-selects==1.7.1
+django-smart-selects==1.6
 django-tinymce==4.1.0
 django-unfold==0.37.0
 django-widget-tweaks==1.5.0
