@@ -185,28 +185,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# Email configuration
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.globalstudies.es'  # Gmail SMTP server
-EMAIL_PORT = 587  # Port for TLS/STARTTLS
-EMAIL_USE_TLS = True  # Enable TLS/STARTTLS
-EMAIL_USE_SSL = False  # Disable SSL (not needed for TLS/STARTTLS)
-EMAIL_HOST_USER = 'hernan@globalstudies.es'  # Your Gmail address
-EMAIL_HOST_PASSWORD = '1988Pola'  # Your Gmail password or app password
-
-# Optionally, set a default email address for the 'From' header in outgoing emails
-DEFAULT_FROM_EMAIL = 'hernan@globalstudies.es'
-
-# Security settings (ensure you keep your password secure)
-# It's recommended to use environment variables to store sensitive information
-
-
-# Smart Selects Package 
-# Includes jQuery in every page that includes a field from smart_selects.
- 
-USE_DJANGO_JQUERY = True
-
-
 # Unfold Admin configuration
 
 UNFOLD = {
