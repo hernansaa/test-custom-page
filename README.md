@@ -15,11 +15,11 @@ This project is a CRM system that includes task management, user authentication,
 1. Clone the repository:
   ```
   git clone https://github.com/hernansaa/test-custom-page.git
-  cd yourproject
   ```
 
 2. Set up the virtual environment:
   ```
+  (in the same level as your project directory, not inside the project)
   python -m venv venv
   ```
 
