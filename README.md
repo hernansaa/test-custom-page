@@ -21,6 +21,7 @@ This project is a CRM system that includes task management, user authentication,
   ```
   (in the same level as your project directory, not inside the project)
   python -m venv venv
+  source venv/bin/activate
   ```
 
 3. Install dependencies:
