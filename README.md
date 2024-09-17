@@ -7,20 +7,20 @@ This project is a CRM system that includes task management, user authentication,
 
 ### Prerequisites
 - Python 3.x
-- Redis
-- PostgreSQL
+- Redis (optional)
+- PostgreSQL (optional)
+
 
 ### Installation
 1. Clone the repository:
   ```
-  git clone https://github.com/hernansaa/agency_edu.git
+  git clone https://github.com/hernansaa/test-custom-page.git
   cd yourproject
   ```
 
 2. Set up the virtual environment:
   ```
-  git clone https://github.com/hernansaa/agency_edu.git
-  cd yourproject
+  python -m venv venv
   ```
 
 3. Install dependencies:
