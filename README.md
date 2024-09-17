@@ -40,6 +40,10 @@ This project is a CRM system that includes task management, user authentication,
   ```
 
 
+### UNTIL HERE SHOULD BE ENOUGH FOR TESTING
+
+
+
 ### Project Structure
 
 - **core/**: Main project folder containing settings and configuration.
