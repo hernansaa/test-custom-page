@@ -26,3 +26,4 @@ tablib==3.5.0
 tzdata==2024.1
 vine==5.1.0
 wcwidth==0.2.13
+-e git+https://github.com/jazzband/django-smart-selects.git@1.7.1#egg=django-smart-selects
