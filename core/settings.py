@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'tinymce',
     'smart_selects',
+    'testpage',
     'accounting',
     'students',
     'currencies',
